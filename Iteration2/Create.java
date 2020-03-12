@@ -15,6 +15,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.lang.Math;
 
 import java.awt.Color;
 
@@ -173,7 +176,10 @@ public class Create extends JPanel {
 					} catch(Exception ex) {
 						ex.printStackTrace();
 					}
-					frame.setBounds(100, 100, 450, 300);
+					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+					int screenHeight = screenSize.height;
+					int screenWidth = screenSize.width;
+					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					Login panel = new Login(frame, auth);
 					frame.setContentPane(panel);
