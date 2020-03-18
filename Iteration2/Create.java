@@ -17,7 +17,7 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.Math;
+import java.awt.Font;
 
 import java.awt.Color;
 
@@ -41,15 +41,25 @@ public class Create extends JPanel {
 	 * @param frame 
 	 */
 	public Create(JFrame frame, Authenticator auth) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height;
+		int screenWidth = screenSize.width;
+
 		setLayout(null);
+
+		JLabel header = new JLabel("UofC Scholarship Portal");
+		header.setForeground(Color.RED);
+		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/12, screenWidth/4, screenHeight/25);
+		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		add(header);
 		
-		JLabel lblNewLabel = new JLabel("First Name:");
-		lblNewLabel.setBounds(6, 64, 87, 16);
-		add(lblNewLabel);
+		JLabel firstName = new JLabel("First Name:");
+		firstName.setBounds(6, 64, 87, 16);
+		add(firstName);
 		
-		JLabel lblNewLabel_1 = new JLabel("Last name:");
-		lblNewLabel_1.setBounds(6, 95, 87, 16);
-		add(lblNewLabel_1);
+		JLabel lastName = new JLabel("Last name:");
+		lastName.setBounds(6, 95, 87, 16);
+		add(lastName);
 		
 		fname = new JTextField();
 		fname.setBounds(105, 59, 188, 26);
@@ -61,9 +71,9 @@ public class Create extends JPanel {
 		add(lname);
 		lname.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Email:");
-		lblNewLabel_2.setBounds(6, 123, 61, 16);
-		add(lblNewLabel_2);
+		JLabel emailLabel = new JLabel("Email:");
+		emailLabel.setBounds(6, 123, 61, 16);
+		add(emailLabel);
 		
 		email = new JTextField();
 		email.setBounds(105, 118, 188, 26);
@@ -88,9 +98,9 @@ public class Create extends JPanel {
 		add(fpwd);
 		fpwd.setColumns(10);
 		
-		JLabel pwd_2 = new JLabel("Confirm Password: ");
-		pwd_2.setBounds(6, 204, 147, 24);
-		add(pwd_2);
+		JLabel confirmPwd = new JLabel("Confirm Password: ");
+		confirmPwd.setBounds(6, 204, 147, 24);
+		add(confirmPwd);
 		
 		spwd = new JPasswordField();
 		spwd.setBounds(137, 203, 156, 26);
@@ -110,8 +120,8 @@ public class Create extends JPanel {
 		verif.setVisible(false);
 		inUse.setVisible(false);
 		
-		JButton btnNewButton = new JButton("Create Account");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		JButton createAccount = new JButton("Create Account");
+		createAccount.addMouseListener(new MouseAdapter() {
 	
 
 			@Override
@@ -191,8 +201,8 @@ public class Create extends JPanel {
 			}
 		});
 		
-		btnNewButton.setBounds(6, 248, 130, 29);
-		add(btnNewButton);
+		createAccount.setBounds(6, 248, 130, 29);
+		add(createAccount);
 		
 		JLabel profID = new JLabel("Prof ID:");
 		profID.setBounds(6, 148, 75, 16);
