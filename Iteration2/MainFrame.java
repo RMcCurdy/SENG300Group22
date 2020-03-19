@@ -2,7 +2,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.Math;
 
 public class MainFrame {
 
@@ -15,13 +14,11 @@ public class MainFrame {
 				try {
 					MainFrame window = new MainFrame();
 					window.frame.setVisible(true);
-					
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
 	}
 	
 	public MainFrame() {

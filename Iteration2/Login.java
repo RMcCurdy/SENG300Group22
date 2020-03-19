@@ -40,13 +40,13 @@ public class Login extends JPanel {
 		add(lblNewLabel);
 		
 		//Label for the email text field
-		JLabel Username = new JLabel("Email");
-		Username.setBounds(screenWidth/4 - screenWidth/9, screenHeight/7, screenWidth/10, screenHeight/40);
+		JLabel Username = new JLabel("Email:");
+		Username.setBounds(screenWidth/4 - screenWidth/9 + screenWidth/200, screenHeight/7, screenWidth/10, screenHeight/40);
 		Username.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(Username);
 		
 		//Label for the password text field
-		JLabel Password = new JLabel("Password");
+		JLabel Password = new JLabel("Password:");
 		Password.setBounds(screenWidth/4 - screenWidth/8, screenHeight/7 + screenHeight/20, screenWidth/10, screenHeight/40);
 		Password.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(Password);
@@ -60,13 +60,13 @@ public class Login extends JPanel {
 
 		//Text field for the Email
 		textFieldEmail = new JTextField();
-		textFieldEmail.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/30);
+		textFieldEmail.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
 		add(textFieldEmail);
 		textFieldEmail.setFont(textFieldFontSize);
 		
 		//Text field for the Password
 		textFieldPass = new JPasswordField();
-		textFieldPass.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/20, screenWidth/7, screenHeight/30);
+		textFieldPass.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/20, screenWidth/7, screenHeight/35);
 		add(textFieldPass);
 		textFieldPass.setFont(textFieldFontSize);
 		
@@ -145,12 +145,12 @@ public class Login extends JPanel {
 				}
 			}
 		});
-		loginButton.setBounds(screenWidth/4 - screenWidth/30, screenHeight/6 + 3 * screenHeight/28, screenWidth/15, screenHeight/30);
+		loginButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		loginButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(loginButton);
 
 		//Button for the create account option
-		JButton createButton = new JButton("Create Account");
+		JButton createButton = new JButton("Sign Up");
 		createButton.addMouseListener(new MouseAdapter() {
 			@Override
 			//On a mouse click, will take the user to a new GUI to create a new account
@@ -165,7 +165,7 @@ public class Login extends JPanel {
 				frame.revalidate();
 			}
 		});
-		createButton.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 4 * screenHeight/25, screenWidth/10, screenHeight/30);
+		createButton.setBounds(screenWidth/4 + screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		createButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(createButton);
 
