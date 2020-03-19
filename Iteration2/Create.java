@@ -37,7 +37,7 @@ public class Create extends JPanel {
 	 * @param frame 
 	 */
 	public Create(JFrame frame, Authenticator auth) {
-		//Save the user's screen resolution to the integers
+		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
@@ -167,6 +167,13 @@ public class Create extends JPanel {
 		passMatch.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
 		passMatch.setFont(labelFontSize);
 		add(passMatch);
+
+		//Error message for the password not meeting the required length
+		JLabel passLength = new JLabel("Invalid Password length, needs 10 characters");
+		passLength.setForeground(Color.RED);
+		passLength.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
+		passLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
+		add(passLength);
 		
 		//Error message for an invalid email
 		JLabel invalidEmail = new JLabel("Invalid Email");
@@ -182,6 +189,13 @@ public class Create extends JPanel {
 		invalidID.setFont(labelFontSize);
 		add(invalidID);
 
+		//Error message for an invalid integer
+		JLabel invalidINT = new JLabel("Please enter an 8-digit integer");
+		invalidINT.setForeground(Color.RED);
+		invalidINT.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 3*screenHeight/30, screenWidth/6, screenHeight/35);
+		invalidINT.setFont(labelFontSize);
+		add(invalidINT);
+
 		//Error message for an invalid first name
 		JLabel invalidFirst = new JLabel("Invalid First Name");
 		invalidFirst.setForeground(Color.RED);
@@ -196,7 +210,7 @@ public class Create extends JPanel {
 		invalidLast.setFont(labelFontSize);
 		add(invalidLast);
 
-		//Error message for an invalid last name
+		//Error message for not filling in all the fields
 		JLabel invalidField = new JLabel("Not all required fields have been filled in");
 		invalidField.setForeground(Color.RED);
 		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 9 * screenHeight/40, screenWidth/5, screenHeight/25);
@@ -205,8 +219,10 @@ public class Create extends JPanel {
 
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
+		passLength.setVisible(false);
 		invalidEmail.setVisible(false);
 		invalidID.setVisible(false);
+		invalidINT.setVisible(false);
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
@@ -225,44 +241,84 @@ public class Create extends JPanel {
 				//Keeps track of the number of errors to occur when trying to create an accoun
 				Integer errorCount = 0;
 		
-				//Get the account details to test if correctly inputed
+				//Set strings to be the account details given in the text fields
 				String f = fpwd.getText();
 				String s = spwd.getText();
 				String enteredEmail = email.getText();
 				String enteredFirst = fname.getText();
 				String enteredLast = lname.getText();
 				String enteredID = id.getText();
-				Integer enteredIDint = Integer.parseInt(enteredID);
+
+				//Try catch statement to determine whether we can convert the ID string to an int and then return the correct message
+				try {
+					//Tries to convert the given string to an integer, catches exception if not able to
+					Integer enteredIDint = Integer.parseInt(enteredID.trim());
+					//Returns an invalid ID error if it doesn't follow criteria for an ID
+					if (!((00000000 <= enteredIDint) && (enteredIDint <= 99999999)) || !(enteredID.length() == 8) || (enteredID.contains("."))) {
+						invalidID.setVisible(true);
+						invalidINT.setVisible(false);
+						errorCount++;
+					//Returns a valid ID if it follows the criteria for an ID
+					} else if ((0 <= enteredIDint && enteredIDint <= 99999999) && (enteredID.length() == 8) && !(enteredID.contains("."))) {
+						invalidID.setVisible(false);
+						invalidINT.setVisible(false);
+					} 
+				} catch(NumberFormatException nfe) {
+					//An integer was not given as an ID
+					invalidINT.setVisible(true);
+					invalidID.setVisible(false);
+					errorCount++;
+				}
 				
-				//If statements to determine which error messages to display
-				if (enteredFirst.equals("") || enteredLast.equals("") || enteredEmail.equals("") || enteredEmail.equals("") || s.equals("") || f.equals("")) {
+				//If else statement to determine if all fields have been filled in
+				if (enteredFirst.isEmpty() == true || enteredLast.isEmpty() == true || enteredEmail.isEmpty() == true || enteredID.isEmpty() == true || s.isEmpty() == true || f.isEmpty() == true) {
 					invalidField.setVisible(true);	
 					errorCount++;
 				} else {
 					invalidField.setVisible(false);
 				}
 
-				if (!f.equals(s)) {
+				//If else statement to check if the entered passwords match
+				if (f.isEmpty() == true || s.isEmpty() == true){
+					invalidField.setVisible(true);
+					passLength.setVisible(false);
+					passMatch.setVisible(false);	
+					errorCount++;
+				//If the length is not 10 and the password doesn't equal the confirmed password
+				} else if (f.length() < 10 && !f.equals(s)) {
+					passLength.setVisible(true);
 					passMatch.setVisible(true);
 					errorCount++;
+				//If just the password doesn't equal the confirmed passowrd
+				} else if (!f.equals(s)) {
+					passMatch.setVisible(true);
+					passLength.setVisible(false);
+					errorCount++;
+				//If just the password length is not 10
+				} else if (f.length() < 10) {
+					passMatch.setVisible(false);
+					passLength.setVisible(true);
+					errorCount++;
+				//If the password given meets criteria
 				} else if (f.equals(s)) {
 					passMatch.setVisible(false);
+					passLength.setVisible(false);
 				}
-
-				if (!(0 <= enteredIDint && enteredIDint <= 99999999) || !(Integer.toString(enteredIDint).length() == 8) || (enteredID.contains("."))) {
-					invalidID.setVisible(true);
-					errorCount++;
-				} else if ((0 <= enteredIDint && enteredIDint <= 99999999) && (Integer.toString(enteredIDint).length() == 8) && !(enteredID.contains("."))) {
-					invalidID.setVisible(false);
-				} 
 				
-				if (!(enteredEmail.contains("@")) || !(enteredEmail.contains("."))){
+				//If nothing is given as email, due to checking for characters in later if statements
+				if (enteredEmail.isEmpty() == true) {
+					invalidField.setVisible(true);	
+					errorCount++;
+				//If the email doesn't contain "@", or ".", or isn't the required email character length of the form "x@y.z"
+				} else if (!(enteredEmail.contains("@")) || !(enteredEmail.contains(".")) || !(enteredEmail.length() >= 5)){
 					invalidEmail.setVisible(true);
 					errorCount++;
-				} else if (enteredEmail.contains("@") && enteredEmail.contains(".") && enteredEmail.length() > 5) {
+				//If the given email meets the criteria
+				} else if (enteredEmail.contains("@") && enteredEmail.contains(".") && enteredEmail.length() >= 5) {
 					invalidEmail.setVisible(false);
 				}
 
+				//If statement to determine if the first name only contains letters
 				if (enteredFirst.chars().allMatch(Character::isLetter)){
 					invalidFirst.setVisible(false);
 				} else {
@@ -270,6 +326,7 @@ public class Create extends JPanel {
 					errorCount++;
 				}
 
+				//If statement to determine if the last name only contains letters
 				if (enteredLast.chars().allMatch(Character::isLetter)){
 					invalidLast.setVisible(false);
 				} else {
@@ -277,6 +334,7 @@ public class Create extends JPanel {
 					errorCount++;
 				}
 
+				//If no errors have occured, then we will save this information to a txt file
 				if (errorCount == 0){
 					/*
 					 * Write inputs from the create account fields to two separate files
@@ -285,8 +343,8 @@ public class Create extends JPanel {
 					 * if any of the fields is empty nothing is written 
 					 * if confirm password doesn't match password field error message displayed 
 					 */
-					try { 
-						invalidField.setVisible(false);
+					try {
+						//Writes the users information to a txt file called "users.txt" 
 						BufferedWriter bw = new BufferedWriter(new FileWriter("users.txt", true));
 						bw.write(fname.getText() + " " + lname.getText());
 						bw.newLine();
@@ -295,6 +353,7 @@ public class Create extends JPanel {
 						bw.write(id.getText());
 						bw.newLine();
 						bw.close();
+						//Writes the users information to a txt file called "privateInfo.txt"
 						BufferedWriter bw1 = new BufferedWriter(new FileWriter("privateInfo.txt", true));
 						bw1.write(email.getText());
 						bw1.newLine();
@@ -304,9 +363,10 @@ public class Create extends JPanel {
 						bw1.newLine();
 						bw1.close();
 					} catch(Exception ex) {
+						//Exception thrown if the above code can't proceed
 						ex.printStackTrace();
 					}
-					//Set the frame size on close of the create account GUI
+					//Set the frame size on the closing of the create account GUI
 					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					Login panel = new Login(frame, auth);
@@ -319,6 +379,7 @@ public class Create extends JPanel {
 		createAccount.setFont(labelFontSize);
 		add(createAccount);
 		
+		//Button used to change the label from Student ID to Professor ID
 		JButton prof = new JButton("Professor");
 		prof.addMouseListener(new MouseAdapter() {
 			@Override
@@ -331,6 +392,7 @@ public class Create extends JPanel {
 		prof.setFont(labelFontSize);
 		add(prof);
 		
+		//Button used to change the label from Professor ID to Student ID
 		JButton stud = new JButton("Student");
 		stud.addMouseListener(new MouseAdapter() {
 			@Override
