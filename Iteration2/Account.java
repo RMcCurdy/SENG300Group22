@@ -30,7 +30,7 @@ public class Account {
 	}
 
 	protected boolean setUsername(String username) {
-		if(Account.checkUsername(username)) {
+		if (Account.checkUsername(username)) {
 			this.username = username;
 			return true;
 		}
@@ -42,12 +42,11 @@ public class Account {
 	}
 
 	protected boolean setPassword(String password) {
-		if(Account.checkPassword(password)) {
+		if (Account.checkPassword(password)) {
 			this.password = password;
 			return true;
 		}
 		return false;
 	}
-	
 	
 }

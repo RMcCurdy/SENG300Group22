@@ -123,7 +123,20 @@ public class Login extends JPanel {
 								wrngPassword.setVisible(false);
 								wrngEmail.setVisible(false);
 								validLogin.setVisible(true);
-								break;
+								String data2 = myReader.nextLine();
+								if (data2.equals("0")) {
+									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									StudentMenu stuMenu = new StudentMenu(frame, auth);
+									frame.setContentPane(stuMenu);
+									frame.revalidate();
+								} else if (data2.equals("1")) {
+									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									ProfessorMenu panel = new ProfessorMenu(frame, auth);
+									frame.setContentPane(panel);
+									frame.revalidate();
+								}
 					    	} else {
 								wrngEmail.setVisible(false);
 								validLogin.setVisible(false);
@@ -155,9 +168,6 @@ public class Login extends JPanel {
 			@Override
 			//On a mouse click, will take the user to a new GUI to create a new account
 			public void mouseClicked(MouseEvent e) {
-				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-				int screenHeight = screenSize.height;
-				int screenWidth = screenSize.width;
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				Create panel = new Create(frame, auth);

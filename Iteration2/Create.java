@@ -30,7 +30,8 @@ public class Create extends JPanel {
 	private JTextField id;
 	private JTextField fpwd;
 	private JTextField spwd;
-	
+	private Integer schoolRole;
+
 	/**
 	 * Create the panel.
 	 * @param auth 
@@ -231,6 +232,37 @@ public class Create extends JPanel {
 		 * BUTTONS
 		 */
 
+		//Initialize the schoolRole to equal 0, as student ID is the default
+		schoolRole = 0;
+
+		//Button used to change the label from Student ID to Professor ID
+		JButton prof = new JButton("Professor");
+		prof.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				profID.setVisible(true);
+				studID.setVisible(false);
+				schoolRole = 1;
+			}
+		});
+		prof.setBounds(screenWidth/4 - screenWidth/30 + screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
+		prof.setFont(labelFontSize);
+		add(prof);
+
+		//Button used to change the label from Professor ID to Student ID
+		JButton stud = new JButton("Student");
+		stud.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				profID.setVisible(false);
+				studID.setVisible(true);
+				schoolRole = 0;
+			}
+		});
+		stud.setBounds(screenWidth/4 - screenWidth/30 - screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
+		stud.setFont(labelFontSize);
+		add(stud);
+
 		//Button for creating an account
 		JButton createAccount = new JButton("Create Account");
 		createAccount.addMouseListener(new MouseAdapter() {
@@ -359,6 +391,8 @@ public class Create extends JPanel {
 						bw1.newLine();
 						bw1.write(f);
 						bw1.newLine();
+						bw1.write(Integer.toString(schoolRole));
+						bw1.newLine();
 						bw1.write("");
 						bw1.newLine();
 						bw1.close();
@@ -378,31 +412,5 @@ public class Create extends JPanel {
 		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 7 * screenHeight/38, screenWidth/10, screenHeight/30);
 		createAccount.setFont(labelFontSize);
 		add(createAccount);
-		
-		//Button used to change the label from Student ID to Professor ID
-		JButton prof = new JButton("Professor");
-		prof.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				profID.setVisible(true);
-				studID.setVisible(false);
-			}
-		});
-		prof.setBounds(screenWidth/4 - screenWidth/30 + screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
-		prof.setFont(labelFontSize);
-		add(prof);
-		
-		//Button used to change the label from Professor ID to Student ID
-		JButton stud = new JButton("Student");
-		stud.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				profID.setVisible(false);
-				studID.setVisible(true);
-			}
-		});
-		stud.setBounds(screenWidth/4 - screenWidth/30 - screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
-		stud.setFont(labelFontSize);
-		add(stud);
 	}
 }
