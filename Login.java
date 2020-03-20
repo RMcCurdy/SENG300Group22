@@ -136,6 +136,12 @@ public class Login extends JPanel {
 									ProfessorMenu profMenu = new ProfessorMenu(frame, auth);
 									frame.setContentPane(profMenu);
 									frame.revalidate();
+								} else if (data2.equals("2")) {
+									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, auth);
+									frame.setContentPane(dhMenu);
+									frame.revalidate();
 								}
 					    	} else {
 								wrngEmail.setVisible(false);
