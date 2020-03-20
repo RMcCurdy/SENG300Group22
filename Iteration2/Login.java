@@ -133,8 +133,8 @@ public class Login extends JPanel {
 								} else if (data2.equals("1")) {
 									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									ProfessorMenu panel = new ProfessorMenu(frame, auth);
-									frame.setContentPane(panel);
+									ProfessorMenu profMenu = new ProfessorMenu(frame, auth);
+									frame.setContentPane(profMenu);
 									frame.revalidate();
 								}
 					    	} else {
