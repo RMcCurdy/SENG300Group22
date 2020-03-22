@@ -124,9 +124,7 @@ public class Login extends JPanel {
 
 				    while (myReader.hasNextLine()) {
 						String data = myReader.nextLine();
-					
-						System.out.println(data);
-						
+											
 						if (email.equals(data)) {
 					    	String data1 = myReader.nextLine();
 					    					    	

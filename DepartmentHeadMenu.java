@@ -7,12 +7,16 @@ import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
+import java.util.Scanner;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 
 import java.awt.Color;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 public class DepartmentHeadMenu extends JPanel {
 
@@ -30,38 +34,108 @@ public class DepartmentHeadMenu extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
-
 		setLayout(null);
 
-		/**
-		 * LABELS
-		 */
-
 		//Header of the system name
-		JLabel header = new JLabel("UofC Department Head Scholarship Portal");
+		JLabel header = new JLabel("UofC Professor Scholarship Portal");
+		header.setBounds(154, 95, 648, 43);
 		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
+		
+		JButton btnAddScholarship = new JButton("Add Scholarship");
+		btnAddScholarship.setBounds(174, 418, 170, 25);
+		btnAddScholarship.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				System.out.println("Hello World!");
+				
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				AddScholarship sch = new AddScholarship(frame, user);
+				frame.setContentPane(sch);
+				frame.revalidate();
+			}
+		});
+		add(btnAddScholarship);
+		
+		JButton btnEditScholarship = new JButton("Edit Scholarship");
+		btnEditScholarship.setBounds(356, 418, 170, 25);
+		btnEditScholarship.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Edit pressed");
+			}
+		});
+		add(btnEditScholarship);
+		
+		JButton btnRemoveScholarship = new JButton("Remove Scholarship");
+		btnRemoveScholarship.setBounds(538, 418, 170, 25);
+		add(btnRemoveScholarship);
+		
+		
+		Scholarship[] scholarships = new Scholarship[99];	// CLEAN UP
+		try {
+			File newObj = new File("scholarships.txt");
+		    Scanner newReader = new Scanner(newObj);
+		    int i=0;
+		    while (newReader.hasNextLine()) {		// Searches through database
+				String info = newReader.nextLine();
+				String[] scholarshipInfo = info.split(",");
+				Scholarship scholarship = new Scholarship(scholarshipInfo[0], scholarshipInfo[1], Integer.parseInt(scholarshipInfo[2]), 
+						scholarshipInfo[3], scholarshipInfo[4], scholarshipInfo[5], scholarshipInfo[6]);
+				scholarships[i] = scholarship;
+				i++;
+		    }
+		    newReader.close();
+		} 
+	catch(Exception ex) 
+		{
+		//Exception thrown if the above code can't proceed
+			ex.printStackTrace();
+		}
+		
+		// FORMAT TO LOOK GOOD
+		JList lstScholarships = new JList();		
+		lstScholarships.setModel(new AbstractListModel() {
+			public int getSize() {
+				return scholarships.length;
+			}
+			public Object getElementAt(int index) {
+				return scholarships[index];
+			}
+		});
+		lstScholarships.setBounds(174, 180, 534, 225);
+		add(lstScholarships);
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-			
+		
 		/**
 		 * TEXT FIELDS
 		 */
 
+		//Text field for searching for a scholarship name
+		//Text field for inputing student they want to nominate
+
 		/**
 		 * MESSAGES
 		 */
+
+		//Create any error or confirmation messages here
 		
 		/**
 		 * BUTTONS
 		 */
 
+		//Create a button to confirm selection of transcript selected from the list to nominate a student for (this will lead to a new class where prof can enter a student's info)
+
 		/**
 		 * LIST
 		 */
 
+		//Create a scrollable list showing all available scholarships, including details like for what term, faculty, and name of scholarship
+		
 	}
 }

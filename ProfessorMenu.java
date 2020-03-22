@@ -13,12 +13,10 @@ import java.awt.Toolkit;
 import java.awt.Font;
 
 import java.awt.Color;
+import javax.swing.JList;
 
 public class ProfessorMenu extends JPanel {
-
-	private static final long serialVersionUID = 1L;
 	
-	//NEED VARIABLES FOR NEW MENU
 
 	/**
 	 * Create the panel.
@@ -30,19 +28,18 @@ public class ProfessorMenu extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
-
 		setLayout(null);
-
-		/**
-		 * LABELS
-		 */
 
 		//Header of the system name
 		JLabel header = new JLabel("UofC Professor Scholarship Portal");
+		header.setBounds(154, 95, 648, 43);
 		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
+		
+		JList lstScholarships = new JList();
+		lstScholarships.setBounds(174, 180, 534, 225);
+		add(lstScholarships);
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
