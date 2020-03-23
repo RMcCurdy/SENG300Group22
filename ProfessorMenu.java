@@ -38,7 +38,7 @@ public class ProfessorMenu extends JPanel {
 		 */
 
 		//Header of the system name
-		JLabel header = new JLabel("UofC Student Scholarship Portal");
+		JLabel header = new JLabel("UofC Professor Scholarship Portal");
 		header.setForeground(Color.RED);
 		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
