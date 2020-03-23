@@ -1,9 +1,15 @@
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
@@ -11,12 +17,21 @@ import java.io.BufferedWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
-
+import java.awt.ScrollPane;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class StudentMenu extends JPanel {
-
+	private JList list;
+	//available scholarships and term
+	private static String[] scholarships = {"School Of Arts:Fall", "School Of Arts:Winter", "School Of Arts:Academic Year","School Of Medicine:Fall", "School Of Medicine:Winter", "School Of Medicine:Academic Year","School Of Architecture:Fall", "School Of Architecture:Winter", "School Of Architecture:Academic Year","School Of Business:Fall", "School Of Business:Winter", "School Of Business:Academic Year","School Of Kinesiology:Fall", "School Of Kinesiology:Winter", "School Of Kinesiology:Academic Year","School Of Law:Fall", "School Of Law:Winter", "School Of Law:Academic Year","School Of Nursing:Fall", "School Of Nursing:Winter", "School Of Nursing:Academic Year","School Of Engineering:Fall", "School Of Engineering:Winter", "School Of Engineering:Academic Year","School Of Social Work:Fall", "School Of Social Work:Winter", "School Of Social Work:Academic Year","School Of Education:Fall", "School Of Education:Winter", "School Of Education:Academic Year"};
 	private static final long serialVersionUID = 1L;
+	private JTextField textField;
 	
 	//NEED VARIABLES FOR NEW MENU
 
@@ -36,13 +51,6 @@ public class StudentMenu extends JPanel {
 		/**
 		 * LABELS
 		 */
-
-		//Header of the system name
-		JLabel header = new JLabel("UofC Student Scholarship Portal");
-		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
-		add(header);
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
@@ -70,9 +78,66 @@ public class StudentMenu extends JPanel {
 		//Create a button to allow user to navigate to page of scholarships they have applied to and can check status
 
 		/**
-		 * LIST
+		 * 
 		 */
+		//creating list containing scholarships
+		list = new JList(scholarships);
+		list.setFont(new Font("Arial", Font.PLAIN, 12));
+		list.setSize(218, 80);
+		list.setLocation(145, 159);
+		//only 1 item can be selected and list will only display 3 items
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setVisibleRowCount(3);
+		list.setBackground(Color.WHITE);
+		//label for testing
+		JLabel label1 = new JLabel("");
+		label1.setFont(new Font("Arial", Font.PLAIN, 13));
+		label1.setBackground(Color.WHITE);
+		label1.setBounds(112, 292, 298, 26);
+		add(label1);
+		//scrollpane for list
+		JScrollPane sp = new JScrollPane(list);
+		JButton button = new JButton("Select");
+		button.setBounds(203, 248, 81, 26);
+	    add(button);
+	    button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					if (list.getSelectedIndex() != 0) {
+						//Save the selected faculty & term 
+						String selec = (String)list.getSelectedValue();
+						label1.setText(selec);
+					} else {
+						label1.setText("...");
+					}
+            	} catch (Exception e1) {
 
-		//Create a scrollable list showing all available scholarships, including details like for what term, faculty, and name of scholarship
+				}
+			
+			}
+	    });
+	    //for scroll pane
+		sp.setLocation(136, 189);
+		sp.setSize(237, 55);
+		add(sp);
+		setVisible(true);
+
+		//Header of the system name
+		JLabel header = new JLabel("UofC Student Scholarship Portal");
+		header.setHorizontalAlignment(SwingConstants.CENTER);
+		header.setForeground(Color.RED);
+		header.setBounds(21, 6, 438, 36);
+		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		add(header);
+		
+		//search bar for list of scholarships
+		textField = new JTextField();
+		textField.setBounds(183, 159, 190, 26);
+		add(textField);
+		textField.setColumns(10);
+		JLabel lblNewLabel = new JLabel("Search:");
+		lblNewLabel.setBounds(136, 164, 61, 16);
+		add(lblNewLabel);
+
 	}
 }

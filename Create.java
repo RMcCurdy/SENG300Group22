@@ -66,7 +66,7 @@ public class Create extends JPanel {
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-		
+
 		//Labels "areYouALabel", "orLabel", and "qMarkLabel" to make it clear to the user with regards to student or professor buttons
 		JLabel areYouALabel = new JLabel("Are you a");
 		areYouALabel.setBounds(screenWidth/4 - screenWidth/8 - screenWidth/140, screenHeight/10, screenWidth/15, screenHeight/40);
