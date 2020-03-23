@@ -182,6 +182,7 @@ public class Login extends JPanel {
 							}
 						}
 					} myReader.close();
+					
 				} catch (FileNotFoundException e1) {
 					System.out.println("An error occurred.");
 					e1.printStackTrace();

@@ -105,7 +105,7 @@ public class Account {
 	}
 
 	public String toString() {
-		return email+","+firstName+","+lastName+","+Integer.toString(ID)+","+Integer.toString(type);
+		return email+","+firstName+","+lastName+","+Integer.toString(ID)+","+Integer.toString(type)+","+faculty;
 	}
 	
 }

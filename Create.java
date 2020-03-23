@@ -1,10 +1,3 @@
-/*
- * code burrowed from tutorial 
- * added a create account functionality 
- * which opens up a new window if user
- * does not have an account and 
- * wishes to create one
-*/
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -457,6 +450,8 @@ public class Create extends JPanel {
 						// "accountLogins.txt" stores account emails + passwords. aka the login info
 						BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
 						bw1.write(email.getText());
+						bw1.newLine();
+						bw1.write(password.getText());
 						bw1.newLine();
 						bw1.close();
 						} 
