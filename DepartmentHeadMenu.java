@@ -14,7 +14,7 @@ import java.awt.Font;
 
 import java.awt.Color;
 
-public class ProfessorMenu extends JPanel {
+public class DepartmentHeadMenu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,7 +25,7 @@ public class ProfessorMenu extends JPanel {
 	 * @param auth 
 	 * @param frame 
 	 */
-	public ProfessorMenu(JFrame frame, Authenticator auth) {
+	public DepartmentHeadMenu(JFrame frame, Authenticator auth) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
@@ -38,7 +38,7 @@ public class ProfessorMenu extends JPanel {
 		 */
 
 		//Header of the system name
-		JLabel header = new JLabel("UofC Student Scholarship Portal");
+		JLabel header = new JLabel("UofC Department Head Scholarship Portal");
 		header.setForeground(Color.RED);
 		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
@@ -46,31 +46,22 @@ public class ProfessorMenu extends JPanel {
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-		
+			
 		/**
 		 * TEXT FIELDS
 		 */
 
-		//Text field for searching for a scholarship name
-		//Text field for inputing student they want to nominate
-
 		/**
 		 * MESSAGES
 		 */
-
-		//Create any error or confirmation messages here
 		
 		/**
 		 * BUTTONS
 		 */
 
-		//Create a button to confirm selection of transcript selected from the list to nominate a student for (this will lead to a new class where prof can enter a student's info)
-
 		/**
 		 * LIST
 		 */
 
-		//Create a scrollable list showing all available scholarships, including details like for what term, faculty, and name of scholarship
-		
 	}
 }
