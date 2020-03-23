@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 public class MainFrame {
 
 	private JFrame frame;
-	private Authenticator auth = new Authenticator();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -28,7 +27,7 @@ public class MainFrame {
 		frame = new JFrame();
 		frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Login panel = new Login(frame, auth);
+		Login panel = new Login(frame);
 		frame.setContentPane(panel);
 		frame.revalidate();
 	}

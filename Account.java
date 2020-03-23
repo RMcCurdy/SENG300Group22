@@ -1,8 +1,11 @@
 
 public class Account {
 	
-	private String username;
-	private String password;
+	private String email;		// Also login username
+	private String firstName;	// 
+	private String lastName;	// 
+	private int ID;				// 8 digit int
+	private int type;		// 0 = student, 1 = prof, 2 = head
 	
 	public static boolean checkUsername(String username) {
 		if (username.length() <= 16) {
@@ -20,33 +23,87 @@ public class Account {
 		return false;
 	}
 
-	public Account(String user, String pass) {
-		this.username = user;
-		this.password = pass;
+	public Account(String email, String firstName, String lastName, int id, int type) {
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.ID = id;
+		this.type = type;
+	}
+	
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
 	}
 
-	protected String getUsername() {
-		return username;
+
+	/**
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return firstName;
 	}
 
-	protected boolean setUsername(String username) {
-		if (Account.checkUsername(username)) {
-			this.username = username;
-			return true;
-		}
-		return false;
+	/**
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return lastName;
 	}
 
-	protected String getPassword() {
-		return password;
+	/**
+	 * @return the iD
+	 */
+	public int getID() {
+		return ID;
 	}
 
-	protected boolean setPassword(String password) {
-		if (Account.checkPassword(password)) {
-			this.password = password;
-			return true;
-		}
-		return false;
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @param firstName the firstName to set
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	/**
+	 * @param lastName the lastName to set
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String toString() {
+		return email+","+firstName+","+lastName+","+Integer.toString(ID)+","+Integer.toString(type);
 	}
 	
 }

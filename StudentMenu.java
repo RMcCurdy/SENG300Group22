@@ -77,6 +77,16 @@ public class StudentMenu extends JPanel {
 		//Create a button to confirm selection of transcript selected from the list to apply for
 		//Create a button to allow user to navigate to page of scholarships they have applied to and can check status
 
+    JTextPane txtpnAsd = new JTextPane();
+		txtpnAsd.setText("The following info should be correct: "+
+				"\nEmail: " + user.getEmail() +
+				"\nFirst Name: " + user.getFirstName() +
+				"\nLast Name: " + user.getLastName() + 
+				"\nID: " + user.getID() + 
+				"\nType: " + user.getType() );
+		txtpnAsd.setBounds(240, 140, 480, 200);
+		add(txtpnAsd);
+    
 		/**
 		 * 
 		 */

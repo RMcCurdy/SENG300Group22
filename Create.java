@@ -29,23 +29,27 @@ import java.awt.Color;
 public class Create extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField fname;
-	private JTextField lname;
+
+	
+	private JTextField first;
+	private JTextField last;
 	private JTextField email;
 	private JTextField id;
-	private JTextField fpwd;
-	private JTextField spwd;
+	private JTextField password;
+	private JTextField passwordConfirmation;
 	private Integer schoolRole;
 	private String userFaculty;
 	private List <String> faculties;
 	private JComboBox facultyBox;
+
 
 	/**
 	 * Create the panel.
 	 * @param auth 
 	 * @param frame 
 	 */
-	public Create(JFrame frame, Authenticator auth) {
+
+	public Create(JFrame frame) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
@@ -66,7 +70,7 @@ public class Create extends JPanel {
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-
+		
 		//Labels "areYouALabel", "orLabel", and "qMarkLabel" to make it clear to the user with regards to student or professor buttons
 		JLabel areYouALabel = new JLabel("Are you a");
 		areYouALabel.setBounds(screenWidth/4 - screenWidth/8 - screenWidth/140, screenHeight/10, screenWidth/15, screenHeight/40);
@@ -125,8 +129,8 @@ public class Create extends JPanel {
 		confirmPwd.setBounds(screenWidth/4 - screenWidth/6 - screenWidth/250, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
 		confirmPwd.setFont(labelFontSize);
 		add(confirmPwd);
-
-		//Label for faculty in drop down menu
+    
+    //Label for faculty in drop down menu
 		JLabel faculty = new JLabel("Faculty:");
 		faculty.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/115, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		faculty.setFont(labelFontSize);
@@ -137,16 +141,16 @@ public class Create extends JPanel {
 		 */
 
 		//Text field for the first name
-		fname = new JTextField();
-		fname.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
-		fname.setFont(labelFontSize);
-		add(fname);
+		first = new JTextField();
+		first.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
+		first.setFont(labelFontSize);
+		add(first);
 		
 		//Text field for the last name
-		lname = new JTextField();
-		lname.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		lname.setFont(labelFontSize);
-		add(lname);
+		last = new JTextField();
+		last.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
+		last.setFont(labelFontSize);
+		add(last);
 		
 		//Text field for the email
 		email = new JTextField();
@@ -161,16 +165,16 @@ public class Create extends JPanel {
 		add(id);
 		
 		//Text field for the password
-		fpwd = new JPasswordField();
-		fpwd.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
-		fpwd.setFont(labelFontSize);
-		add(fpwd);
+		password = new JPasswordField();
+		password.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
+		password.setFont(labelFontSize);
+		add(password);
 		
 		//Text field for the confirmed password
-		spwd = new JPasswordField();
-		spwd.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
-		spwd.setFont(labelFontSize);
-		add(spwd);
+		passwordConfirmation = new JPasswordField();
+		passwordConfirmation.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
+		passwordConfirmation.setFont(labelFontSize);
+		add(passwordConfirmation);
 		
 		/**
 		 * MESSAGES
@@ -228,11 +232,11 @@ public class Create extends JPanel {
 		//Error message for not filling in all the fields
 		JLabel invalidField = new JLabel("Not all required fields have been filled in");
 		invalidField.setForeground(Color.RED);
-		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 10 * screenHeight/40, screenWidth/5, screenHeight/25);
+		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 9 * screenHeight/40, screenWidth/5, screenHeight/25);
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
-
-		JLabel invalidFaculty = new JLabel("Please select a faculty");
+    
+    JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
@@ -247,11 +251,11 @@ public class Create extends JPanel {
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
-		invalidFaculty.setVisible(false);
-
-		/**
-		 * DROP DOWN SELECT
-		 */
+    invalidFaculty.setVisible(false);
+    
+    /**
+		* DROP DOWN SELECT
+		*/
 
 		//Create an empty array list that calls faculties name from a file
 		faculties = new ArrayList <String>();
@@ -333,11 +337,11 @@ public class Create extends JPanel {
 				Integer errorCount = 0;
 		
 				//Set strings to be the account details given in the text fields
-				String f = fpwd.getText();
-				String s = spwd.getText();
+				String f = password.getText();
+				String s = passwordConfirmation.getText();
 				String enteredEmail = email.getText();
-				String enteredFirst = fname.getText();
-				String enteredLast = lname.getText();
+				String enteredFirst = first.getText();
+				String enteredLast = last.getText();
 				String enteredID = id.getText();
 
 				//Try catch statement to determine whether we can convert the ID string to an int and then return the correct message
@@ -442,38 +446,29 @@ public class Create extends JPanel {
 					 * if confirm password doesn't match password field error message displayed 
 					 */
 					try {
-						//Writes the users information to a txt file called "users.txt" 
-						BufferedWriter bw = new BufferedWriter(new FileWriter("users.txt", true));
-						bw.write(fname.getText() + " " + lname.getText());
-						bw.newLine();
-						bw.write(email.getText());
-						bw.newLine();
-						bw.write(id.getText());
-						bw.newLine();
-						bw.write(userFaculty);
-						bw.newLine();
-						bw.write("");
-						bw.newLine();
-						bw.close();
-						//Writes the users information to a txt file called "privateInfo.txt"
-						BufferedWriter bw1 = new BufferedWriter(new FileWriter("privateInfo.txt", true));
-						bw1.write(email.getText());
-						bw1.newLine();
-						bw1.write(f);
-						bw1.newLine();
-						bw1.write(Integer.toString(schoolRole));
-						bw1.newLine();
-						bw1.write("");
-						bw1.newLine();
-						bw1.close();
-					} catch(Exception ex) {
+							Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
+							
+							// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
+							BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
+							bw.write(account.toString());
+							bw.newLine();
+							bw.close();
+							
+							// "accountLogins.txt" stores account emails + passwords. aka the login info
+							BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
+							bw1.write(email.getText());
+							bw1.newLine();
+							bw1.close();
+						} 
+					catch(Exception ex) 
+						{
 						//Exception thrown if the above code can't proceed
-						ex.printStackTrace();
-					}
+							ex.printStackTrace();
+						}
 					//Set the frame size on the closing of the create account GUI
 					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					Login panel = new Login(frame, auth);
+					Login panel = new Login(frame);
 					frame.setContentPane(panel);
 					frame.revalidate();
 				}	    

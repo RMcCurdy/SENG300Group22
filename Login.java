@@ -20,7 +20,7 @@ public class Login extends JPanel {
 	private JTextField textFieldPass;
 
 	//Creates the login page for the system
-	public Login(JFrame frame, Authenticator auth) {
+	public Login(JFrame frame) {
 		//Save the screen resolution of the user to a height and width integer
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
@@ -103,53 +103,74 @@ public class Login extends JPanel {
 		 * BUTTONS
 		 */
 
-		//Button for loging into the system
+		//Button for logging into the system
 		JButton loginButton = new JButton("Login");
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			//On a mouse click, checks to see if the email and password is a match
 			public void mouseClicked(MouseEvent e) {
-				String user = textFieldEmail.getText();
+				String email = textFieldEmail.getText();
 				String pass = textFieldPass.getText();
-				Account acc = auth.login(user, pass);
+
 				try {
-				    File myObj = new File("privateInfo.txt");
+				    File myObj = new File("accountLogins.txt");
 				    Scanner myReader = new Scanner(myObj);
+
 				    while (myReader.hasNextLine()) {
 						String data = myReader.nextLine();
-						if (user.equals(data)) {
+											
+						if (email.equals(data)) {
 					    	String data1 = myReader.nextLine();
+					    					    	
+					    	// VALID LOGIN
 					    	if (pass.equals(data1)) {
-								wrngPassword.setVisible(false);
-								wrngEmail.setVisible(false);
-								validLogin.setVisible(true);
-								String data2 = myReader.nextLine();
-								if (data2.equals("0")) {
+													    							    		
+					    		Account user = null;
+					    		
+					    		File newObj = new File("accountInformation.txt");
+							    Scanner newReader = new Scanner(newObj);
+					    		
+							    while (newReader.hasNextLine()) {		// Searches through database
+									String info = newReader.nextLine();
+									String[] accountInfo = info.split(",");
+									if (accountInfo[0].equals(email)) {	// Once found
+										// String email, String firstName, String lastName, int ID, int type
+								    	user = new Account(accountInfo[0], accountInfo[1], accountInfo[2], Integer.parseInt(accountInfo[3]), Integer.parseInt(accountInfo[4]));
+									}
+							    }
+							    newReader.close();
+							    							    
+							    if (user == null) {
+							    	System.out.println("ERROR: User not found in database");
+							    	// Should only is if email is stored in accountLogins, but not accounts. AKA problem with saving new accounts
+							    }
+					    									    
+							    // Depending on type, different window will open
+								if (user.getType() == 0) {
 									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									StudentMenu stuMenu = new StudentMenu(frame, auth);
+									StudentMenu stuMenu = new StudentMenu(frame, user);
 									frame.setContentPane(stuMenu);
 									frame.revalidate();
-								} else if (data2.equals("1")) {
+								} else if (user.getType() == 1) {
 									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									ProfessorMenu profMenu = new ProfessorMenu(frame, auth);
+									ProfessorMenu profMenu = new ProfessorMenu(frame, user);
 									frame.setContentPane(profMenu);
 									frame.revalidate();
-								} else if (data2.equals("2")) {
+								} else if (user.getType() == 2) {
 									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, auth);
+									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, user);
 									frame.setContentPane(dhMenu);
 									frame.revalidate();
-								}
-					    	} else {
+								} /**might need a bracket here*/ else {
 								wrngEmail.setVisible(false);
 								validLogin.setVisible(false);
 								wrngPassword.setVisible(true);
 								break;
 					    	}
-				        } else {
+						} else {
 							String data1 = myReader.nextLine();
 							if (data1 != null){
 								wrngEmail.setVisible(true);
@@ -164,6 +185,7 @@ public class Login extends JPanel {
 				}
 			}
 		});
+
 		loginButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		loginButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(loginButton);
@@ -176,7 +198,7 @@ public class Login extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				Create panel = new Create(frame, auth);
+				Create panel = new Create(frame);
 				frame.setContentPane(panel);
 				frame.revalidate();
 			}
