@@ -19,3 +19,4 @@ engineering123
 socialworkdepartment@ucalgary.ca
 socialwork123
 educationdepartment@ucalgary.ca
+education123
