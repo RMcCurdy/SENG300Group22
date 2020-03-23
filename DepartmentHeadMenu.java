@@ -34,6 +34,7 @@ public class DepartmentHeadMenu extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
+
 		setLayout(null);
 
 		//Header of the system name

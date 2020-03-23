@@ -15,12 +15,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 
-/*
- * TODO:
- * 
- */
-
-
 public class Login extends JPanel {
 	private JTextField textFieldEmail;
 	private JTextField textFieldPass;
@@ -170,15 +164,12 @@ public class Login extends JPanel {
 									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, user);
 									frame.setContentPane(dhMenu);
 									frame.revalidate();
-								}
-					    	
-					    	} else {
+								} /**might need a bracket here*/ else {
 								wrngEmail.setVisible(false);
 								validLogin.setVisible(false);
 								wrngPassword.setVisible(true);
 								break;
 					    	}
-				        
 						} else {
 							String data1 = myReader.nextLine();
 							if (data1 != null){
@@ -188,14 +179,13 @@ public class Login extends JPanel {
 							}
 						}
 					} myReader.close();
-				
 				} catch (FileNotFoundException e1) {
 					System.out.println("An error occurred.");
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		loginButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		loginButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(loginButton);

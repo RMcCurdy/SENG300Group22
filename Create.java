@@ -9,21 +9,27 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+import javax.swing.*;
+import java.util.List;
+import java.awt.event.*;
 
 import java.awt.Color;
 
 public class Create extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
 	
 	private JTextField first;
 	private JTextField last;
@@ -32,12 +38,17 @@ public class Create extends JPanel {
 	private JTextField password;
 	private JTextField passwordConfirmation;
 	private Integer schoolRole;
+	private String userFaculty;
+	private List <String> faculties;
+	private JComboBox facultyBox;
+
 
 	/**
 	 * Create the panel.
 	 * @param auth 
 	 * @param frame 
 	 */
+
 	public Create(JFrame frame) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -118,6 +129,12 @@ public class Create extends JPanel {
 		confirmPwd.setBounds(screenWidth/4 - screenWidth/6 - screenWidth/250, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
 		confirmPwd.setFont(labelFontSize);
 		add(confirmPwd);
+    
+    //Label for faculty in drop down menu
+		JLabel faculty = new JLabel("Faculty:");
+		faculty.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/115, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
+		faculty.setFont(labelFontSize);
+		add(faculty);
 		
 		/**
 		 * TEXT FIELDS
@@ -218,6 +235,12 @@ public class Create extends JPanel {
 		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 9 * screenHeight/40, screenWidth/5, screenHeight/25);
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
+    
+    JLabel invalidFaculty = new JLabel("Please select a faculty");
+		invalidFaculty.setForeground(Color.RED);
+		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
+		invalidFaculty.setFont(labelFontSize);
+		add(invalidFaculty);
 
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
@@ -228,6 +251,45 @@ public class Create extends JPanel {
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
+    invalidFaculty.setVisible(false);
+    
+    /**
+		* DROP DOWN SELECT
+		*/
+
+		//Create an empty array list that calls faculties name from a file
+		faculties = new ArrayList <String>();
+		//Set the users faculty to a default, this will get updated in create account method
+		userFaculty = "";
+
+		//Add faculties to the drop down menu
+		faculties.add("");
+		for (int i = 0; i < 5; i++) {
+			faculties.add("Faculty " + (i + 1));
+		}
+		//Set up the drop down menu and its properties
+		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
+        facultyBox = new JComboBox(modelTemp);
+		facultyBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
+		facultyBox.setFont(labelFontSize);
+		add(facultyBox);
+
+		//On mouse click of the drop down menu, update what was selected
+		facultyBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+				try {
+					if (facultyBox.getSelectedIndex() != 0) {
+						//Save the selected faculty to the variable for later use
+						String selectedFaculty = (String)facultyBox.getSelectedItem();
+						userFaculty = selectedFaculty;
+					} else {
+						invalidFaculty.setVisible(true);
+					}
+            	} catch (Exception e) {
+
+				}
+			}
+        });
 		
 		/**
 		 * BUTTONS
@@ -302,9 +364,16 @@ public class Create extends JPanel {
 					invalidID.setVisible(false);
 					errorCount++;
 				}
+
+				if (userFaculty == "") {
+					invalidFaculty.setVisible(true);
+					errorCount++;
+				} else {
+					invalidFaculty.setVisible(false);
+				}
 				
 				//If else statement to determine if all fields have been filled in
-				if (enteredFirst.isEmpty() == true || enteredLast.isEmpty() == true || enteredEmail.isEmpty() == true || enteredID.isEmpty() == true || s.isEmpty() == true || f.isEmpty() == true) {
+				if (facultyBox.getSelectedIndex() == 0 || enteredFirst.isEmpty() == true || enteredLast.isEmpty() == true || enteredEmail.isEmpty() == true || enteredID.isEmpty() == true || s.isEmpty() == true || f.isEmpty() == true) {
 					invalidField.setVisible(true);	
 					errorCount++;
 				} else {
@@ -377,7 +446,7 @@ public class Create extends JPanel {
 					 * if confirm password doesn't match password field error message displayed 
 					 */
 					try {
-							Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole);
+							Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
 							
 							// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
 							BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
@@ -405,7 +474,7 @@ public class Create extends JPanel {
 				}	    
 			}
 		});
-		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 7 * screenHeight/38, screenWidth/10, screenHeight/30);
+		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
 		createAccount.setFont(labelFontSize);
 		add(createAccount);
 	}
