@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 public class StudentMenu extends JPanel {
 	private JList list;
 	//available scholarships and term
-	private static String[] scholarships = {"Arts, Fall", "Arts, Winter", "Arts, Full Year", "Medicine, Fall", "Medicine, Winter", "Medicine, Full Year", "Architecture, Fall", "Architecture, Winter", "Architecture, Full Year", "Business, Fall", "Business, Winter", "Business, Full Year", "Kinesiology, Fall", "Kinesiology, Winter", "Kinesiology, Full Year", "Law, Fall", "Law, Winter", "Law, Full Year", "Nursing, Fall", "Nursing, Winter", "Nursing, Full Year", "Engineering, Fall", "Engineering, Winter", "Engineering, Full Year", "Social Work, Fall", "Social Work, Winter", "Social Work, Full Year", "Education, Fall", "Education, Winter", "Education, Full Year"};
+	private static String[] scholarships = {"Science, Fall", "Science, Winter", "Science, Full Year", "Arts, Fall", "Arts, Winter", "Arts, Full Year", "Medicine, Fall", "Medicine, Winter", "Medicine, Full Year", "Architecture, Fall", "Architecture, Winter", "Architecture, Full Year", "Business, Fall", "Business, Winter", "Business, Full Year", "Kinesiology, Fall", "Kinesiology, Winter", "Kinesiology, Full Year", "Law, Fall", "Law, Winter", "Law, Full Year", "Nursing, Fall", "Nursing, Winter", "Nursing, Full Year", "Engineering, Fall", "Engineering, Winter", "Engineering, Full Year", "Social Work, Fall", "Social Work, Winter", "Social Work, Full Year", "Education, Fall", "Education, Winter", "Education, Full Year"};
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	
@@ -39,34 +39,8 @@ public class StudentMenu extends JPanel {
 
 		setLayout(null);
 
-		/**
-		 * LABELS
-		 */
-
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-			
-		/**
-		 * TEXT FIELDS
-		 */
-
-		//Text field for searching for a scholarship name
-		//Text field for inputing student's GPA (They will need to upload actual "transcript" for confirmation of this)
-
-		/**
-		 * MESSAGES
-		 */
-
-		//Create any error or confirmation messages here
-		//Error message if student doesn't meet requirements for a specific scholarship
-		
-		/**
-		 * BUTTONS
-		 */
-
-		//Create a button to upload a "transcript" to the system
-		//Create a button to confirm selection of transcript selected from the list to apply for
-		//Create a button to allow user to navigate to page of scholarships they have applied to and can check status
 
 		/**
 		 * LIST
@@ -110,7 +84,7 @@ public class StudentMenu extends JPanel {
 	    button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (list.getSelectedIndex() <= 29 && list.getSelectedIndex() >= 0){
+					if (list.getSelectedIndex() <= 32 && list.getSelectedIndex() >= 0){
 						String selec = (String)list.getSelectedValue();
 						selectedLabel.setText(selec);
 						selectedError.setVisible(false);

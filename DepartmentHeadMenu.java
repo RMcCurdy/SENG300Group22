@@ -33,9 +33,12 @@ public class DepartmentHeadMenu extends JPanel {
 
 		setLayout(null);
 
+		//Font size for remaining labels
+		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
+
 		//Header of the system name
 		JLabel header = new JLabel("UofC Professor Scholarship Portal");
-		header.setBounds(154, 95, 648, 43);
+		header.setBounds(screenWidth/4 - screenWidth/6, screenHeight/25, screenWidth/3, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
@@ -80,8 +83,7 @@ public class DepartmentHeadMenu extends JPanel {
 		    while (newReader.hasNextLine()) {		// Searches through database
 				String info = newReader.nextLine();
 				String[] scholarshipInfo = info.split(",");
-				Scholarship scholarship = new Scholarship(scholarshipInfo[0], scholarshipInfo[1], Integer.parseInt(scholarshipInfo[2]), 
-						scholarshipInfo[3], scholarshipInfo[4], scholarshipInfo[5], scholarshipInfo[6]);
+				Scholarship scholarship = new Scholarship(scholarshipInfo[0], scholarshipInfo[1], Integer.parseInt(scholarshipInfo[2]), scholarshipInfo[3], scholarshipInfo[4], scholarshipInfo[5], scholarshipInfo[6]);
 				scholarships[i] = scholarship;
 				i++;
 		    }
@@ -105,34 +107,5 @@ public class DepartmentHeadMenu extends JPanel {
 		});
 		lstScholarships.setBounds(174, 180, 534, 225);
 		add(lstScholarships);
-
-		//Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-		
-		/**
-		 * TEXT FIELDS
-		 */
-
-		//Text field for searching for a scholarship name
-		//Text field for inputing student they want to nominate
-
-		/**
-		 * MESSAGES
-		 */
-
-		//Create any error or confirmation messages here
-		
-		/**
-		 * BUTTONS
-		 */
-
-		//Create a button to confirm selection of transcript selected from the list to nominate a student for (this will lead to a new class where prof can enter a student's info)
-
-		/**
-		 * LIST
-		 */
-
-		//Create a scrollable list showing all available scholarships, including details like for what term, faculty, and name of scholarship
-		
 	}
 }

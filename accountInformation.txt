@@ -1,0 +1,11 @@
+sciencedepartment@ucalgary.ca,science,department,1,2,Science
+educationdepartment@ucalgary.ca,education,department,1,2,Education
+lawdepartment@ucalgary.ca,law,department,1,2,Law
+medicinedepartment@ucalgary.ca,medicine,department,1,2,Medicine
+businessdepartment@ucalgary.ca,business,department,1,2,Business
+socialworkdepartment@ucalgary.ca,socialwork,department,1,2,Social Work
+nursingdepartment@ucalgary.ca,nursing,department,1,2,Nursing
+engineeringdepartment@ucalgary.ca,engineering,department,1,2,Engineering
+artsdepartment@ucalgary.ca,arts,department,1,2,Arts
+kinesiologydepartment@ucalgary.ca,kinesiology,department,1,2,Kinesiology
+architecturedepartment@ucalgary.ca,architecture,department,1,2,Architecture

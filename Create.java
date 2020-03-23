@@ -257,9 +257,17 @@ public class Create extends JPanel {
 
 		//Add faculties to the drop down menu
 		faculties.add("");
-		for (int i = 0; i < 5; i++) {
-			faculties.add("Faculty " + (i + 1));
-		}
+		faculties.add("Arts");
+		faculties.add("Medicine");
+		faculties.add("Architecture");
+		faculties.add("Business");
+		faculties.add("Kinesiology");
+		faculties.add("Law");
+		faculties.add("Nursing");
+		faculties.add("Engineering");
+		faculties.add("Social Work");
+		faculties.add("Education");
+		faculties.add("Science");
 		//Set up the drop down menu and its properties
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
         facultyBox = new JComboBox(modelTemp);
