@@ -6,6 +6,7 @@ public class Account {
 	private String lastName;	// 
 	private int ID;				// 8 digit int
 	private int type;		// 0 = student, 1 = prof, 2 = head
+	private String faculty; // Faculty chosen from options
 	
 	public static boolean checkUsername(String username) {
 		if (username.length() <= 16) {
@@ -23,12 +24,13 @@ public class Account {
 		return false;
 	}
 
-	public Account(String email, String firstName, String lastName, int id, int type) {
+	public Account(String email, String firstName, String lastName, int id, int type, String faculty) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.ID = id;
 		this.type = type;
+		this.faculty = faculty;
 	}
 	
 	/**

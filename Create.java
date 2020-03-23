@@ -232,7 +232,7 @@ public class Create extends JPanel {
 		//Error message for not filling in all the fields
 		JLabel invalidField = new JLabel("Not all required fields have been filled in");
 		invalidField.setForeground(Color.RED);
-		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 9 * screenHeight/40, screenWidth/5, screenHeight/25);
+		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 10 * screenHeight/40, screenWidth/5, screenHeight/25);
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
     
@@ -446,19 +446,19 @@ public class Create extends JPanel {
 					 * if confirm password doesn't match password field error message displayed 
 					 */
 					try {
-							Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
-							
-							// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
-							BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
-							bw.write(account.toString());
-							bw.newLine();
-							bw.close();
-							
-							// "accountLogins.txt" stores account emails + passwords. aka the login info
-							BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
-							bw1.write(email.getText());
-							bw1.newLine();
-							bw1.close();
+						Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
+						
+						// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
+						BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
+						bw.write(account.toString());
+						bw.newLine();
+						bw.close();
+						
+						// "accountLogins.txt" stores account emails + passwords. aka the login info
+						BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
+						bw1.write(email.getText());
+						bw1.newLine();
+						bw1.close();
 						} 
 					catch(Exception ex) 
 						{

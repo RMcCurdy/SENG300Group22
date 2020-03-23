@@ -16,6 +16,7 @@ import java.awt.Toolkit;
 import java.awt.Font;
 
 public class Login extends JPanel {
+
 	private JTextField textFieldEmail;
 	private JTextField textFieldPass;
 
@@ -108,6 +109,7 @@ public class Login extends JPanel {
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			//On a mouse click, checks to see if the email and password is a match
+			//NEED TO FIX BECAUSE OF NEW WAY OF STORING USERNAME AND PASSWORD
 			public void mouseClicked(MouseEvent e) {
 				String email = textFieldEmail.getText();
 				String pass = textFieldPass.getText();
@@ -135,7 +137,7 @@ public class Login extends JPanel {
 									String[] accountInfo = info.split(",");
 									if (accountInfo[0].equals(email)) {	// Once found
 										// String email, String firstName, String lastName, int ID, int type
-								    	user = new Account(accountInfo[0], accountInfo[1], accountInfo[2], Integer.parseInt(accountInfo[3]), Integer.parseInt(accountInfo[4]));
+								    	user = new Account(accountInfo[0], accountInfo[1], accountInfo[2], Integer.parseInt(accountInfo[3]), Integer.parseInt(accountInfo[4]), accountInfo[5]);
 									}
 							    }
 							    newReader.close();
@@ -164,7 +166,8 @@ public class Login extends JPanel {
 									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, user);
 									frame.setContentPane(dhMenu);
 									frame.revalidate();
-								} /**might need a bracket here*/ else {
+								} 
+							} else {
 								wrngEmail.setVisible(false);
 								validLogin.setVisible(false);
 								wrngPassword.setVisible(true);

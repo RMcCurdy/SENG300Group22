@@ -11,7 +11,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.Font;
 
 
 public class AddScholarship extends JPanel {

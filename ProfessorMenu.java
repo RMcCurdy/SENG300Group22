@@ -1,13 +1,6 @@
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;

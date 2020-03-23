@@ -1,30 +1,20 @@
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
-import java.awt.ScrollPane;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultListModel;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class StudentMenu extends JPanel {
 	private JList list;
@@ -40,7 +30,7 @@ public class StudentMenu extends JPanel {
 	 * @param auth 
 	 * @param frame 
 	 */
-	public StudentMenu(JFrame frame, Authenticator auth) {
+	public StudentMenu(JFrame frame, Account user) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
