@@ -454,7 +454,7 @@ public class Create extends JPanel {
 					inUse.setVisible(true);
 					errorCount++;
 				}
-				else {
+				else if (!authen.getPeopleMap().containsKey(email.getText()) && errorCount == 0) {
 					authen.getPeopleMap().put(email.getText(), password.getText());
 				}
 				
