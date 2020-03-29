@@ -38,7 +38,6 @@ public class Create extends JPanel {
 
 	/**
 	 * Create the panel.
-	 * @param auth 
 	 * @param frame 
 	 */
 
@@ -229,7 +228,7 @@ public class Create extends JPanel {
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
     
-    JLabel invalidFaculty = new JLabel("Please select a faculty");
+    	JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
