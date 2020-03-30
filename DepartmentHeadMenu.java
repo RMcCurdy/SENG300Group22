@@ -48,9 +48,6 @@ public class DepartmentHeadMenu extends JPanel {
 		btnAddScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				System.out.println("Hello World!");
-				
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				AddScholarship sch = new AddScholarship(frame, user);
