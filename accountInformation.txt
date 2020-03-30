@@ -1,0 +1,12 @@
+sciencedepartment@ucalgary.ca,science,department,100000000,2,Science
+educationdepartment@ucalgary.ca,education,department,100000001,2,Education
+lawdepartment@ucalgary.ca,law,department,100000002,2,Law
+medicinedepartment@ucalgary.ca,medicine,department,100000003,2,Medicine
+businessdepartment@ucalgary.ca,business,department,100000004,2,Business
+socialworkdepartment@ucalgary.ca,socialwork,department,100000005,2,Social Work
+nursingdepartment@ucalgary.ca,nursing,department,100000006,2,Nursing
+engineeringdepartment@ucalgary.ca,engineering,department,100000007,2,Engineering
+artsdepartment@ucalgary.ca,arts,department,100000008,2,Arts
+kinesiologydepartment@ucalgary.ca,kinesiology,department,100000009,2,Kinesiology
+architecturedepartment@ucalgary.ca,architecture,department,100000010,2,Architecture
+rwmccurdy@hotmail.com,Rob,Mac,99999999,0,Medicine
