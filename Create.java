@@ -1,27 +1,29 @@
-/*
- * code burrowed from tutorial 
- * added a create account functionality 
- * which opens up a new window if user
- * does not have an account and 
- * wishes to create one
-*/
 import javax.swing.JPanel;
+import java.io.Serializable;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+import javax.swing.text.html.HTMLDocument.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.awt.event.*;
 
 import java.awt.Color;
@@ -42,7 +44,9 @@ public class Create extends JPanel {
 	private List <String> faculties;
 	private JComboBox facultyBox;
 
-
+	public boolean student = true;
+	public boolean dept = false;
+	
 	/**
 	 * Create the panel.
 	 * @param auth 
@@ -236,11 +240,17 @@ public class Create extends JPanel {
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
     
-    JLabel invalidFaculty = new JLabel("Please select a faculty");
+		JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
 		add(invalidFaculty);
+		
+		JLabel inUse = new JLabel("Email already in use");
+		inUse.setForeground(Color.RED);
+		inUse.setBounds(470, 192, 137, 16);
+		add(inUse);
+		inUse.setVisible(false);
 
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
@@ -251,7 +261,7 @@ public class Create extends JPanel {
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
-    invalidFaculty.setVisible(false);
+		invalidFaculty.setVisible(false);
     
     /**
 		* DROP DOWN SELECT
@@ -264,9 +274,17 @@ public class Create extends JPanel {
 
 		//Add faculties to the drop down menu
 		faculties.add("");
-		for (int i = 0; i < 5; i++) {
-			faculties.add("Faculty " + (i + 1));
-		}
+		faculties.add("Arts");
+		faculties.add("Medicine");
+		faculties.add("Architecture");
+		faculties.add("Business");
+		faculties.add("Kinesiology");
+		faculties.add("Law");
+		faculties.add("Nursing");
+		faculties.add("Engineering");
+		faculties.add("Social Work");
+		faculties.add("Education");
+		faculties.add("Science");
 		//Set up the drop down menu and its properties
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
         facultyBox = new JComboBox(modelTemp);
@@ -306,6 +324,8 @@ public class Create extends JPanel {
 				profID.setVisible(true);
 				studID.setVisible(false);
 				schoolRole = 1;
+				student = false;
+				dept = true;
 			}
 		});
 		prof.setBounds(screenWidth/4 - screenWidth/30 + screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
@@ -320,6 +340,8 @@ public class Create extends JPanel {
 				profID.setVisible(false);
 				studID.setVisible(true);
 				schoolRole = 0;
+				student = true;
+				dept = false;
 			}
 		});
 		stud.setBounds(screenWidth/4 - screenWidth/30 - screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
@@ -435,7 +457,44 @@ public class Create extends JPanel {
 					invalidLast.setVisible(true);
 					errorCount++;
 				}
-
+				
+				
+				//Call hash-map stored in authenticator class and write email and password to it 
+				Authenticator authen = new Authenticator();
+				authen.emailAddress = email.getText();
+				authen.pwd = password.getText();
+				
+				if (student) {
+				
+					//check to see if entered email already exists in system
+					if (authen.getPeopleMap().containsKey(email.getText())) {
+						inUse.setVisible(true);
+						errorCount++;
+					}
+					else if (!authen.getPeopleMap().containsKey(email.getText()) && errorCount == 0) {
+						authen.getPeopleMap().put(email.getText(), password.getText());
+						authen.loadStud();
+						authen.saveStud();
+						System.out.println("all accounts " + Authenticator.accounts);
+					}
+				}
+				
+				else if (dept) {
+					
+					//check to see if entered email already exists in system
+					if (authen.getDeptMap().containsKey(email.getText())) {
+						inUse.setVisible(true);
+						errorCount++;
+					}
+					else if (!authen.getDeptMap().containsKey(email.getText()) && errorCount == 0) {
+						authen.getDeptMap().put(email.getText(), password.getText());
+						authen.loadDep();
+						authen.saveDep();
+						System.out.println("all departments " + Authenticator.depts);
+					}
+				}
+				
+				
 				//If no errors have occured, then we will save this information to a txt file
 				if (errorCount == 0){
 					/*
@@ -445,26 +504,6 @@ public class Create extends JPanel {
 					 * if any of the fields is empty nothing is written 
 					 * if confirm password doesn't match password field error message displayed 
 					 */
-					try {
-						Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
-						
-						// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
-						BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
-						bw.write(account.toString());
-						bw.newLine();
-						bw.close();
-						
-						// "accountLogins.txt" stores account emails + passwords. aka the login info
-						BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
-						bw1.write(email.getText());
-						bw1.newLine();
-						bw1.close();
-						} 
-					catch(Exception ex) 
-						{
-						//Exception thrown if the above code can't proceed
-							ex.printStackTrace();
-						}
 					//Set the frame size on the closing of the create account GUI
 					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
