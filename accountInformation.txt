@@ -10,3 +10,4 @@ artsdepartment@ucalgary.ca,arts,department,100000008,2,Arts
 kinesiologydepartment@ucalgary.ca,kinesiology,department,100000009,2,Kinesiology
 architecturedepartment@ucalgary.ca,architecture,department,100000010,2,Architecture
 rwmccurdy@hotmail.com,Rob,Mac,99999999,0,Medicine
+bob@bob.com,Rob,Mac,99999998,1,Medicine

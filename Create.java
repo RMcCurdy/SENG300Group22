@@ -122,7 +122,7 @@ public class Create extends JPanel {
 		confirmPwd.setFont(labelFontSize);
 		add(confirmPwd);
     
-    //Label for faculty in drop down menu
+    	//Label for faculty in drop down menu
 		JLabel faculty = new JLabel("Faculty:");
 		faculty.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/115, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		faculty.setFont(labelFontSize);
@@ -243,7 +243,7 @@ public class Create extends JPanel {
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
-    invalidFaculty.setVisible(false);
+    	invalidFaculty.setVisible(false);
     
     /**
 		* DROP DOWN SELECT
