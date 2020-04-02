@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 public class StudentMenu extends JPanel {
 	//available scholarships and term
 	private static String[] scholarships = {"Science, Fall", "Science, Winter", "Science, Full Year", "Arts, Fall", "Arts, Winter", "Arts, Full Year", "Medicine, Fall", "Medicine, Winter", "Medicine, Full Year", "Architecture, Fall", "Architecture, Winter", "Architecture, Full Year", "Business, Fall", "Business, Winter", "Business, Full Year", "Kinesiology, Fall", "Kinesiology, Winter", "Kinesiology, Full Year", "Law, Fall", "Law, Winter", "Law, Full Year", "Nursing, Fall", "Nursing, Winter", "Nursing, Full Year", "Engineering, Fall", "Engineering, Winter", "Engineering, Full Year", "Social Work, Fall", "Social Work, Winter", "Social Work, Full Year", "Education, Fall", "Education, Winter", "Education, Full Year"};
+	private static List<String> scholarships = Arrays.asList("Arts, Fall", "Arts, Winter", "Arts, Full Year", "Medicine, Fall", "Medicine, Winter", "Medicine, Full Year", "Architecture, Fall", "Architecture, Winter", "Architecture, Full Year", "Business, Fall", "Business, Winter", "Business, Full Year", "Kinesiology, Fall", "Kinesiology, Winter", "Kinesiology, Full Year", "Law, Fall", "Law, Winter", "Law, Full Year", "Nursing, Fall", "Nursing, Winter", "Nursing, Full Year", "Engineering, Fall", "Engineering, Winter", "Engineering, Full Year", "Social Work, Fall", "Social Work, Winter", "Social Work, Full Year", "Education, Fall", "Education, Winter", "Education, Full Year");
 	private static String[] term = {"Fall","Winter", "Full Year"};
 	private static String[] faculty ={"Arts", "Medicine", "Architecture", "Business","Kinesiology", "Law", "Nursing", "Engineering", "Social Work", "Education"};
 	private static final long serialVersionUID = 1L;
@@ -80,6 +81,7 @@ public class StudentMenu extends JPanel {
 		list.setLocation(145, 159);
 
 		//only 1 item can be selected and list will only display 3 items
+		//only 1 item can be selected 
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setBackground(Color.WHITE);
 
@@ -96,6 +98,9 @@ public class StudentMenu extends JPanel {
 		selectedError.setFont(labelFontSize);
 		selectedError.setForeground(Color.RED);
 		selectedError.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 - screenHeight/200, screenWidth/7, screenHeight/35);
+		//label for selected item
+		JLabel selectedLabel = new JLabel("");
+		selectedLabel.setFont(labelFontSize);
 		selectedLabel.setForeground(Color.BLACK);
 		selectedLabel.setBounds(screenWidth/4 - screenWidth/24, screenHeight/7 - screenHeight/40, screenWidth/7, screenHeight/35);
 		selectedLabel.setFont(labelFontSize);
@@ -111,6 +116,10 @@ public class StudentMenu extends JPanel {
 		selectedError.setVisible(false);
 
 		//ScrollPane to display the list
+		JScrollPane sp = new JScrollPane(list);
+		JScrollBar bar = sp.getVerticalScrollBar();
+		bar.setPreferredSize(new Dimension(30, 0));
+		//ScrollPane & ScrollBar for the list
 		JScrollPane sp = new JScrollPane(list);
 		JScrollBar bar = sp.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(30, 0));
