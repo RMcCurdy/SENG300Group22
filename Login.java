@@ -186,6 +186,65 @@ public class Login extends JPanel {
 				} catch (FileNotFoundException e1) {
 					System.out.println("An error occurred.");
 					e1.printStackTrace();
+				Authenticator authen = new Authenticator();
+				
+				Account user = null;
+				
+				//gets value stored in email text-field and searches for corresponding key in hash-map 
+				//if match is found gets the associated value and compares to password text-field 
+				//successful login if both match 
+				if (authen.getPeopleMap().containsKey(email)) {
+					String pass1 = (String)authen.getPeopleMap().get(email);
+					if (pass1.equals(pass)) {
+						System.out.println("7");
+						wrngPassword.setVisible(false);
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(true);
+						
+						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						StudentMenu stuMenu = new StudentMenu(frame, user);
+						frame.setContentPane(stuMenu);
+						frame.revalidate();
+					}
+							
+					else {
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(false);
+						wrngPassword.setVisible(true);
+					}
+				}
+				
+				else {
+					wrngEmail.setVisible(true);
+					validLogin.setVisible(false);
+					wrngPassword.setVisible(false);
+				}
+				
+				if (authen.getDeptMap().containsKey(email)) {
+					String pass1 = (String)authen.getDeptMap().get(email);
+					if (pass1.equals(pass)) {
+						System.out.println("7");
+						wrngPassword.setVisible(false);
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(true);
+					
+						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						DepartmentHeadMenu profMenu = new DepartmentHeadMenu(frame, user);
+						frame.setContentPane(profMenu);
+						frame.revalidate();
+					}
+					else {
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(false);
+						wrngPassword.setVisible(true);
+					}
+				}
+				else {
+					wrngEmail.setVisible(false);
+					validLogin.setVisible(false);
+					wrngPassword.setVisible(true);
 				}
 			}
 		});

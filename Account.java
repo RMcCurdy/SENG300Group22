@@ -1,12 +1,13 @@
 
 public class Account {
 	
-	private String email;		// Also login username
+	public String email;		// Also login username
 	private String firstName;	// 
 	private String lastName;	// 
 	private int ID;				// 8 digit int
 	private int type;		// 0 = student, 1 = prof, 2 = head
 	private String faculty; // Faculty chosen from options
+	public String password;
 	
 	public static boolean checkUsername(String username) {
 		if (username.length() <= 16) {

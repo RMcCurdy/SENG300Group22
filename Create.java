@@ -1,20 +1,29 @@
 import javax.swing.JPanel;
+import java.io.Serializable;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+import javax.swing.text.html.HTMLDocument.Iterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.awt.event.*;
 
 import java.awt.Color;
@@ -35,7 +44,9 @@ public class Create extends JPanel {
 	private List <String> faculties;
 	private JComboBox facultyBox;
 
-
+	public boolean student = true;
+	public boolean dept = false;
+	
 	/**
 	 * Create the panel.
 	 * @param frame 
@@ -247,6 +258,12 @@ public class Create extends JPanel {
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
 		add(invalidFaculty);
+		
+		JLabel inUse = new JLabel("Email already in use");
+		inUse.setForeground(Color.RED);
+		inUse.setBounds(470, 192, 137, 16);
+		add(inUse);
+		inUse.setVisible(false);
 
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
@@ -323,6 +340,8 @@ public class Create extends JPanel {
 				profID.setVisible(true);
 				studID.setVisible(false);
 				schoolRole = 1;
+				student = false;
+				dept = true;
 			}
 		});
 		prof.setBounds(screenWidth/4 - screenWidth/30 + screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
@@ -337,6 +356,8 @@ public class Create extends JPanel {
 				profID.setVisible(false);
 				studID.setVisible(true);
 				schoolRole = 0;
+				student = true;
+				dept = false;
 			}
 		});
 		stud.setBounds(screenWidth/4 - screenWidth/30 - screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
@@ -485,7 +506,44 @@ public class Create extends JPanel {
 					invalidLast.setVisible(true);
 					errorCount++;
 				}
-
+				
+				
+				//Call hash-map stored in authenticator class and write email and password to it 
+				Authenticator authen = new Authenticator();
+				authen.emailAddress = email.getText();
+				authen.pwd = password.getText();
+				
+				if (student) {
+				
+					//check to see if entered email already exists in system
+					if (authen.getPeopleMap().containsKey(email.getText())) {
+						inUse.setVisible(true);
+						errorCount++;
+					}
+					else if (!authen.getPeopleMap().containsKey(email.getText()) && errorCount == 0) {
+						authen.getPeopleMap().put(email.getText(), password.getText());
+						authen.loadStud();
+						authen.saveStud();
+						System.out.println("all accounts " + Authenticator.accounts);
+					}
+				}
+				
+				else if (dept) {
+					
+					//check to see if entered email already exists in system
+					if (authen.getDeptMap().containsKey(email.getText())) {
+						inUse.setVisible(true);
+						errorCount++;
+					}
+					else if (!authen.getDeptMap().containsKey(email.getText()) && errorCount == 0) {
+						authen.getDeptMap().put(email.getText(), password.getText());
+						authen.loadDep();
+						authen.saveDep();
+						System.out.println("all departments " + Authenticator.depts);
+					}
+				}
+				
+				
 				//If no errors have occured, then we will save this information to a txt file
 				if (errorCount == 0){
 					/*

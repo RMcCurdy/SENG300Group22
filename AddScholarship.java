@@ -8,7 +8,12 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -104,28 +109,18 @@ public class AddScholarship extends JPanel {
 		btnCreate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+
+				ScholarshipsList list = new ScholarshipsList();
+				list.loadFromFile();
+				Scholarship toAdd = new Scholarship(txtName.getText(), txtDonor.getText(), Integer.parseInt(txtValue.getText()), (String)term.getSelectedItem(), (String)type.getSelectedItem(), txtDepartment.getText(), txtDeadline.getText());
+				list.addScholarship(toAdd);
 				
-				try {
-					Scholarship toAdd = new Scholarship(txtName.getText(), txtDonor.getText(), Integer.parseInt(txtValue.getText()), (String)term.getSelectedItem(), (String)type.getSelectedItem(), txtDepartment.getText(), txtDeadline.getText());
-					
-					// "scholarships.txt" stores scholarships
-					BufferedWriter bw = new BufferedWriter(new FileWriter("scholarships.txt", true));
-					bw.write(toAdd.toString());
-					bw.newLine();
-					bw.close();
-					} 
-				catch(Exception ex) 
-					{
-					//Exception thrown if the above code can't proceed
-						ex.printStackTrace();
-					}
 				//Set the frame size on the closing of the create account GUI
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				DepartmentHeadMenu dMenu = new DepartmentHeadMenu(frame, user);
 				frame.setContentPane(dMenu);
 				frame.revalidate();
-					
 			}
 		});
 		btnCreate.setBounds(149, 348, 97, 25);
