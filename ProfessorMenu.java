@@ -83,11 +83,6 @@ public class ProfessorMenu extends JPanel {
 				try {
 					if (list.getSelectedIndex() <= 32 && list.getSelectedIndex() >= 0){
 						String selec = (String)list.getSelectedValue();
-						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
-						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-						NominateStudent panel = new NominateStudent(frame, user);
-						frame.setContentPane(panel);
-						frame.revalidate();
 						selectedLabel.setText(selec);
 						selectedError.setVisible(false);
 					} else {

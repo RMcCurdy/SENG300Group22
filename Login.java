@@ -114,78 +114,6 @@ public class Login extends JPanel {
 				String email = textFieldEmail.getText();
 				String pass = textFieldPass.getText();
 
-				try {
-				    File myObj = new File("accountLogins.txt");
-				    Scanner myReader = new Scanner(myObj);
-
-				    while (myReader.hasNextLine()) {
-						String data = myReader.nextLine();
-											
-						if (email.equals(data)) {
-					    	String data1 = myReader.nextLine();
-					    					    	
-					    	// VALID LOGIN
-					    	if (pass.equals(data1)) {
-													    							    		
-					    		Account user = null;
-					    		
-					    		File newObj = new File("accountInformation.txt");
-							    Scanner newReader = new Scanner(newObj);
-					    		
-							    while (newReader.hasNextLine()) {		// Searches through database
-									String info = newReader.nextLine();
-									String[] accountInfo = info.split(",");
-									if (accountInfo[0].equals(email)) {	// Once found
-										// String email, String firstName, String lastName, int ID, int type
-								    	user = new Account(accountInfo[0], accountInfo[1], accountInfo[2], Integer.parseInt(accountInfo[3]), Integer.parseInt(accountInfo[4]), accountInfo[5]);
-									}
-							    }
-							    newReader.close();
-							    							    
-							    if (user == null) {
-							    	System.out.println("ERROR: User not found in database");
-							    	// Should only is if email is stored in accountLogins, but not accounts. AKA problem with saving new accounts
-							    }
-					    									    
-							    // Depending on type, different window will open
-								if (user.getType() == 0) {
-									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
-									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									StudentMenu stuMenu = new StudentMenu(frame, user);
-									frame.setContentPane(stuMenu);
-									frame.revalidate();
-								} else if (user.getType() == 1) {
-									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
-									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									ProfessorMenu profMenu = new ProfessorMenu(frame, user);
-									frame.setContentPane(profMenu);
-									frame.revalidate();
-								} else if (user.getType() == 2) {
-									frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
-									frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-									DepartmentHeadMenu dhMenu = new DepartmentHeadMenu(frame, user);
-									frame.setContentPane(dhMenu);
-									frame.revalidate();
-								} 
-							} else {
-								wrngEmail.setVisible(false);
-								validLogin.setVisible(false);
-								wrngPassword.setVisible(true);
-								break;
-					    	}
-						} else {
-							String data1 = myReader.nextLine();
-							if (data1 != null){
-								wrngEmail.setVisible(true);
-								validLogin.setVisible(false);
-								wrngPassword.setVisible(false);
-							}
-						}
-					} myReader.close();
-					
-				} catch (FileNotFoundException e1) {
-					System.out.println("An error occurred.");
-					e1.printStackTrace();
 				Authenticator authen = new Authenticator();
 				
 				Account user = null;
@@ -231,7 +159,7 @@ public class Login extends JPanel {
 					
 						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-						DepartmentHeadMenu profMenu = new DepartmentHeadMenu(frame, user);
+						ProfessorMenu profMenu = new ProfessorMenu(frame, user);
 						frame.setContentPane(profMenu);
 						frame.revalidate();
 					}

@@ -49,6 +49,7 @@ public class Create extends JPanel {
 	
 	/**
 	 * Create the panel.
+	 * @param auth 
 	 * @param frame 
 	 */
 
@@ -133,7 +134,7 @@ public class Create extends JPanel {
 		confirmPwd.setFont(labelFontSize);
 		add(confirmPwd);
     
-    	//Label for faculty in drop down menu
+    //Label for faculty in drop down menu
 		JLabel faculty = new JLabel("Faculty:");
 		faculty.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/115, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		faculty.setFont(labelFontSize);
@@ -197,20 +198,6 @@ public class Create extends JPanel {
 		passLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
 		add(passLength);
 		
-		//Error message for the password not containing special character 
-		JLabel passSC = new JLabel("Invalid Password, needs a special character");
-		passSC.setForeground(Color.RED);
-		passSC.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
-		passSC.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
-		add(passSC);
-		
-		//Error message for the password not containing special character and not meeting the required length
-		JLabel passSCLength = new JLabel("Invalid Password, needs 10 characters & a special character");
-		passSCLength.setForeground(Color.RED);
-		passSCLength.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
-		passSCLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
-		add(passSCLength);
-		
 		//Error message for an invalid email
 		JLabel invalidEmail = new JLabel("Invalid Email");
 		invalidEmail.setForeground(Color.RED);
@@ -253,7 +240,7 @@ public class Create extends JPanel {
 		invalidField.setFont(labelFontSize);
 		add(invalidField);
     
-    	JLabel invalidFaculty = new JLabel("Please select a faculty");
+		JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
@@ -268,15 +255,12 @@ public class Create extends JPanel {
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
 		passLength.setVisible(false);
-		passSC.setVisible(false);
-		passSCLength.setVisible(false);
 		invalidEmail.setVisible(false);
 		invalidID.setVisible(false);
 		invalidINT.setVisible(false);
 		invalidFirst.setVisible(false);
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
-    	invalidFaculty.setVisible(false);
 		invalidFaculty.setVisible(false);
     
     /**
@@ -418,64 +402,31 @@ public class Create extends JPanel {
 					invalidField.setVisible(false);
 				}
 
-				
 				//If else statement to check if the entered passwords match
 				if (f.isEmpty() == true || s.isEmpty() == true){
 					invalidField.setVisible(true);
 					passLength.setVisible(false);
-					passMatch.setVisible(false);
-					passSC.setVisible(false);
+					passMatch.setVisible(false);	
 					errorCount++;
-				//If the length is not 10,the password doesn't contain a special character and the password doesn't equal the confirmed password
-				}else if (f.length() < 10 && checkforSC(f)==false && !f.equals(s) ) {
-						passLength.setVisible(false);
-						passMatch.setVisible(true);
-						passSC.setVisible(false);
-						passSCLength.setVisible(true);
-						errorCount++;
 				//If the length is not 10 and the password doesn't equal the confirmed password
 				} else if (f.length() < 10 && !f.equals(s)) {
 					passLength.setVisible(true);
 					passMatch.setVisible(true);
-					passSC.setVisible(false);
 					errorCount++;
-				//If the length is not 10 and the password doesn't contain a special character 
-				} else if(f.length() < 10 && checkforSC(f)==false) {
-					passMatch.setVisible(false);
-					passLength.setVisible(false);
-					passSC.setVisible(false);
-					passSCLength.setVisible(true);
-					errorCount++;
-				//If the password doesn't equal the confirmed password and the password doesn't contain a special character 
-				} else if(!f.equals(s) && checkforSC(f)==false) {
-					passMatch.setVisible(true);
-					passLength.setVisible(false);
-					passSC.setVisible(true);
-					passSCLength.setVisible(false);
-					errorCount++;	
-				//If just the password doesn't equal the confirmed password
+				//If just the password doesn't equal the confirmed passowrd
 				} else if (!f.equals(s)) {
 					passMatch.setVisible(true);
 					passLength.setVisible(false);
-					passSC.setVisible(false);
 					errorCount++;
 				//If just the password length is not 10
 				} else if (f.length() < 10) {
 					passMatch.setVisible(false);
 					passLength.setVisible(true);
-					passSC.setVisible(false);
-					errorCount++;
-				//If just the password doesn't contain a special character 
-				} else if(checkforSC(f)==false) {
-					passMatch.setVisible(false);
-					passLength.setVisible(false);
-					passSC.setVisible(true);
 					errorCount++;
 				//If the password given meets criteria
 				} else if (f.equals(s)) {
 					passMatch.setVisible(false);
 					passLength.setVisible(false);
-					passSC.setVisible(false);
 				}
 				
 				//If nothing is given as email, due to checking for characters in later if statements
@@ -553,28 +504,6 @@ public class Create extends JPanel {
 					 * if any of the fields is empty nothing is written 
 					 * if confirm password doesn't match password field error message displayed 
 					 */
-					try {
-						Account account = new Account(email.getText(), first.getText(), last.getText(), Integer.parseInt(id.getText()), schoolRole, userFaculty);
-						
-						// "accountInformation.txt" stores accounts, i.e. email, name, etc. Passwords aren't stored here
-						BufferedWriter bw = new BufferedWriter(new FileWriter("accountInformation.txt", true));
-						bw.write(account.toString());
-						bw.newLine();
-						bw.close();
-						
-						// "accountLogins.txt" stores account emails + passwords. aka the login info
-						BufferedWriter bw1 = new BufferedWriter(new FileWriter("accountLogins.txt", true));
-						bw1.write(email.getText());
-						bw1.newLine();
-						bw1.write(password.getText());
-						bw1.newLine();
-						bw1.close();
-						} 
-					catch(Exception ex) 
-						{
-						//Exception thrown if the above code can't proceed
-							ex.printStackTrace();
-						}
 					//Set the frame size on the closing of the create account GUI
 					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -587,18 +516,5 @@ public class Create extends JPanel {
 		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
 		createAccount.setFont(labelFontSize);
 		add(createAccount);
-	}
-	
-	private static boolean checkforSC(String s) {
-	    String specialChar = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
-	    boolean scPresent = false;
-	    char cc;
-	    for (int i = 0; i < s.length(); i++) {
-	        cc = s.charAt(i);
-	        if (specialChar.contains(String.valueOf(cc))) {
-	            scPresent = true;
-	        }
-	    }
-	    return scPresent;
 	}
 }
