@@ -88,6 +88,7 @@ public class ProfessorMenu extends JPanel {
 						NominateStudent panel = new NominateStudent(frame, user);
 						frame.setContentPane(panel);
 						frame.revalidate();
+						selectedLabel.setText(selec);
 						selectedError.setVisible(false);
 					} else {
 						selectedError.setVisible(true);

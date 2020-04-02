@@ -130,6 +130,9 @@ public class Statistics extends JPanel {
 			}
 		});
 		add(btnCancel);
+
+		//If statements to determine which picture to display stats for
+        
 	}
 
 	//Save the user's screen resolution to variables, used to format GUI correctly
