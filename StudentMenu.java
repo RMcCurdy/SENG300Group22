@@ -3,27 +3,31 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.SwingConstants;
-import javax.swing.DefaultListModel;
-import java.util.Arrays;
-import java.util.List;
-import javax.swing.JComboBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StudentMenu extends JPanel {
+	private JList list;
+	private JList list2;
 	//available scholarships and term
-	private static List<String> scholarships = Arrays.asList("Arts, Fall", "Arts, Winter", "Arts, Full Year", "Medicine, Fall", "Medicine, Winter", "Medicine, Full Year", "Architecture, Fall", "Architecture, Winter", "Architecture, Full Year", "Business, Fall", "Business, Winter", "Business, Full Year", "Kinesiology, Fall", "Kinesiology, Winter", "Kinesiology, Full Year", "Law, Fall", "Law, Winter", "Law, Full Year", "Nursing, Fall", "Nursing, Winter", "Nursing, Full Year", "Engineering, Fall", "Engineering, Winter", "Engineering, Full Year", "Social Work, Fall", "Social Work, Winter", "Social Work, Full Year", "Education, Fall", "Education, Winter", "Education, Full Year");
-	private static String[] term = {"Fall","Winter", "Full Year"};
-	private static String[] faculty ={"Arts", "Medicine", "Architecture", "Business","Kinesiology", "Law", "Nursing", "Engineering", "Social Work", "Education"};
 	private static final long serialVersionUID = 1L;
+	private JTextField textField;
 	
 	//NEED VARIABLES FOR NEW MENU
 
@@ -42,50 +46,51 @@ public class StudentMenu extends JPanel {
 
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-			
-		//creating a default list model that will contain scholarships so lists can be changed dynamically
-		DefaultListModel listModel = new DefaultListModel();
-		listModel = new DefaultListModel();
-		//list form of term & faculty
-		List<String> termList = Arrays.asList(term);
-		List<String> facList = Arrays.asList(faculty);	
-		//adding the scholarships to list model
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 3; j++) {
-				listModel.addElement(facList.get(i)+", "+termList.get(j));
-		}}
+
+		Authenticator authen = new Authenticator();
+		
+		String facs = (String)authen.getRolesMap().get(Login.eAddress());
+		
+		/**
+		 * LIST
+		 */
 		//creating list containing scholarships
-		JList list = new JList(listModel);
+		
+		DefaultListModel scholarships = new DefaultListModel();
+		scholarships.addElement(facs + " Fall");
+		scholarships.addElement(facs + " Winter");
+		scholarships.addElement(facs + " Full Year");
+		list = new JList(scholarships);
 		list.setFont(labelFontSize);
 		list.setSize(218, 80);
 		list.setLocation(145, 159);
 
-		//only 1 item can be selected 
+		//only 1 item can be selected and list will only display 3 items
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setVisibleRowCount(3);
 		list.setBackground(Color.WHITE);
 
-		//label for selected item
+		//label for testing
 		JLabel selectedLabel = new JLabel("");
 		selectedLabel.setFont(labelFontSize);
 		selectedLabel.setForeground(Color.BLACK);
-		selectedLabel.setBounds(screenWidth/4 - screenWidth/24, screenHeight/7 - screenHeight/40, screenWidth/7, screenHeight/35);
+		selectedLabel.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 - screenHeight/200, screenWidth/7, screenHeight/35);
 		selectedLabel.setFont(labelFontSize);
 		add(selectedLabel);
 
-		//label for error message
+		//label for testing
 		JLabel selectedError = new JLabel("Please select a scholarship");
 		selectedError.setFont(labelFontSize);
 		selectedError.setForeground(Color.RED);
-		selectedError.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 - screenHeight/40, screenWidth/7, screenHeight/35);
+		selectedError.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 - screenHeight/200, screenWidth/7, screenHeight/35);
 		selectedError.setFont(labelFontSize);
 		add(selectedError);
 		selectedError.setVisible(false);
 
-		//ScrollPane & ScrollBar for the list
+		//ScrollPane to display the list
 		JScrollPane sp = new JScrollPane(list);
 		JScrollBar bar = sp.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(30, 0));
-		//Button for selecting term
 		JButton button = new JButton("Select");
 		button.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 10 * screenHeight/37 - screenHeight/74, screenWidth/10, screenHeight/60);
 		button.setFont(labelFontSize);
@@ -93,14 +98,11 @@ public class StudentMenu extends JPanel {
 	    button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					//if selected term is in index range
-					if (list.getSelectedIndex() <= 29 && list.getSelectedIndex() >= 0){
-						//save to a variable and display it
+					if (list.getSelectedIndex() <= 32 && list.getSelectedIndex() >= 0){
 						String selec = (String)list.getSelectedValue();
 						selectedLabel.setText(selec);
 						selectedError.setVisible(false);
 					} else {
-						//set error message visible
 						selectedError.setVisible(true);
 					}
             	} catch (Exception e1) {
@@ -123,66 +125,37 @@ public class StudentMenu extends JPanel {
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
 		
-		//drop down menu for term
-		JComboBox ter= new JComboBox(term);
-		ter.setSelectedIndex(-1);
-		ter.setBounds(screenWidth/4 - screenWidth/10, screenHeight/7, screenWidth/10, screenHeight/50);
-		add(ter);
-		ter.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-				try {
-					//if selected term is in index range
-					if (ter.getSelectedIndex() <= 2 && ter.getSelectedIndex() >= 0) {
-						//Save the selected term to the variable 
-						String selectedTer = (String)ter.getSelectedItem();
-						//creating the filtered list & setting it to list
-						DefaultListModel fList = filteredList(scholarships, selectedTer);
-						list.setModel(fList);		
-					} else {
-						
-					}
-            	} catch (Exception e) {
-
-				}
-			}
-        });
+		//search bar for list of scholarships
+		textField = new JTextField();
+		textField.setBounds(screenWidth/4 - screenWidth/14, screenHeight/9, screenWidth/7, screenHeight/35);
+		add(textField);
+		JLabel lblNewLabel = new JLabel("Search:");
+		lblNewLabel.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/100, screenHeight/9, screenWidth/7, screenHeight/35);
+		lblNewLabel.setFont(labelFontSize);
+		add(lblNewLabel);
 		
-		//drop down menu for facaulty
-		JComboBox fac = new JComboBox(faculty);
-		fac.setSelectedIndex(-1);
-		fac.setBounds(screenWidth/4, screenHeight/7, screenWidth/10, screenHeight/50);
-		add(fac);
-		fac.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-				try {
-					//if selected term is in index range
-					if (fac.getSelectedIndex() <= 9 && fac.getSelectedIndex() >= 0) {
-						//Save the selected faculty to the variable 
-						String selectedFac = (String)fac.getSelectedItem();
-						//creating the filtered list & setting it to list
-						DefaultListModel fList2 = filteredList(scholarships, selectedFac);
-						list.setModel(fList2);	
-					} else {
-						
-					}
-            	} catch (Exception e) {
-
-				}
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				Login panel = new Login(frame);
+				frame.setContentPane(panel);
+				frame.revalidate();
 			}
-        });
+		});
+		logoutButton.setBounds(615, 8, 117, 29);
+		add(logoutButton);
+		
+		JLabel userLabel = new JLabel("User: " + Login.eAddress());
+		userLabel.setBounds(6, 8, 457, 16);
+		add(userLabel);
+		
+		
+		JLabel facultyLabel = new JLabel("Faculty: " + facs);
+		facultyLabel.setBounds(6, 25, 294, 16);
+		add(facultyLabel);
+
 	}
-	//method for filtering list 
-	public DefaultListModel filteredList(List<String> list, String word){
-	    	DefaultListModel model = new DefaultListModel<>();
-	    	//going through every item in the list
-	        for (String x : list)
-	        {
-	        	//if it contains term then add it to the model
-	            if (x.contains(word))
-	            {
-	                model.addElement(x);
-	            }
-	        }
-	        return model;
-	 }  
 }

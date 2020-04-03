@@ -1,9 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
-import java.io.File;
-import java.io.FileNotFoundException; 
-import java.util.Scanner; 
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -17,8 +14,10 @@ import java.awt.Font;
 
 public class Login extends JPanel {
 
-	private JTextField textFieldEmail;
+	private static JTextField textFieldEmail;
 	private JTextField textFieldPass;
+	private static String eAddress;
+	private boolean valid = false;
 
 	//Creates the login page for the system
 	public Login(JFrame frame) {
@@ -128,12 +127,14 @@ public class Login extends JPanel {
 						wrngPassword.setVisible(false);
 						wrngEmail.setVisible(false);
 						validLogin.setVisible(true);
+						valid = true;
 						
 						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						StudentMenu stuMenu = new StudentMenu(frame, user);
 						frame.setContentPane(stuMenu);
 						frame.revalidate();
+						
 					}
 							
 					else {
@@ -199,4 +200,10 @@ public class Login extends JPanel {
 		add(createButton);
 
 	}
+
+	public static String eAddress() {
+		eAddress = textFieldEmail.getText(); 
+		return eAddress;
+	}
+
 }

@@ -7,10 +7,17 @@ public class MainFrame {
 
 	private JFrame frame;
 	
+	
+	//Main class that loads the entire program
+	//Starts by displaying the login GUI and users can
+	//navigate from there
+	//loads the student and department serial 
+	//files, which store login info from authenticator
+	//class.
 	public static void main(String[] args) {
-		Authenticator authen = new Authenticator();
-		authen.loadStud();
-		authen.loadDep();
+		Authenticator.loadStud();
+		Authenticator.loadDep();
+		Authenticator.loadRoles();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -23,6 +30,7 @@ public class MainFrame {
 		});
 	}
 	
+	//function called by main that loads up the login window
 	public MainFrame() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
