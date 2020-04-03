@@ -197,20 +197,6 @@ public class Create extends JPanel {
 		passLength.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
 		passLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
 		add(passLength);
-
-		//Error message for the password not containing special character 
-		JLabel passSC = new JLabel("Invalid Password, needs a special character");
-		passSC.setForeground(Color.RED);
-		passSC.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
-		passSC.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
-		add(passSC);
-		
-		//Error message for the password not containing special character and not meeting the required length
-		JLabel passSCLength = new JLabel("Invalid Password, needs 10 characters & a special character");
-		passSCLength.setForeground(Color.RED);
-		passSCLength.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
-		passSCLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
-		add(passSCLength);
 		
 		//Error message for an invalid email
 		JLabel invalidEmail = new JLabel("Invalid Email");
@@ -264,12 +250,11 @@ public class Create extends JPanel {
 		inUse.setForeground(Color.RED);
 		inUse.setBounds(470, 192, 137, 16);
 		add(inUse);
+		inUse.setVisible(false);
 
 		//Set the error messages to be invisible, until needed
 		passMatch.setVisible(false);
 		passLength.setVisible(false);
-		passSC.setVisible(false);
-		passSCLength.setVisible(false);
 		invalidEmail.setVisible(false);
 		invalidID.setVisible(false);
 		invalidINT.setVisible(false);
@@ -277,7 +262,6 @@ public class Create extends JPanel {
 		invalidLast.setVisible(false);
 		invalidField.setVisible(false);
 		invalidFaculty.setVisible(false);
-		inUse.setVisible(false);
     
     /**
 		* DROP DOWN SELECT
@@ -422,59 +406,27 @@ public class Create extends JPanel {
 				if (f.isEmpty() == true || s.isEmpty() == true){
 					invalidField.setVisible(true);
 					passLength.setVisible(false);
-					passMatch.setVisible(false);
-					passSC.setVisible(false);
+					passMatch.setVisible(false);	
 					errorCount++;
-				//If the length is not 10,the password doesn't contain a special character and the password doesn't equal the confirmed password
-				}else if (f.length() < 10 && checkforSC(f)==false && !f.equals(s) ) {
-						passLength.setVisible(false);
-						passMatch.setVisible(true);
-						passSC.setVisible(false);
-						passSCLength.setVisible(true);
-						errorCount++;
 				//If the length is not 10 and the password doesn't equal the confirmed password
 				} else if (f.length() < 10 && !f.equals(s)) {
 					passLength.setVisible(true);
 					passMatch.setVisible(true);
-					passSC.setVisible(false);
 					errorCount++;
-				//If the length is not 10 and the password doesn't contain a special character 
-				} else if(f.length() < 10 && checkforSC(f)==false) {
-					passMatch.setVisible(false);
-					passLength.setVisible(false);
-					passSC.setVisible(false);
-					passSCLength.setVisible(true);
-					errorCount++;
-				//If the password doesn't equal the confirmed password and the password doesn't contain a special character 
-				} else if(!f.equals(s) && checkforSC(f)==false) {
-					passMatch.setVisible(true);
-					passLength.setVisible(false);
-					passSC.setVisible(true);
-					passSCLength.setVisible(false);
-					errorCount++;	
-				//If just the password doesn't equal the confirmed password
+				//If just the password doesn't equal the confirmed passowrd
 				} else if (!f.equals(s)) {
 					passMatch.setVisible(true);
 					passLength.setVisible(false);
-					passSC.setVisible(false);
 					errorCount++;
 				//If just the password length is not 10
 				} else if (f.length() < 10) {
 					passMatch.setVisible(false);
 					passLength.setVisible(true);
-					passSC.setVisible(false);
-					errorCount++;
-				//If just the password doesn't contain a special character 
-				} else if(checkforSC(f)==false) {
-					passMatch.setVisible(false);
-					passLength.setVisible(false);
-					passSC.setVisible(true);
 					errorCount++;
 				//If the password given meets criteria
 				} else if (f.equals(s)) {
 					passMatch.setVisible(false);
 					passLength.setVisible(false);
-					passSC.setVisible(false);
 				}
 				
 				//If nothing is given as email, due to checking for characters in later if statements
@@ -511,6 +463,7 @@ public class Create extends JPanel {
 				Authenticator authen = new Authenticator();
 				authen.emailAddress = email.getText();
 				authen.pwd = password.getText();
+				//authen.fac = (String)facultyBox.getSelectedItem();
 				
 				if (student) {
 				
@@ -521,9 +474,13 @@ public class Create extends JPanel {
 					}
 					else if (!authen.getPeopleMap().containsKey(email.getText()) && errorCount == 0) {
 						authen.getPeopleMap().put(email.getText(), password.getText());
-						authen.loadStud();
-						authen.saveStud();
+						authen.getRolesMap().put(email.getText(), (String)facultyBox.getSelectedItem());
+						Authenticator.loadStud();
+						Authenticator.saveStud();
+						Authenticator.loadRoles();
+						Authenticator.saveRoles();
 						System.out.println("all accounts " + Authenticator.accounts);
+						System.out.println("roles " + Authenticator.roles);
 					}
 				}
 				
@@ -536,8 +493,8 @@ public class Create extends JPanel {
 					}
 					else if (!authen.getDeptMap().containsKey(email.getText()) && errorCount == 0) {
 						authen.getDeptMap().put(email.getText(), password.getText());
-						authen.loadDep();
-						authen.saveDep();
+						Authenticator.loadDep();
+						Authenticator.saveDep();
 						System.out.println("all departments " + Authenticator.depts);
 					}
 				}
@@ -564,19 +521,19 @@ public class Create extends JPanel {
 		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
 		createAccount.setFont(labelFontSize);
 		add(createAccount);
+		
+		JButton backButton = new JButton("Back");
+		backButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				Login panel = new Login(frame);
+				frame.setContentPane(panel);
+				frame.revalidate();
+			}
+		});
+		backButton.setBounds(288, 412, 137, 29);
+		add(backButton);
 	}
-
-	private static boolean checkforSC(String s) {
-	    String specialChar = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
-	    boolean scPresent = false;
-	    char cc;
-	    for (int i = 0; i < s.length(); i++) {
-	        cc = s.charAt(i);
-	        if (specialChar.contains(String.valueOf(cc))) {
-	            scPresent = true;
-	        }
-	    }
-	    return scPresent;
-	}
-
 }

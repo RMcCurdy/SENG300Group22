@@ -14,6 +14,8 @@ import javax.swing.JList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class ProfessorMenu extends JPanel {
@@ -116,5 +118,19 @@ public class ProfessorMenu extends JPanel {
 		lblNewLabel.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/100, screenHeight/9, screenWidth/7, screenHeight/35);
 		lblNewLabel.setFont(labelFontSize);
 		add(lblNewLabel);
+		
+		JButton logoutButton = new JButton("Logout");
+		logoutButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				Login panel = new Login(frame);
+				frame.setContentPane(panel);
+				frame.revalidate();
+			}
+		});
+		logoutButton.setBounds(635, 46, 117, 29);
+		add(logoutButton);
 	}
 }

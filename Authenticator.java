@@ -9,11 +9,14 @@ public class Authenticator {
 	
 	public String pwd;
 	public String emailAddress;
+	public String fac;
 	
 
 	static HashMap<String, String> accounts =  new HashMap<String, String>();
 	
 	static HashMap<String, String> depts = new HashMap<String, String>();
+	
+	static HashMap<String, String> roles = new HashMap<String, String>();
 	
 
 	public HashMap<String, String> getPeopleMap() {
@@ -23,6 +26,12 @@ public class Authenticator {
 	
 	public HashMap<String, String> getDeptMap() {
 		return depts;
+	}
+	
+
+	public HashMap<String, String> getRolesMap() {
+		// TODO Auto-generated method stub
+		return roles;
 	}
 	
 	public static void saveStud() {
@@ -88,6 +97,37 @@ public class Authenticator {
 			
 		}	
 	}
+	
+	public static void saveRoles() {
+		
+		try { 
+			FileOutputStream fileOut = new FileOutputStream("usersFaculties.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(roles);
+			out.close();
+			fileOut.close();
+		} catch(IOException i) {
+		}
+	}
+
+	public static void loadRoles() {
+		
+		HashMap<String, String> map3 = null;
+		
+		try {
+			FileInputStream fileIn = new FileInputStream("usersFaculties.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			map3 = (HashMap) in.readObject();
+			in.close();
+			fileIn.close();
+			roles.putAll(map3);
+		} catch (IOException i) {
+		
+		} catch (ClassNotFoundException c) {
+			
+		}	
+	}
+
 	
 	
 	

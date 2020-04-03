@@ -1,9 +1,6 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
-public class Scholarship implements java.io.Serializable{
+public class Scholarship {
 
 	private String name;			// Name
 	private String donor;			// Who gave out the scholarship
@@ -13,7 +10,7 @@ public class Scholarship implements java.io.Serializable{
 	private String department;		// i.e. computer science students only
 	private String[] applicants;	// List of student emails
 	private String deadline;			// YYYYMMDD
-
+	
 	public Scholarship(String name, String donor, int value, String term, String type, String department, String deadline) {
 		this.name = name;
 		this.donor = donor;
@@ -23,7 +20,7 @@ public class Scholarship implements java.io.Serializable{
 		this.department = department;
 		this.deadline = deadline;
 	}
-	
+
 	public String toString() {
 		return name+","+donor+","+value+","+term+","+type+","+department+","+Arrays.toString(applicants)+","+deadline;
 	}
@@ -139,4 +136,5 @@ public class Scholarship implements java.io.Serializable{
 	public void setDeadline(String deadline) {
 		this.deadline = deadline;
 	}
+
 }
