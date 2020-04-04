@@ -500,6 +500,7 @@ public class Create extends JPanel {
 				}
 				
 				
+				
 				//If no errors have occured, then we will save this information to a txt file
 				if (errorCount == 0){
 					/*

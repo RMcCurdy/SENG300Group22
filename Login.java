@@ -175,6 +175,32 @@ public class Login extends JPanel {
 					validLogin.setVisible(false);
 					wrngPassword.setVisible(true);
 				}
+				
+				if (authen.getAdminMap().containsKey(email)) {
+					String pass1 = (String)authen.getAdminMap().get(email);
+					if (pass1.equals(pass)) {
+						System.out.println("7");
+						wrngPassword.setVisible(false);
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(true);
+					
+						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						DepartmentHeadMenu adminMenu = new DepartmentHeadMenu(frame, user);
+						frame.setContentPane(adminMenu);
+						frame.revalidate();
+					}
+					else {
+						wrngEmail.setVisible(false);
+						validLogin.setVisible(false);
+						wrngPassword.setVisible(true);
+					}
+				}
+				else {
+					wrngEmail.setVisible(false);
+					validLogin.setVisible(false);
+					wrngPassword.setVisible(true);
+				}
 			}
 		});
 

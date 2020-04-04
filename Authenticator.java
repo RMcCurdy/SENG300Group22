@@ -18,6 +18,7 @@ public class Authenticator {
 	
 	static HashMap<String, String> roles = new HashMap<String, String>();
 	
+	static HashMap<String, String> admins = new HashMap<String, String>();
 
 	public HashMap<String, String> getPeopleMap() {
 		return accounts;
@@ -28,6 +29,9 @@ public class Authenticator {
 		return depts;
 	}
 	
+	public HashMap<String, String> getAdminMap() {
+		return admins;
+	}
 
 	public HashMap<String, String> getRolesMap() {
 		// TODO Auto-generated method stub
@@ -121,6 +125,36 @@ public class Authenticator {
 			in.close();
 			fileIn.close();
 			roles.putAll(map3);
+		} catch (IOException i) {
+		
+		} catch (ClassNotFoundException c) {
+			
+		}	
+	}
+	
+	public static void saveAdmin() {
+		
+		try { 
+			FileOutputStream fileOut = new FileOutputStream("adminUsers.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(admins);
+			out.close();
+			fileOut.close();
+		} catch(IOException i) {
+		}
+	}
+	
+	public static void loadAdmin() {
+		
+		HashMap<String, String> map4 = null;
+		
+		try {
+			FileInputStream fileIn = new FileInputStream("adminUsers.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			map4 = (HashMap) in.readObject();
+			in.close();
+			fileIn.close();
+			admins.putAll(map4);
 		} catch (IOException i) {
 		
 		} catch (ClassNotFoundException c) {
