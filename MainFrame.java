@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -18,6 +20,7 @@ public class MainFrame {
 		Authenticator.loadStud();
 		Authenticator.loadDep();
 		Authenticator.loadRoles();
+		Authenticator.loadAdmin();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

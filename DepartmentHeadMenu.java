@@ -13,7 +13,6 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
-import javax.swing.SwingConstants;
 
 public class DepartmentHeadMenu extends JPanel {
 
@@ -23,7 +22,7 @@ public class DepartmentHeadMenu extends JPanel {
 
 	/**
 	 * Create the panel.
-	 * @param auth 
+	 * @param user
 	 * @param frame 
 	 */
 	public DepartmentHeadMenu(JFrame frame, Account user) {
@@ -38,9 +37,8 @@ public class DepartmentHeadMenu extends JPanel {
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 
 		//Header of the system name
-		JLabel header = new JLabel("UofC Professor Scholarship Portal");
-		header.setHorizontalAlignment(SwingConstants.CENTER);
-		header.setBounds(200, 37, screenWidth/3, screenHeight/25);
+		JLabel header = new JLabel("UofC Department Scholarship Portal");
+		header.setBounds(screenWidth/4 - screenWidth/6, screenHeight/25, screenWidth/3, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
@@ -50,9 +48,6 @@ public class DepartmentHeadMenu extends JPanel {
 		btnAddScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				System.out.println("Hello World!");
-				
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				AddScholarship sch = new AddScholarship(frame, user);
@@ -98,7 +93,7 @@ public class DepartmentHeadMenu extends JPanel {
 		}
 		
 		// FORMAT TO LOOK GOOD
-		JList lstScholarships = new JList();		
+		/**JList lstScholarships = new JList();		
 		lstScholarships.setModel(new AbstractListModel() {
 			public int getSize() {
 				return scholarships.length;
@@ -109,19 +104,24 @@ public class DepartmentHeadMenu extends JPanel {
 		});
 		lstScholarships.setBounds(174, 180, 534, 225);
 		add(lstScholarships);
-		
-		JButton logoutButton = new JButton("Logout");
-		logoutButton.addMouseListener(new MouseAdapter() {
+		*/
+
+		//Button for the create account option
+		JButton statisticsButton = new JButton("Statistics");
+		statisticsButton.addMouseListener(new MouseAdapter() {
 			@Override
+			//On a mouse click, will take the user to a new GUI to look at statistics
 			public void mouseClicked(MouseEvent e) {
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				Login panel = new Login(frame);
+				Statistics panel = new Statistics(frame, user);
 				frame.setContentPane(panel);
 				frame.revalidate();
 			}
 		});
-		logoutButton.setBounds(792, 47, 117, 29);
-		add(logoutButton);
+		statisticsButton.setBounds(screenWidth/4 + screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
+		statisticsButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		add(statisticsButton);
+
 	}
 }
