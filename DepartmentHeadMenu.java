@@ -44,7 +44,8 @@ public class DepartmentHeadMenu extends JPanel {
 		add(header);
 		
 		JButton btnAddScholarship = new JButton("Add Scholarship");
-		btnAddScholarship.setBounds(174, 418, 170, 25);
+		btnAddScholarship.setFont(labelFontSize);
+		btnAddScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8, screenWidth/8, screenHeight/30);
 		btnAddScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -58,7 +59,8 @@ public class DepartmentHeadMenu extends JPanel {
 		add(btnAddScholarship);
 		
 		JButton btnEditScholarship = new JButton("Edit Scholarship");
-		btnEditScholarship.setBounds(356, 418, 170, 25);
+		btnEditScholarship.setFont(labelFontSize);
+		btnEditScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 2 * screenHeight/25, screenWidth/8, screenHeight/30);
 		btnEditScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -68,7 +70,14 @@ public class DepartmentHeadMenu extends JPanel {
 		add(btnEditScholarship);
 		
 		JButton btnRemoveScholarship = new JButton("Remove Scholarship");
-		btnRemoveScholarship.setBounds(538, 418, 170, 25);
+		btnRemoveScholarship.setFont(labelFontSize);
+		btnRemoveScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 4 * screenHeight/25, screenWidth/8, screenHeight/30);
+		btnRemoveScholarship.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Remove pressed");
+			}
+		});
 		add(btnRemoveScholarship);
 		
 		
@@ -91,20 +100,6 @@ public class DepartmentHeadMenu extends JPanel {
 		//Exception thrown if the above code can't proceed
 			ex.printStackTrace();
 		}
-		
-		// FORMAT TO LOOK GOOD
-		/**JList lstScholarships = new JList();		
-		lstScholarships.setModel(new AbstractListModel() {
-			public int getSize() {
-				return scholarships.length;
-			}
-			public Object getElementAt(int index) {
-				return scholarships[index];
-			}
-		});
-		lstScholarships.setBounds(174, 180, 534, 225);
-		add(lstScholarships);
-		*/
 
 		//Button for the create account option
 		JButton statisticsButton = new JButton("Statistics");
@@ -119,8 +114,8 @@ public class DepartmentHeadMenu extends JPanel {
 				frame.revalidate();
 			}
 		});
-		statisticsButton.setBounds(screenWidth/4 + screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
-		statisticsButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		statisticsButton.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 6 * screenHeight/25, screenWidth/8, screenHeight/30);
+		statisticsButton.setFont(labelFontSize);
 		add(statisticsButton);
 
 	}

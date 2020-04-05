@@ -44,13 +44,10 @@ public class Statistics extends JPanel {
 
 	private List <String> faculties;
 	private List <String> schoolYears;
-	private List <String> semesters;
 	private JComboBox facultyBox;
 	private JComboBox schoolYearBox;
-	private JComboBox semesterBox;
 	private String selectedFaculty;
 	private String selectedYear;
-	private String selectedSemester;
 
 	/**
 	 * Create the panel.
@@ -74,60 +71,92 @@ public class Statistics extends JPanel {
 		//Create an empty array list that calls faculties name from a file
 		schoolYears = new ArrayList <String>();
 
-		//Create an empty array list that calls faculties name from a file
-		semesters = new ArrayList <String>();
-
 		//Header of the system name
 		JLabel header = new JLabel("Statistics");
-		header.setBounds(screenWidth/4 - screenWidth/6, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setBounds(screenWidth/4 - screenWidth/22, screenHeight/25, screenWidth/10, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
 
+		JLabel locationFall = new JLabel("Temporary label for locationFall");
+		locationFall.setForeground(Color.BLACK);
+		locationFall.setBounds(screenWidth/10, screenHeight/10, screenWidth/2, screenHeight/35);
+		locationFall.setFont(labelFontSize);
+		add(locationFall);
+
+		JLabel locationWinter = new JLabel("Temporary label for locationWinter");
+		locationWinter.setForeground(Color.BLACK);
+		locationWinter.setBounds(screenWidth/10, screenHeight/10 + 2*screenHeight/30, screenWidth/2, screenHeight/35);
+		locationWinter.setFont(labelFontSize);
+		add(locationWinter);
+
+		JLabel locationFullYear = new JLabel("Temporary label for locationFullYear");
+		locationFullYear.setForeground(Color.BLACK);
+		locationFullYear.setBounds(screenWidth/10, screenHeight/10 + 4*screenHeight/30, screenWidth/2, screenHeight/35);
+		locationFullYear.setFont(labelFontSize);
+		add(locationFullYear);
+
+		JLabel genderFall = new JLabel("Temporary label for genderFall");
+		genderFall.setForeground(Color.BLACK);
+		genderFall.setBounds(screenWidth/10, screenHeight/10 + screenHeight/30, screenWidth/2, screenHeight/35);
+		genderFall.setFont(labelFontSize);
+		add(genderFall);
+
+		JLabel genderWinter = new JLabel("Temporary label for genderWinter");
+		genderWinter.setForeground(Color.BLACK);
+		genderWinter.setBounds(screenWidth/10, screenHeight/10 + 3*screenHeight/30, screenWidth/2, screenHeight/35);
+		genderWinter.setFont(labelFontSize);
+		add(genderWinter);
+
+		JLabel genderFullYear = new JLabel("Temporary label for genderFullYear");
+		genderFullYear.setForeground(Color.BLACK);
+		genderFullYear.setBounds(screenWidth/10, screenHeight/10 + 5*screenHeight/30, screenWidth/2, screenHeight/35);
+		genderFullYear.setFont(labelFontSize);
+		add(genderFullYear);
+
+		// Label to indicate to select a faculty
+		JLabel futureSchoolYear = new JLabel("There is no data for this school year yet");
+		futureSchoolYear.setForeground(Color.BLACK);
+		futureSchoolYear.setBounds(screenWidth/10 + screenWidth/20, screenHeight/10 + 2*screenHeight/30, screenWidth/2, screenHeight/35);
+		futureSchoolYear.setFont(labelFontSize);
+		add(futureSchoolYear);
+
 		// Label to indicate to select a faculty
 		JLabel selectFaculty = new JLabel("Select a faculty from below");
 		selectFaculty.setForeground(Color.BLACK);
-		selectFaculty.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/55, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
+		selectFaculty.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/45, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		selectFaculty.setFont(labelFontSize);
 		add(selectFaculty);
 
 		// Label to indicate to select a faculty
 		JLabel selectYear = new JLabel("Select a year from below");
 		selectYear.setForeground(Color.BLACK);
-		selectYear.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/55 + screenWidth/20, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
+		selectYear.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2 - screenWidth/45, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		selectYear.setFont(labelFontSize);
 		add(selectYear);
-
-		// Label to indicate to select a faculty
-		JLabel selectSemester = new JLabel("Select a semester from below");
-		selectSemester.setForeground(Color.BLACK);
-		selectSemester.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/55 + 2*screenWidth/20, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
-		selectSemester.setFont(labelFontSize);
-		add(selectSemester);
 
 		// Label for error message
 		JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
-		invalidFaculty.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
+		invalidFaculty.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/75, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidFaculty.setFont(labelFontSize);
 		add(invalidFaculty);
 
 		// Label for error message
 		JLabel invalidYear = new JLabel("Please select a year");
 		invalidYear.setForeground(Color.RED);
-		invalidYear.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60 + screenWidth/20, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
+		invalidYear.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2 - screenWidth/105, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		invalidYear.setFont(labelFontSize);
 		add(invalidYear);
 
-		// Label for error message
-		JLabel invalidSemester = new JLabel("Please select a semester");
-		invalidSemester.setForeground(Color.RED);
-		invalidSemester.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60 + 2*screenWidth/20, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidSemester.setFont(labelFontSize);
-		add(invalidSemester);
-
+		locationFall.setVisible(false);
+		locationWinter.setVisible(false);
+		locationFullYear.setVisible(false);
+		genderFall.setVisible(false);
+		genderWinter.setVisible(false);
+		genderFullYear.setVisible(false);
+		futureSchoolYear.setVisible(false);
 		invalidFaculty.setVisible(false);
-		invalidSemester.setVisible(false);
 		invalidYear.setVisible(false);
 
 		//Add faculties to the drop down menu. Can be optimized to pull from a txt file.
@@ -154,31 +183,9 @@ public class Statistics extends JPanel {
 		//Set up the drop down menu and its properties
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
         facultyBox = new JComboBox(modelTemp);
-		facultyBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
+		facultyBox.setBounds(screenWidth/4 - screenWidth/9, screenHeight/7 + 7*screenHeight/30, screenWidth/7/2, screenHeight/35);
 		facultyBox.setFont(labelFontSize);
 		add(facultyBox);
-
-		//Will edit this action into the confirm button
-		//On mouse click of the drop down menu, update what was selected
-		facultyBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-				try {
-					// if else statement to determine whether a faculty has been chosen
-					if (facultyBox.getSelectedIndex() != 0) {
-						invalidFaculty.setVisible(false);
-						selectFaculty.setVisible(true);
-						//Save the selected faculty to string
-						selectedFaculty = (String)facultyBox.getSelectedItem();
-					} else {
-						// error message displayed
-						invalidFaculty.setVisible(true);
-						selectFaculty.setVisible(false);
-					}
-            	} catch (Exception e) {
-
-				}
-			}
-		});
 
 		//Add years to the drop down menu. Can be optimized to pull from a txt file.
 		JSONParser parser1 = new JSONParser();
@@ -204,86 +211,14 @@ public class Statistics extends JPanel {
 		//Set up the drop down menu and its properties
 		DefaultComboBoxModel schoolYearBoxModel = new DefaultComboBoxModel(schoolYears.toArray());
         schoolYearBox = new JComboBox(schoolYearBoxModel);
-		schoolYearBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/20, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
+		schoolYearBox.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2, screenHeight/7 + 7*screenHeight/30, screenWidth/7/2, screenHeight/35);
 		schoolYearBox.setFont(labelFontSize);
 		add(schoolYearBox);
 
-		//Will edit this action into the confirm button
-		//On mouse click of the drop down menu, update what was selected
-		schoolYearBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-				try {
-					// if else statement to determine whether a faculty has been chosen
-					if (schoolYearBox.getSelectedIndex() != 0) {
-						invalidYear.setVisible(false);
-						selectYear.setVisible(true);
-						//Save the selected faculty to string
-						selectedYear = (String)schoolYearBox.getSelectedItem();
-					} else {
-						// error message displayed
-						invalidYear.setVisible(true);
-						selectYear.setVisible(false);
-					}
-            	} catch (Exception e) {
-
-				}
-			}
-		});
-
-		//Add years to the drop down menu. Can be optimized to pull from a txt file.
-		JSONParser parser2 = new JSONParser();
-
-        try (Reader reader2 = new FileReader("data.json")) {
-
-            JSONObject jsonObject2 = (JSONObject) parser2.parse(reader2);
-
-            JSONArray yearArrayJSON2 = (JSONArray) jsonObject2.get("semesters");
-
-            Iterator<String> iterator2 = yearArrayJSON2.iterator();
-            while (iterator2.hasNext()) {
-                semesters.add(iterator2.next());
-			}
-			
-			reader2.close();
-
-        } catch (IOException e) {
-            System.out.println("IOException");
-        } catch (ParseException e) {
-            System.out.println("ParseException");
-        }
-		//Set up the drop down menu and its properties
-		DefaultComboBoxModel semesterBoxModel = new DefaultComboBoxModel(semesters.toArray());
-        semesterBox = new JComboBox(schoolYearBoxModel);
-		semesterBox.setBounds(screenWidth/4 - screenWidth/14 + 3*screenWidth/20, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		semesterBox.setFont(labelFontSize);
-		add(semesterBox);
-
-		//Will edit this action into the confirm button
-		//On mouse click of the drop down menu, update what was selected
-		semesterBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-				try {
-					// if else statement to determine whether a faculty has been chosen
-					if (semesterBox.getSelectedIndex() != 0) {
-						invalidSemester.setVisible(false);
-						selectSemester.setVisible(true);
-						//Save the selected faculty to string
-						selectedSemester = (String)semesterBox.getSelectedItem();
-					} else {
-						// error message displayed
-						invalidSemester.setVisible(true);
-						selectSemester.setVisible(false);
-					}
-            	} catch (Exception e) {
-
-				}
-			}
-		});
-
 		//Add a button to go back
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("Back");
 		btnCancel.setFont(labelFontSize);
-		btnCancel.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/20, screenHeight/7 + 7*screenHeight/30, screenWidth/20, screenHeight/35);
+		btnCancel.setBounds(screenWidth/4 - screenWidth/14 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 8*screenHeight/30 + screenHeight/90, screenWidth/20, screenHeight/33);
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -299,11 +234,130 @@ public class Statistics extends JPanel {
 		//Add a button to go back
 		JButton btnConfirm = new JButton("Display");
 		btnConfirm.setFont(labelFontSize);
-		btnConfirm.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/10, screenHeight/7 + 7*screenHeight/30, screenWidth/20, screenHeight/35);
+		btnConfirm.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60 - screenWidth/200, screenHeight/7 + 8*screenHeight/30 + screenHeight/90, screenWidth/20, screenHeight/33);
 		btnConfirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//Actions and check for erros in order to display information correctly
+				Integer errorCount = 0;
+					// if else statement to determine whether a faculty has been chosen
+					if (schoolYearBox.getSelectedIndex() != 0) {
+						invalidYear.setVisible(false);
+						selectYear.setVisible(true);
+						//Save the selected faculty to string
+						selectedYear = (String)schoolYearBox.getSelectedItem();
+						System.out.println(selectedYear);
+					} else {
+						// error message displayed
+						invalidYear.setVisible(true);
+						selectYear.setVisible(false);
+						errorCount++;
+					}
+
+					if (facultyBox.getSelectedIndex() != 0) {
+						invalidFaculty.setVisible(false);
+						selectFaculty.setVisible(true);
+						//Save the selected faculty to string
+						selectedFaculty = (String)facultyBox.getSelectedItem();
+					} else {
+						// error message displayed
+						invalidFaculty.setVisible(true);
+						selectFaculty.setVisible(false);
+						errorCount++;
+					}
+
+					//If statement to determine if statistics exist for this year, this school year has not come yet so return error for statistics
+					if (schoolYearBox.getSelectedIndex() == 7) {
+						futureSchoolYear.setVisible(true);
+						locationFall.setVisible(false);
+						genderFall.setVisible(false);
+						locationWinter.setVisible(false);
+						genderWinter.setVisible(false);
+						locationFullYear.setVisible(false);
+						genderFullYear.setVisible(false);
+						errorCount++;
+					} else {
+						futureSchoolYear.setVisible(false);
+					}
+
+					if (errorCount == 0){
+
+						//Add years to the drop down menu. Can be optimized to pull from a txt file.
+						JSONParser parser3 = new JSONParser();
+
+						try (Reader reader3 = new FileReader("scholarshipData.json")) {
+							Integer elementNumber = 0;
+							String dataName = "";
+
+							//If statement to determine if statistics exist for this year, this school year has not come yet so return error for statistics
+							if (schoolYearBox.getSelectedIndex() == 8){
+								dataName = selectedFaculty;
+							} else {
+								dataName = selectedFaculty + " " + selectedYear;
+							}
+
+							JSONObject jsonObject3 = (JSONObject) parser3.parse(reader3);
+
+							JSONArray yearArrayJSON3 = (JSONArray) jsonObject3.get(dataName);
+
+							Iterator<String> iterator3 = yearArrayJSON3.iterator();
+							while (iterator3.hasNext()) {
+								if (elementNumber == 0){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									locationFall.setText("Scholarships in the Fall: Domestic - " + elementValue + "% / International - " + internationalPercentage + "%");
+									locationFall.setVisible(true);
+								}
+								if (elementNumber == 1){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									genderFall.setText("Scholarships in the Fall: Male - " + elementValue + "% / Female - " + internationalPercentage + "%");
+									genderFall.setVisible(true);
+								}
+								if (elementNumber == 2){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									locationWinter.setText("Scholarships in the Winter: Domestic - " + elementValue + "% / International - " + internationalPercentage + "%");
+									locationWinter.setVisible(true);
+								}
+								if (elementNumber == 3){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									genderWinter.setText("Scholarships in the Winter: Male - " + elementValue + "% / Female - " + internationalPercentage + "%");
+									genderWinter.setVisible(true);
+								}
+								if (elementNumber == 4){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									locationFullYear.setText("Scholarships for the Full Year: Domestic - " + elementValue + "% / International - " + internationalPercentage + "%");
+									locationFullYear.setVisible(true);
+								}
+								if (elementNumber == 5){
+									String elementValue = iterator3.next();
+									//Calculate percentage of international based on domestic percentage
+									String internationalPercentage = Integer.toString(100 - Integer.parseInt(elementValue));
+									genderFullYear.setText("Scholarships for the Full Year: Male - " + elementValue + "% / Female - " + internationalPercentage + "%");
+									genderFullYear.setVisible(true);
+								}
+								elementNumber++;
+							}
+							
+							reader3.close();
+
+						} catch (IOException e) {
+							System.out.println("IOException");
+						} catch (ParseException e) {
+							System.out.println("ParseException");
+						}
+
+					} else {
+
+					}
+
 			}
 		});
 		add(btnConfirm);

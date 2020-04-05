@@ -1,4 +1,3 @@
-package uploadGPA;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-
 
 /*
  * Allows for a student to 
