@@ -2,59 +2,38 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import org.json.simple.parser.JSONParser;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 import java.io.FileReader;
 import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.Font;
 import java.util.Iterator;  
 import java.io.*;
-import java.awt.Color;
-import javax.swing.DefaultComboBoxModel;
 
 public class AddScholarship extends JPanel {
 
+	// List of instance variables used within the class
 	private JTextField scholarshipName;
+
 	private List <String> faculties;
 	private JComboBox facultyBox;
+
 	private List <String> semesters;
 	private JComboBox semesterBox;
+
 	private JTextField dollarAmount;
 
 	private List <String> months;
@@ -83,10 +62,12 @@ public class AddScholarship extends JPanel {
 	 * @author Robert McCurdy
 	 */
 	public AddScholarship(JFrame frame, Account user) {
+		// Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 		
+		// Initialized the layout to have no perameters
 		setLayout(null);
 
 		// Create an empty array list for faculties
@@ -104,10 +85,10 @@ public class AddScholarship extends JPanel {
 		// Create an empty array list for years
 		years = new ArrayList <String>();
 
-		//Font size for remaining labels
+		// Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 
-		//Error message for an invalid integer
+		// Error message for an invalid integer
 		JLabel invalidINT = new JLabel("Please enter an integer");
 		invalidINT.setForeground(Color.RED);
 		invalidINT.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 3*screenHeight/30, screenWidth/6, screenHeight/35);
@@ -115,7 +96,7 @@ public class AddScholarship extends JPanel {
 		add(invalidINT);
 		invalidINT.setVisible(false);
 
-		//Error message for an invalid first name
+		// Error message for an invalid scholarship name
 		JLabel invalidScholarshipName = new JLabel("Invalid Scholarship Name");
 		invalidScholarshipName.setForeground(Color.RED);
 		invalidScholarshipName.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7, screenWidth/7, screenHeight/35);
@@ -123,7 +104,7 @@ public class AddScholarship extends JPanel {
 		add(invalidScholarshipName);
 		invalidScholarshipName.setVisible(false);
 
-		//Error message for an invalid faculty
+		// Error message for an invalid faculty
 		JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
@@ -131,7 +112,7 @@ public class AddScholarship extends JPanel {
 		add(invalidFaculty);
 		invalidFaculty.setVisible(false);
 
-		//Error message for an invalid faculty
+		// Error message for an invalid term
 		JLabel invalidTerm = new JLabel("Please select a term");
 		invalidTerm.setForeground(Color.RED);
 		invalidTerm.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
@@ -139,7 +120,7 @@ public class AddScholarship extends JPanel {
 		add(invalidTerm);
 		invalidTerm.setVisible(false);
 
-		//Error message for an invalid faculty
+		// Error message for an invalid date
 		JLabel invalidDate = new JLabel("Invalid Date");
 		invalidDate.setForeground(Color.RED);
 		invalidDate.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
@@ -147,7 +128,7 @@ public class AddScholarship extends JPanel {
 		add(invalidDate);
 		invalidDate.setVisible(false);
 
-		//Error message for an invalid faculty
+		// Message to display when successfully adding a scholarship
 		JLabel successfulAdd = new JLabel("Successfully added the scholarship");
 		successfulAdd.setForeground(Color.green);
 		successfulAdd.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 6*screenHeight/33, screenWidth/6, screenHeight/35);
@@ -155,26 +136,26 @@ public class AddScholarship extends JPanel {
 		add(successfulAdd);
 		successfulAdd.setVisible(false);
 
-		//Header of the system name
+		// Label for the menu name
 		JLabel header = new JLabel("Add Scholarships");
 		header.setBounds(screenWidth/4 - screenWidth/14, screenHeight/25, screenWidth/3, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
 
-		//Label for the first name text field
+		// Label for the scholarship name text field
 		JLabel scholarshipNameLabel = new JLabel("Scholarship Name:");
 		scholarshipNameLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
 		scholarshipNameLabel.setFont(labelFontSize);
 		add(scholarshipNameLabel);
 
-		//Text field for the first name
+		// Text field for the scholarship name
 		scholarshipName = new JTextField();
 		scholarshipName.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
 		scholarshipName.setFont(labelFontSize);
 		add(scholarshipName);
 
-		//Label for the last name text field
+		// Label for the faculty drop down
 		JLabel facultyName = new JLabel("Faculty:");
 		facultyName.setBounds(screenWidth/4 - screenWidth/10 - screenWidth/130, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
 		facultyName.setFont(labelFontSize);
@@ -214,7 +195,7 @@ public class AddScholarship extends JPanel {
 		facultyBox.setFont(labelFontSize);
 		add(facultyBox);
 
-		//Label for the email text field
+		//Label for the term drop down
 		JLabel termLabel = new JLabel("Term:");
 		termLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/23, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
 		termLabel.setFont(labelFontSize);
@@ -223,16 +204,16 @@ public class AddScholarship extends JPanel {
 		// Initialize a JSONParser to get the data from the JSON file
 		JSONParser parser1 = new JSONParser();
 
-		// Try-catch statement to open the JSON file and add the school years to the drop down list
+		// Try-catch statement to open the JSON file and add the semesters to the drop down list
         try (Reader reader1 = new FileReader("data.json")) {
 
 			// Create a JSONObject out of the parsed JSON file
             JSONObject jsonObject1 = (JSONObject) parser1.parse(reader1);
 
-			// Obtain the array that contains the label "schoolYears"
+			// Obtain the array that contains the label "semesters"
             JSONArray semesterArrayJSON1 = (JSONArray) jsonObject1.get("semesters");
 
-			// Loop through the JSONArray, and add those school years to the List
+			// Loop through the JSONArray, and add those semesters to the List
             Iterator<String> iterator1 = semesterArrayJSON1.iterator();
             while (iterator1.hasNext()) {
                 semesters.add(iterator1.next());
@@ -247,26 +228,26 @@ public class AddScholarship extends JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-		// Create a JComboBox to display the school year information in a drop down menu
+		// Create a JComboBox to display the semester information in a drop down menu
 		DefaultComboBoxModel semesterBoxModel = new DefaultComboBoxModel(semesters.toArray());
         semesterBox = new JComboBox(semesterBoxModel);
 		semesterBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
 		semesterBox.setFont(labelFontSize);
 		add(semesterBox);
 
-		//Label for the scholarship dollar amount
+		// Label for the scholarship dollar amount
 		JLabel dollarAmountLabel = new JLabel("$ Amount:");
 		dollarAmountLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/39, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
 		dollarAmountLabel.setFont(labelFontSize);
 		add(dollarAmountLabel);
 
-		//Text field for the scholarship dollar amount
+		// Text field for the scholarship dollar amount
 		dollarAmount = new JTextField();
 		dollarAmount.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
 		dollarAmount.setFont(labelFontSize);
 		add(dollarAmount);
 
-		//Label for the password text field
+		// Label for the deadline drop down
 		JLabel deadlineLabel = new JLabel("Deadline:");
 		deadlineLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/36, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
 		deadlineLabel.setFont(labelFontSize);
@@ -275,16 +256,16 @@ public class AddScholarship extends JPanel {
 		// Initialize a JSONParser to get the data from the JSON file
 		JSONParser parser2 = new JSONParser();
 
-		// Try-catch statement to open the JSON file and add the school years to the drop down list
+		// Try-catch statement to open the JSON file and add the months to the drop down list
         try (Reader reader2 = new FileReader("data.json")) {
 
 			// Create a JSONObject out of the parsed JSON file
             JSONObject jsonObject2 = (JSONObject) parser2.parse(reader2);
 
-			// Obtain the array that contains the label "schoolYears"
+			// Obtain the array that contains the label "month"
             JSONArray yearArrayJSON2 = (JSONArray) jsonObject2.get("month");
 
-			// Loop through the JSONArray, and add those school years to the List
+			// Loop through the JSONArray, and add those months to the List
             Iterator<String> iterator2 = yearArrayJSON2.iterator();
             while (iterator2.hasNext()) {
                 months.add(iterator2.next());
@@ -299,7 +280,7 @@ public class AddScholarship extends JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-		// Create a JComboBox to display the school year information in a drop down menu
+		// Create a JComboBox to display the month information in a drop down menu
 		DefaultComboBoxModel monthBoxModel = new DefaultComboBoxModel(months.toArray());
         monthBox = new JComboBox(monthBoxModel);
 		monthBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/85 - screenWidth/200, screenHeight/7 + 4*screenHeight/30, screenWidth/17, screenHeight/35);
@@ -309,16 +290,16 @@ public class AddScholarship extends JPanel {
 		// Initialize a JSONParser to get the data from the JSON file
 		JSONParser parser3 = new JSONParser();
 
-		// Try-catch statement to open the JSON file and add the school years to the drop down list
+		// Try-catch statement to open the JSON file and add the days to the drop down list
         try (Reader reader3 = new FileReader("data.json")) {
 
 			// Create a JSONObject out of the parsed JSON file
             JSONObject jsonObject3 = (JSONObject) parser3.parse(reader3);
 
-			// Obtain the array that contains the label "schoolYears"
+			// Obtain the array that contains the label "day"
             JSONArray yearArrayJSON3 = (JSONArray) jsonObject3.get("day");
 
-			// Loop through the JSONArray, and add those school years to the List
+			// Loop through the JSONArray, and add those days to the List
             Iterator<String> iterator3 = yearArrayJSON3.iterator();
             while (iterator3.hasNext()) {
                 days.add(iterator3.next());
@@ -333,7 +314,7 @@ public class AddScholarship extends JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-		// Create a JComboBox to display the school year information in a drop down menu
+		// Create a JComboBox to display the day information in a drop down menu
 		DefaultComboBoxModel dayBoxModel = new DefaultComboBoxModel(days.toArray());
         dayBox = new JComboBox(dayBoxModel);
 		dayBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/17 + screenWidth/85, screenHeight/7 + 4*screenHeight/30, screenWidth/40, screenHeight/35);
@@ -349,7 +330,7 @@ public class AddScholarship extends JPanel {
 			// Create a JSONObject out of the parsed JSON file
             JSONObject jsonObject4 = (JSONObject) parser4.parse(reader4);
 
-			// Obtain the array that contains the label "schoolYears"
+			// Obtain the array that contains the label "year"
             JSONArray yearArrayJSON4 = (JSONArray) jsonObject4.get("year");
 
 			// Loop through the JSONArray, and add those school years to the List
@@ -374,6 +355,7 @@ public class AddScholarship extends JPanel {
 		yearBox.setFont(labelFontSize);
 		add(yearBox);
 		
+		// Button that initiates the adding of the new scholarship information to the JSON file with the information
 		JButton btnCreate = new JButton("Add");
 		btnCreate.addMouseListener(new MouseAdapter() {
 			@Override
@@ -388,30 +370,30 @@ public class AddScholarship extends JPanel {
 				String enteredScholarshipName = scholarshipName.getText();
 				String enteredDollarAmount = dollarAmount.getText();
 
-				//Try catch statement to determine whether we can convert the dollar amount string to an int and then return the correct message
+				// Try catch statement to determine whether we can convert the dollar amount string to an int and then return the correct message
 				try {
-					//Tries to convert the given string to an integer, catches exception if not able to
+					// Tries to convert the given string to an integer, catches exception if not able to
 					Integer enteredDollar = Integer.parseInt(enteredDollarAmount.trim());
-					//Returns an invalid ID error if it doesn't follow criteria for an ID
+					// Returns an invalid ID error if it doesn't follow criteria for an ID
 					if (enteredDollarAmount.contains(".")) {
 						invalidINT.setVisible(true);
 						errorCount++;
-					//Returns a valid ID if it follows the criteria for an ID
+					// Returns a valid ID if it follows the criteria for an ID
 					} else {
 						invalidINT.setVisible(false);
 					} 
 				} catch(NumberFormatException nfe) {
-					//An integer was not given as an ID
+					// An integer was not given as an ID
 					invalidINT.setVisible(true);
 					errorCount++;
 				}
 
 				// If statement to determine if the scholarship name only contains letters
-				if (!(enteredScholarshipName.chars().allMatch(Character::isLetter))){
+				if (enteredScholarshipName.chars().allMatch(Character::isLetter) || enteredScholarshipName.contains(" ")){
+					invalidScholarshipName.setVisible(false);
+				} else {
 					invalidScholarshipName.setVisible(true);
 					errorCount++;
-				} else {
-					invalidScholarshipName.setVisible(false);
 				}
 
 				// If statement to determine if the scholarship name is blank
@@ -425,7 +407,7 @@ public class AddScholarship extends JPanel {
 				// If else statement to determine whether a faculty has been chosen
 				if (facultyBox.getSelectedIndex() != 0) {
 					invalidFaculty.setVisible(false);
-					//Save the selected faculty to string
+					// Save the selected faculty to string
 					selectedFaculty = (String)facultyBox.getSelectedItem();
 				} else {
 					// error message displayed
@@ -433,10 +415,10 @@ public class AddScholarship extends JPanel {
 					errorCount++;
 				}
 
-				// If else statement to determine whether a faculty has been chosen
+				// If else statement to determine whether a semester has been chosen
 				if (semesterBox.getSelectedIndex() != 0) {
 					invalidTerm.setVisible(false);
-					//Save the selected faculty to string
+					// Save the selected semester to string
 					selectedTerm = (String)semesterBox.getSelectedItem();
 				} else {
 					// error message displayed
@@ -444,10 +426,10 @@ public class AddScholarship extends JPanel {
 					errorCount++;
 				}
 
-				// If else statement to determine whether a faculty has been chosen
+				// If else statement to determine whether a day has been chosen
 				if (dayBox.getSelectedIndex() != 0) {
 					invalidDate.setVisible(false);
-					//Save the selected faculty to string
+					// Save the selected day to string
 					selectedDay = (String)dayBox.getSelectedItem();
 				} else {
 					// error message displayed
@@ -455,10 +437,10 @@ public class AddScholarship extends JPanel {
 					errorCount++;
 				}
 
-				// If else statement to determine whether a faculty has been chosen
+				// If else statement to determine whether a month has been chosen
 				if (monthBox.getSelectedIndex() != 0) {
 					invalidDate.setVisible(false);
-					//Save the selected faculty to string
+					// Save the selected month to string
 					selectedMonth = (String)monthBox.getSelectedItem();
 				} else {
 					// error message displayed
@@ -466,10 +448,10 @@ public class AddScholarship extends JPanel {
 					errorCount++;
 				}
 
-				// If else statement to determine whether a faculty has been chosen
+				// If else statement to determine whether a year has been chosen
 				if (yearBox.getSelectedIndex() != 0) {
 					invalidDate.setVisible(false);
-					//Save the selected faculty to string
+					// Save the selected year to string
 					selectedYear = (String)yearBox.getSelectedItem();
 				} else {
 					// error message displayed
@@ -477,44 +459,90 @@ public class AddScholarship extends JPanel {
 					errorCount++;
 				}
 
+				// If no errors have been run into, try to add the scholarship to the JSON list
 				if (errorCount == 0){
-					successfulAdd.setVisible(true);
 
+					// Initialize a JSONParser to get the data from the JSON file
 					JSONParser parser5 = new JSONParser();
 
-					//write the file to JSON
+					// Initialize a JSONObject to create an object with the given information
 					JSONObject obj = new JSONObject();
 
 					try (Reader reader5 = new FileReader("currentScholarships.json")){
+						// Initialize a JSONArray to add the given information to
 						JSONArray scholarshipInfo = new JSONArray();
+						// Add all of the information the user has provided to the JSONArray
 						scholarshipInfo.add(selectedFaculty);
 						scholarshipInfo.add(selectedTerm);
 						scholarshipInfo.add(enteredDollarAmount);
 						scholarshipInfo.add(selectedMonth);
 						scholarshipInfo.add(selectedDay);
 						scholarshipInfo.add(selectedYear);
-						scholarshipInfo.add("");
+						// Set the recipient of the scholarship to null, until later updated
+						scholarshipInfo.add("null");
 
+						// Put this newly created JSONArray into the object with a given name
 						obj.put(enteredScholarshipName, scholarshipInfo);
 
+						// Convert this object to a string in order to write to the JSON file
 						String objString = obj.toString();
 						String strippedVersion = objString.substring(1, objString.length() - 1);
 						String readyForAppendVersion = ", " + strippedVersion;
 
+						// Take in the read JSON file and convert this to a string
 						JSONObject jsonObject = (JSONObject) parser5.parse(reader5);
 						String jsonObjectString = jsonObject.toString();
 
+						// Create a new string that adds the new scholarship to the JSON file
 						String newString = jsonObjectString.substring(0, jsonObjectString.length() - 1) + readyForAppendVersion + "}";
 
+						// Write this new string to the JSON file
 						FileWriter fileWriter = new FileWriter("currentScholarships.json");
 						fileWriter.write(newString);
 						fileWriter.flush();
 
+						// Display the success message
+						successfulAdd.setVisible(true);
+
+					// catch any exceptions if necessary
 					} catch (IOException f) {
 						f.printStackTrace();
 					} catch (ParseException f) {
 						f.printStackTrace();
 					}
+
+					// Initialize a JSONParser to get the data from the JSON file
+					JSONParser parser6 = new JSONParser();
+
+					// Try-catch in order to update the JSON with the list of scholarship names
+					try (Reader reader6 = new FileReader("scholarshipNames.json")){
+
+						// Create a string from the given JSONObject
+						JSONObject jsonObject = (JSONObject) parser6.parse(reader6);
+						String jsonObjectString = jsonObject.toString();
+
+						// Create a string that will be used to add this scholarship name to the JSON
+						String substring = (",\"" + enteredScholarshipName + "\"");
+
+						// Create a new string that has the new scholasrship name included in the array
+						String newString = jsonObjectString.substring(0, jsonObjectString.length() - 2) + substring + "]}";
+
+						// Write this string to the JSON file containing scholarship names
+						FileWriter fileWriter = new FileWriter("scholarshipNames.json");
+						fileWriter.write(newString);
+						fileWriter.flush();
+
+						// Display the success message
+						successfulAdd.setVisible(true);
+
+					// catch any errors if necessary
+					} catch (IOException f) {
+						f.printStackTrace();
+					} catch (ParseException f) {
+						f.printStackTrace();
+					}
+
+				// If there are errors that are run into, make the button useless and display those messages
 				} else {
 
 				}	
@@ -525,9 +553,11 @@ public class AddScholarship extends JPanel {
 		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 7*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCreate);
 		
+		// Create a back button to take the user back to the main menu
 		JButton btnCancel = new JButton("Back");
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
+			// On the click of this button, create a new instance of the frame with the DepartmentHeadMenu class
 			public void mouseClicked(MouseEvent e) {
 				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
