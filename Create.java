@@ -355,7 +355,7 @@ public class Create extends JPanel {
 			//On a mouse click, method checks that all text fields have been filled out correctly and saves to a txt file
 			public void mouseClicked(MouseEvent e) {
 
-				//Keeps track of the number of errors to occur when trying to create an accoun
+				//Keeps track of the number of errors to occur when trying to create an account
 				Integer errorCount = 0;
 		
 				//Set strings to be the account details given in the text fields
