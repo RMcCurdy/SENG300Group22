@@ -14,9 +14,12 @@ public class DepartmentHeadMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Create the panel.
+	 * Creates a menu with multiple buttons
+	 * This allows the user to choose what they want to do in this menu
+	 * With each button click, the method will call for a new interface with the proper functions associated with it
 	 * @param user
 	 * @param frame 
+	 * @author Robert McCurdy
 	 */
 	public DepartmentHeadMenu(JFrame frame, Account user) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
@@ -38,7 +41,7 @@ public class DepartmentHeadMenu extends JPanel {
 		
 		JButton btnAddScholarship = new JButton("Add Scholarship");
 		btnAddScholarship.setFont(labelFontSize);
-		btnAddScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8, screenWidth/8, screenHeight/30);
+		btnAddScholarship.setBounds(screenWidth/6 + screenWidth/50 - screenWidth/8/2 - screenWidth/175, screenHeight/8 + screenHeight/100, screenWidth/8, screenHeight/30);
 		btnAddScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -53,7 +56,7 @@ public class DepartmentHeadMenu extends JPanel {
 		
 		JButton btnEditScholarship = new JButton("Edit Scholarship");
 		btnEditScholarship.setFont(labelFontSize);
-		btnEditScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 2 * screenHeight/30, screenWidth/8, screenHeight/30);
+		btnEditScholarship.setBounds(screenWidth/6 + screenWidth/50 - screenWidth/8/2 - screenWidth/175, screenHeight/8 + 2 * screenHeight/30 + screenHeight/100, screenWidth/8, screenHeight/30);
 		btnEditScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -68,7 +71,7 @@ public class DepartmentHeadMenu extends JPanel {
 		
 		JButton btnRemoveScholarship = new JButton("Remove Scholarship");
 		btnRemoveScholarship.setFont(labelFontSize);
-		btnRemoveScholarship.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 4 * screenHeight/30, screenWidth/8, screenHeight/30);
+		btnRemoveScholarship.setBounds(screenWidth/6 + screenWidth/50 - screenWidth/8/2 - screenWidth/175, screenHeight/8 + 4 * screenHeight/30 + screenHeight/100, screenWidth/8, screenHeight/30);
 		btnRemoveScholarship.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -80,6 +83,21 @@ public class DepartmentHeadMenu extends JPanel {
 			}
 		});
 		add(btnRemoveScholarship);
+
+		JButton btnAwardScholarship = new JButton("Award Scholarship");
+		btnAwardScholarship.setFont(labelFontSize);
+		btnAwardScholarship.setBounds(screenWidth/6 + screenWidth/50 + screenWidth/8/2 + screenWidth/175, screenHeight/8 + screenHeight/100, screenWidth/8, screenHeight/30);
+		btnAwardScholarship.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				AwardScholarship panel = new AwardScholarship(frame, user);
+				frame.setContentPane(panel);
+				frame.revalidate();
+			}
+		});
+		add(btnAwardScholarship);
 	
 		//Button for the create account option
 		JButton statisticsButton = new JButton("Statistics");
@@ -94,7 +112,7 @@ public class DepartmentHeadMenu extends JPanel {
 				frame.revalidate();
 			}
 		});
-		statisticsButton.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 6 * screenHeight/30, screenWidth/8, screenHeight/30);
+		statisticsButton.setBounds(screenWidth/6 + screenWidth/50 + screenWidth/8/2 + screenWidth/175, screenHeight/8 + 2 * screenHeight/30 + screenHeight/100, screenWidth/8, screenHeight/30);
 		statisticsButton.setFont(labelFontSize);
 		add(statisticsButton);
 
@@ -111,7 +129,7 @@ public class DepartmentHeadMenu extends JPanel {
 				frame.revalidate();
 			}
 		});
-		logOutButton.setBounds(screenWidth/6 + screenWidth/50, screenHeight/8 + 8 * screenHeight/30, screenWidth/8, screenHeight/30);
+		logOutButton.setBounds(screenWidth/6 + screenWidth/50 + screenWidth/8/2 + screenWidth/175, screenHeight/8 + 4 * screenHeight/30 + screenHeight/100, screenWidth/8, screenHeight/30);
 		logOutButton.setFont(labelFontSize);
 		add(logOutButton);
 

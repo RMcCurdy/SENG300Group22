@@ -2,37 +2,64 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
 import org.json.simple.parser.JSONParser;
+
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
+
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import java.io.FileReader;
 import java.io.IOException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException; 
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.Font;
+import java.util.Iterator;  
 import java.io.*;
+import java.awt.Color;
+import javax.swing.DefaultComboBoxModel;
 
-public class RemoveScholarship extends JPanel {
+public class AwardScholarship extends JPanel {
 
-	// Variable instance for the text field that takes in the scholarship name to be removed
 	private JTextField scholarshipName;
+	private JTextField recipientName;
 
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Takes in the scholarship name given by the user and removes that scholarship
-	 * This information gets stored in a local JSON file that can be called for further editing
-	 * 
-	 * @param frame
-	 * @param user
-	 * @author Robert McCurdy
+	 * Create the panel.
 	 */
-	public RemoveScholarship(JFrame frame, Account user) {
+	public AwardScholarship(JFrame frame, Account user) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
@@ -43,17 +70,17 @@ public class RemoveScholarship extends JPanel {
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 
 		//Header of the system name
-		JLabel header = new JLabel("Remove Scholarships");
+		JLabel header = new JLabel("Award Scholarships");
 		header.setBounds(screenWidth/4 - screenWidth/11, screenHeight/25, screenWidth/3, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
 
 		//Label for the email text field
-		JLabel termLabel = new JLabel("Scholarship Name:");
-		termLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
-		termLabel.setFont(labelFontSize);
-		add(termLabel);
+		JLabel scholarshipLabel = new JLabel("Scholarship Name:");
+		scholarshipLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
+		scholarshipLabel.setFont(labelFontSize);
+		add(scholarshipLabel);
 
 		//Text field for the first name
 		scholarshipName = new JTextField();
@@ -61,10 +88,38 @@ public class RemoveScholarship extends JPanel {
 		scholarshipName.setFont(labelFontSize);
 		add(scholarshipName);
 
+		//Label for the email text field
+		JLabel recipientLabel = new JLabel("Recipient Name:");
+		recipientLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
+		recipientLabel.setFont(labelFontSize);
+		add(recipientLabel);
+
+		//Text field for the first name
+		recipientName = new JTextField();
+		recipientName.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
+		recipientName.setFont(labelFontSize);
+		add(recipientName);
+
+		//Error message for an invalid first name
+		JLabel invalidRecipientName = new JLabel("Invalid Name");
+		invalidRecipientName.setForeground(Color.RED);
+		invalidRecipientName.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
+		invalidRecipientName.setFont(labelFontSize);
+		add(invalidRecipientName);
+		invalidRecipientName.setVisible(false);
+
+		//Error message for an invalid first name
+		JLabel invalidRecipientField = new JLabel("Please Enter A Name");
+		invalidRecipientField.setForeground(Color.RED);
+		invalidRecipientField.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
+		invalidRecipientField.setFont(labelFontSize);
+		add(invalidRecipientField);
+		invalidRecipientField.setVisible(false);
+
 		//Error message for an invalid faculty
-		JLabel successfulAdd = new JLabel("Successfully removed the scholarship");
+		JLabel successfulAdd = new JLabel("Successfully awarded the scholarship");
 		successfulAdd.setForeground(Color.green);
-		successfulAdd.setBounds(screenWidth/4 - screenWidth/13, screenHeight/7 + 2*screenHeight/37, screenWidth/6, screenHeight/35);
+		successfulAdd.setBounds(screenWidth/4 - screenWidth/13, screenHeight/7 + 4*screenHeight/33, screenWidth/6, screenHeight/35);
 		successfulAdd.setFont(labelFontSize);
 		add(successfulAdd);
 		successfulAdd.setVisible(false);
@@ -93,7 +148,7 @@ public class RemoveScholarship extends JPanel {
 		add(invalidTextField);
 		invalidTextField.setVisible(false);
 		
-		JButton btnCreate = new JButton("Remove");
+		JButton btnCreate = new JButton("Award");
 		btnCreate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -102,6 +157,7 @@ public class RemoveScholarship extends JPanel {
 				Integer errorCount = 0;
 
 				String enteredScholarshipName = scholarshipName.getText();
+				String enteredRecipientName = recipientName.getText();
 
 				// If statement to determine if the scholarship name only contains letters
 				if (!(enteredScholarshipName.chars().allMatch(Character::isLetter))){
@@ -120,6 +176,24 @@ public class RemoveScholarship extends JPanel {
 					invalidScholarship.setVisible(false);
 					invalidScholarshipName.setVisible(false);
 					initialerrorCount++;
+					errorCount++;
+				} else {
+					invalidTextField.setVisible(false);
+				}
+
+				// If statement to determine if the scholarship name only contains letters
+				if (enteredRecipientName.chars().allMatch(Character::isLetter) || enteredRecipientName.contains(" ")){
+					invalidScholarshipName.setVisible(false);
+				} else {
+					invalidRecipientName.setVisible(true);
+					invalidRecipientField.setVisible(false);
+					errorCount++;
+				}
+
+				// If statement to determine if the scholarship name is blank
+				if (enteredRecipientName.isEmpty()) {
+					invalidRecipientField.setVisible(true);
+					invalidRecipientName.setVisible(false);
 					errorCount++;
 				} else {
 					invalidTextField.setVisible(false);
@@ -160,6 +234,9 @@ public class RemoveScholarship extends JPanel {
 
 					JSONParser parser5 = new JSONParser();
 
+					//write the file to JSON
+					JSONObject obj = new JSONObject();
+
 					try (Reader reader5 = new FileReader("currentScholarships.json")){
 
 						JSONObject jsonObject = (JSONObject) parser5.parse(reader5);
@@ -170,9 +247,7 @@ public class RemoveScholarship extends JPanel {
 							indexOfBracket++;
 						}
 
-						String substring = jsonObjectString.substring(jsonObjectString.indexOf(enteredScholarshipName) - 3, indexOfBracket);
-
-						String newString = jsonObjectString.replace(substring, "");
+						String newString = jsonObjectString.substring(0, indexOfBracket - 1) + enteredRecipientName + jsonObjectString.substring(indexOfBracket-1);
 
 						FileWriter fileWriter = new FileWriter("currentScholarships.json");
 						fileWriter.write(newString);
@@ -193,7 +268,7 @@ public class RemoveScholarship extends JPanel {
 			}
 		});
 		btnCreate.setFont(labelFontSize);
-		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 3*screenHeight/30, screenWidth/18, screenHeight/33);
+		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 5*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCreate);
 		
 		JButton btnCancel = new JButton("Back");
@@ -208,7 +283,7 @@ public class RemoveScholarship extends JPanel {
 			}
 		});
 		btnCancel.setFont(labelFontSize);
-		btnCancel.setBounds(screenWidth/4 - screenWidth/15 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 3*screenHeight/30, screenWidth/20, screenHeight/33);
+		btnCancel.setBounds(screenWidth/4 - screenWidth/15 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 5*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCancel);
 
 	}

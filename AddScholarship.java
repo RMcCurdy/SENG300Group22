@@ -75,7 +75,12 @@ public class AddScholarship extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Create the panel.
+	 * Takes in the information given by the user and creates a new scholarship
+	 * This information gets stored in a local JSON file that can be called for further editing
+	 * 
+	 * @param frame
+	 * @param user
+	 * @author Robert McCurdy
 	 */
 	public AddScholarship(JFrame frame, Account user) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -249,13 +254,13 @@ public class AddScholarship extends JPanel {
 		semesterBox.setFont(labelFontSize);
 		add(semesterBox);
 
-		//Label for the student ID text field
+		//Label for the scholarship dollar amount
 		JLabel dollarAmountLabel = new JLabel("$ Amount:");
 		dollarAmountLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/39, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
 		dollarAmountLabel.setFont(labelFontSize);
 		add(dollarAmountLabel);
 
-		//Text field for the ID
+		//Text field for the scholarship dollar amount
 		dollarAmount = new JTextField();
 		dollarAmount.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
 		dollarAmount.setFont(labelFontSize);
