@@ -1,3 +1,4 @@
+package uploadGPA;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -11,10 +12,12 @@ import java.io.File;
 //import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+
 
 /*
  * Allows for a student to 
@@ -85,10 +88,11 @@ public class Upload {
 				//File uploadFile = select.getSelectedFile(); // file will be stored eventually
 			}
 		});
-		btnChooseFile.setBounds(40, 209, 75, 25);
+		btnChooseFile.setBounds(38, 149, 75, 25);
 		btnChooseFile.setText("Choose File");
 		
-		txtEnter = new Text(shlUofcScholarshipPortal, SWT.BORDER);
+		Text txtEnter = new Text(shlUofcScholarshipPortal, SWT.BORDER);
+		
 		txtEnter.setText("GPA"); // set text within input field to let user know what should be entered there
 		txtEnter.setBackground(SWTResourceManager.getColor(SWT.COLOR_GRAY));
 		txtEnter.setFont(SWTResourceManager.getFont("Arial", 20, SWT.NORMAL));
@@ -98,20 +102,29 @@ public class Upload {
 		lblUpload.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW));
 		lblUpload.setFont(SWTResourceManager.getFont("Arial", 16, SWT.BOLD));
 		lblUpload.setBounds(146, 10, 142, 46);
-		lblUpload.setText("UPLOAD GPA"); // section label
-		
-		Label lblDropBox = new Label(shlUofcScholarshipPortal, SWT.NONE);
-		lblDropBox.setText("Drop Transcript Here"); // section label
-		lblDropBox.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDropBox.setFont(SWTResourceManager.getFont("Arial", 13, SWT.NORMAL));
-		lblDropBox.setAlignment(SWT.CENTER);
-		lblDropBox.setBackground(SWTResourceManager.getColor(255, 51, 102));
-		lblDropBox.setBounds(10, 62, 142, 187);
+		lblUpload.setText("UPLOAD GPA");
 		
 		Label lblDisplay = new Label(shlUofcScholarshipPortal, SWT.NONE);
 		lblDisplay.setAlignment(SWT.CENTER);
 		lblDisplay.setBounds(173, 133, 87, 80);
-		lblDisplay.setText("--"); // primary generic text, to be replaced with the user's current gpa
+		
+		try {
+			Scanner outp = new Scanner(new File("gpa.txt"));
+			String text = outp.useDelimiter("\\A").next();
+			if (text.length() == 1) { // empty file
+				lblDisplay.setText("--"); // primary generic text, to be replaced with the user's current gpa
+			} else {
+				System.out.println(text);
+				lblDisplay.setText(text);
+			}
+			outp.close();
+		} catch (IOException e) {
+			System.out.println("An error has occured. The file was not found"); // something went wrong
+		}
+		
+		// CHECK CONTENTS OF GPA.txt HERE
+		// IF NOT BLANK, lblDisplay.setText("first 4 characters" + "name in file")
+		// ELSE,
 		
 		Button btnSubmit = new Button(shlUofcScholarshipPortal, SWT.NONE);
 		btnSubmit.addSelectionListener(new SelectionAdapter() {
@@ -127,7 +140,8 @@ public class Upload {
 							lblDisplay.setText(enteredGpa + "\n(Saved \nSuccessfully)"); // display on screen for user to see
 							try {
 								FileWriter inp = new FileWriter("gpa.txt"); // create new writer for gpa.txt
-								inp.write("The student's GPA has been saved as: " + enteredGpa); // write the user-entered gpa to the file
+								// GRAB CURRENT USER'S LAST AND FIRST NAME HERE
+								inp.write("First Last\n" + "First Last"); // write the user-entered gpa to the file
 								inp.close(); // close the writer
 							} catch (IOException i) {
 								System.out.println("An error has occured"); // something went wrong
@@ -156,6 +170,14 @@ public class Upload {
 		lblCurr.setAlignment(SWT.CENTER);
 		lblCurr.setBounds(173, 112, 87, 15);
 		lblCurr.setText("Current GPA");
+		
+		Label lblUploadOfficialTranscript = new Label(shlUofcScholarshipPortal, SWT.NONE);
+		lblUploadOfficialTranscript.setText("Upload Official Transcript");
+		lblUploadOfficialTranscript.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblUploadOfficialTranscript.setFont(SWTResourceManager.getFont("Arial", 13, SWT.NORMAL));
+		lblUploadOfficialTranscript.setBackground(SWTResourceManager.getColor(255, 51, 102));
+		lblUploadOfficialTranscript.setAlignment(SWT.CENTER);
+		lblUploadOfficialTranscript.setBounds(10, 62, 142, 187);
 		
 
 	}
