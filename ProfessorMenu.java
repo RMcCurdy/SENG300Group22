@@ -4,6 +4,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +22,11 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Iterator;
+import java.util.Set;
 
 
 public class ProfessorMenu extends JPanel {
@@ -41,11 +52,65 @@ public class ProfessorMenu extends JPanel {
 		//Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 
+		String[] schoList = null;
+		
+		JSONParser parser = new JSONParser();
+		// Try-catch statement to open the JSON file and add the school years to the drop down list
+        try (Reader reader1 = new FileReader("currentScholarships.json")) {
+
+			// Create a JSONObject out of the parsed JSON file
+            JSONObject jsonObject = (JSONObject) parser.parse(reader1);
+            
+            schoList = new String[jsonObject.size()];
+
+            int i = 0;
+            Set a = jsonObject.keySet();
+            for (Object key : a) {
+            	//System.out.println("key: "+key+", value: "+jsonObject.get(key));
+            	schoList[i] = (String) key;
+            	//schoList[i][1] = (String) jsonObject.get(key);
+            	i++;
+            }
+            
+            //for (int j = 0; j < schoList.length; j++) {
+            //	System.out.println(schoList[j]);
+            //}
+            
+            /*
+            int i = 0;
+            jsonObject.keySet().forEach(keyStr ->
+            {
+            	Object keyvalue = jsonObject.get(keyStr);
+            	//System.out.println("key: "+ keyStr + " value: " + keyvalue);
+            	//schoList[i] = [keyStr, keyvalue];
+            	i = 1;
+            });
+            
+            
+			// Obtain the array that contains the label "schoolYears"
+            JSONArray semesterArrayJSON1 = (JSONArray) jsonObject1.get(0);
+
+			// Loop through the JSONArray, and add those school years to the List
+            Iterator<String> iterator1 = semesterArrayJSON1.iterator();
+            while (iterator1.hasNext()) {
+                semesters.add(iterator1.next());
+			}
+			*/
+			// Close the reader
+			reader1.close();
+
+		// Exceptions to be thrown if necessary
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
 		/**
 		 * LIST
 		 */
 		//creating list containing scholarships
-		list = new JList(scholarships);
+		list = new JList(schoList);
 		list.setFont(labelFontSize);
 		list.setSize(218, 80);
 		list.setLocation(145, 159);
@@ -87,6 +152,13 @@ public class ProfessorMenu extends JPanel {
 						String selec = (String)list.getSelectedValue();
 						selectedLabel.setText(selec);
 						selectedError.setVisible(false);
+						
+						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						AddReference panel = new AddReference(frame, user, (String)list.getSelectedValue());
+						frame.setContentPane(panel);
+						frame.revalidate();
+						
 					} else {
 						selectedError.setVisible(true);
 					}
@@ -106,7 +178,7 @@ public class ProfessorMenu extends JPanel {
 		JLabel header = new JLabel("UofC Professor Scholarship Portal");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/6, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setBounds(160, 43, 595, 43);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
 		add(header);
 		
@@ -114,6 +186,7 @@ public class ProfessorMenu extends JPanel {
 		textField = new JTextField();
 		textField.setBounds(screenWidth/4 - screenWidth/14, screenHeight/9, screenWidth/7, screenHeight/35);
 		add(textField);
+		
 		JLabel lblNewLabel = new JLabel("Search:");
 		lblNewLabel.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/100, screenHeight/9, screenWidth/7, screenHeight/35);
 		lblNewLabel.setFont(labelFontSize);
@@ -130,7 +203,7 @@ public class ProfessorMenu extends JPanel {
 				frame.revalidate();
 			}
 		});
-		logoutButton.setBounds(635, 46, 117, 29);
+		logoutButton.setBounds(160, 464, 117, 29);
 		add(logoutButton);
 	}
 }
