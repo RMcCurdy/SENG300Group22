@@ -142,7 +142,7 @@ public class EditScholarship extends JPanel {
 		successfulAdd.setVisible(false);
 
 		// Header of the system name
-		JLabel header = new JLabel("Add Scholarships");
+		JLabel header = new JLabel("Edit Scholarships");
 		header.setBounds(screenWidth/4 - screenWidth/14, screenHeight/25, screenWidth/3, screenHeight/25);
 		header.setForeground(Color.RED);
 		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
