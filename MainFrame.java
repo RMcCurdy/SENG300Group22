@@ -21,6 +21,7 @@ public class MainFrame {
 		Authenticator.loadDep();
 		Authenticator.loadRoles();
 		Authenticator.loadAdmin();
+		Authenticator.loadNames();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

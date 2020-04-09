@@ -475,10 +475,13 @@ public class Create extends JPanel {
 					else if (!authen.getPeopleMap().containsKey(email.getText()) && errorCount == 0) {
 						authen.getPeopleMap().put(email.getText(), password.getText());
 						authen.getRolesMap().put(email.getText(), (String)facultyBox.getSelectedItem());
+						authen.getNamesMap().put(email.getText(), first.getText());
 						Authenticator.loadStud();
 						Authenticator.saveStud();
 						Authenticator.loadRoles();
 						Authenticator.saveRoles();
+						Authenticator.loadNames();
+						Authenticator.saveNames();
 						System.out.println("all accounts " + Authenticator.accounts);
 						System.out.println("roles " + Authenticator.roles);
 					}
