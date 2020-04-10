@@ -27,9 +27,11 @@ public class AwardScholarship extends JPanel {
 
 	// Instance variables used in the class
 	private List <String> scholarships;
+	private List <String> names;
 	private JComboBox scholarshipBox;
+	private JComboBox nameBox;
 	private String selectedScholarship;
-	private JTextField recipientName;
+	private String enteredRecipientName;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -52,6 +54,9 @@ public class AwardScholarship extends JPanel {
 
 		// Create an empty array list for faculties
 		scholarships = new ArrayList <String>();
+
+		// Create an empty array list for names
+		names = new ArrayList <String>();
 
 		// Font size for remaining labels
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
@@ -109,27 +114,11 @@ public class AwardScholarship extends JPanel {
 		recipientLabel.setFont(labelFontSize);
 		add(recipientLabel);
 
-		// Text field for the recipient name
-		recipientName = new JTextField();
-		recipientName.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
-		recipientName.setFont(labelFontSize);
-		add(recipientName);
-
-		// Error message for an invalid name
-		JLabel invalidRecipientName = new JLabel("Invalid Name");
-		invalidRecipientName.setForeground(Color.RED);
-		invalidRecipientName.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidRecipientName.setFont(labelFontSize);
-		add(invalidRecipientName);
-		invalidRecipientName.setVisible(false);
-
-		// Error message for no name given
-		JLabel invalidRecipientField = new JLabel("Please Enter A Name");
-		invalidRecipientField.setForeground(Color.RED);
-		invalidRecipientField.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidRecipientField.setFont(labelFontSize);
-		add(invalidRecipientField);
-		invalidRecipientField.setVisible(false);
+		// Drop down menu that will be later filled with the names of students associated with scholarships
+        nameBox = new JComboBox();
+		nameBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
+		nameBox.setFont(labelFontSize);
+		add(nameBox);
 
 		// Message to be displayed if successfully awarding a scholarship
 		JLabel successfulAdd = new JLabel("Successfully awarded the scholarship");
@@ -146,6 +135,70 @@ public class AwardScholarship extends JPanel {
 		invalidTextField.setFont(labelFontSize);
 		add(invalidTextField);
 		invalidTextField.setVisible(false);
+
+		// Button that loads the information associated with the scholarship selected
+		JButton btnLoad = new JButton("Load");
+		btnLoad.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Integer errorCount = 0;
+
+				// If else statement to determine whether a scholarship has been chosen
+				if (scholarshipBox.getSelectedIndex() != 0) {
+					invalidTextField.setVisible(false);
+					// Save the selected scholarship to string
+					selectedScholarship = (String)scholarshipBox.getSelectedItem();
+				} else {
+					// error message displayed
+					invalidTextField.setVisible(true);
+					errorCount++;
+				}	
+
+				// If no errors have occured, try to read from JSON
+				if (errorCount == 0) {
+					// Initialize a JSONParser to get the data from the JSON file
+					JSONParser parser3 = new JSONParser();
+
+					// Try-catch statement to open the JSON file and add the scholarship information to its respective place in the menu
+					try (Reader reader3 = new FileReader("scholarshipRequests.json")) {
+
+						// Create a JSONObject out of the parsed JSON file
+						JSONObject jsonObject3 = (JSONObject) parser3.parse(reader3);
+
+						// Obtain the array that contains the label given from the selected scholarship
+						JSONArray scholarshipRequestsArrayJSON3 = (JSONArray) jsonObject3.get(selectedScholarship);
+
+						// Loop through the JSONArray, and each bit of information as a selected item in its respective place in the menu
+						Iterator<String> iterator3 = scholarshipRequestsArrayJSON3.iterator();
+						// Iterates through the array putting each element in a place on the menu
+						while (iterator3.hasNext()) {
+							names.add(iterator3.next());
+						}
+						
+						DefaultComboBoxModel temp = new DefaultComboBoxModel(names.toArray());
+						nameBox.setModel(temp);
+
+						// Close the reader
+						reader3.close();
+
+					// Exceptions to be thrown if necessary
+					} catch (IOException h) {
+						h.printStackTrace();
+					} catch (ParseException h) {
+						h.printStackTrace();
+					}
+
+				// If there are errors that are run into, make the button useless and display those messages
+				} else {
+
+				}
+				
+			}
+		});
+		btnLoad.setFont(labelFontSize);
+		btnLoad.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
+		add(btnLoad);
+
 		
 		// Create a button that takes the information given by the user to write to the JSON file containing information of the scholarship
 		JButton btnCreate = new JButton("Award");
@@ -155,9 +208,6 @@ public class AwardScholarship extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// Keeps track of the number of errors to occur when trying to add a new scholarship
 				Integer errorCount = 0;
-
-				// Take in the text from the recipient name text field and save as a string
-				String enteredRecipientName = recipientName.getText();
 
 				// If else statement to determine whether a scholarship has been chosen
 				if (scholarshipBox.getSelectedIndex() != 0) {
@@ -169,25 +219,11 @@ public class AwardScholarship extends JPanel {
 					invalidTextField.setVisible(true);
 					errorCount++;
 				}
-
-				// If statement to determine if the name only contains letters
-				if (enteredRecipientName.chars().allMatch(Character::isLetter) || enteredRecipientName.contains(" ")){
-					invalidRecipientName.setVisible(false);
-				} else {
-					invalidRecipientName.setVisible(true);
-					errorCount++;
-				}
-
-				// If statement to determine if the name is blank
-				if (enteredRecipientName.isEmpty()) {
-					invalidRecipientField.setVisible(true);
-					errorCount++;
-				} else {
-					invalidRecipientField.setVisible(false);
-				}
 				
 				// If no errors have occured, try saving this information to the JSON files
 				if (errorCount == 0){
+
+					enteredRecipientName = (String)nameBox.getSelectedItem();
 
 					// Initialize a JSONParser to get the data from the JSON file
 					JSONParser parser5 = new JSONParser();
