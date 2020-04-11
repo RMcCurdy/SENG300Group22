@@ -160,7 +160,7 @@ public class Login extends JPanel {
 					
 						frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-						ProfessorMenu profMenu = new ProfessorMenu(frame, user);
+						ProfessorMenu profMenu = new ProfessorMenu(frame, email);
 						frame.setContentPane(profMenu);
 						frame.revalidate();
 					}
