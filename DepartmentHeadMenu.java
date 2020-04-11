@@ -41,11 +41,11 @@ public class DepartmentHeadMenu extends JPanel {
 		// Initialized the layout to have no perameters
 		setLayout(null);
 
+		// Create specific colors to be used in text and buttons
 		Color gold = new Color(255, 207, 8);
 		Color myRed = new Color(227, 37, 37);
 
-		setLayout(null);
-
+		// Try catch to load in custom font
 		try {
 			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -56,6 +56,7 @@ public class DepartmentHeadMenu extends JPanel {
 			e1.printStackTrace();
 		}
 
+		// Try catch to load in custom font
 		try {
 			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -187,6 +188,7 @@ public class DepartmentHeadMenu extends JPanel {
 		 * PHOTOS
 		 */
 
+		// Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
 		ImageIcon img1 = new ImageIcon("logo.png");
 		Image image = img1.getImage();
 		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
@@ -197,6 +199,7 @@ public class DepartmentHeadMenu extends JPanel {
 		background_2.setVisible(true);
 		add(background_2);
 
+		// Loads in the background image
 		ImageIcon img = new ImageIcon("red.jpg");
 		background_1 = new JLabel("",img,SwingConstants.LEFT);
 		background_1.setVerticalAlignment(SwingConstants.TOP);
