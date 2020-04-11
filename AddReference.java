@@ -1,7 +1,14 @@
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -14,19 +21,32 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.awt.Color;
+import javax.swing.JComboBox;
+import java.awt.Font;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class AddReference extends JPanel {
-	private JTextField studentid;
+
+	private List <String> names;	// Names of students who applied for said scholarship
 
 	/**
-	 * Create the panel.
+	 * Creates the panel.
+	 * @param frame is the main JFrame
+	 * @param email is the signed in users email
+	 * @param scholarshipName is the selected scholarships name
 	 */
-	public AddReference(JFrame frame, Account user, String scholarshipName) {
+	public AddReference(JFrame frame, String email, String scholarshipName) {
 		//Save the user's screen resolution to variables, used to format GUI correctly
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
@@ -34,70 +54,152 @@ public class AddReference extends JPanel {
 
 		setLayout(null);
 		
-		studentid = new JTextField();
-		studentid.setBounds(192, 102, 167, 22);
-		add(studentid);
-		studentid.setColumns(10);
+		//Font size for remaining labels
+		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 		
-		JLabel lblID = new JLabel("Students ID:");
-		lblID.setBounds(192, 76, 100, 16);
-		add(lblID);
-		
-		JTextArea referenceletter = new JTextArea();
-		referenceletter.setBounds(192, 176, 486, 263);
-		add(referenceletter);
-		
-		JLabel lblNewLabel_1 = new JLabel("Reference Letter: (optional)");
-		lblNewLabel_1.setBounds(192, 149, 177, 16);
-		add(lblNewLabel_1);
-		
+		// Label Displaying the scholarship which was selected
 		JLabel lblScholarship = new JLabel("Scholarship: "+scholarshipName);
-		lblScholarship.setBounds(192, 31, 282, 22);
+		lblScholarship.setBounds(screenWidth/8, screenHeight/32, screenWidth/4, screenHeight/35);
+		lblScholarship.setFont(new Font("Arial", Font.PLAIN, screenHeight/45));
 		add(lblScholarship);
 		
-		JLabel invalidID = new JLabel("Invalid ID");
-		invalidID.setForeground(Color.RED);
-		invalidID.setBounds(371, 105, 86, 16);
-		add(invalidID);
-		invalidID.setVisible(false);
+		// Label for instructions
+		JLabel lblID = new JLabel("Select a student that you wish to recommend:");
+		lblID.setBounds(screenWidth/8, screenHeight/14, screenWidth/4, screenHeight/35);
+		lblID.setFont(labelFontSize);
+		add(lblID);
+		
+		names = new ArrayList <String>(); 	// ArrayList of student names
+		JSONArray JSONArrayNames = null;	// JSONArray of student names
+		
+		// Initialize a JSONParser to get the data from the JSON file
+		JSONParser parser3 = new JSONParser();
+		// Try-catch statement to open the JSON file and add the scholarship information to its respective place in the menu
+		try (Reader reader3 = new FileReader("scholarshipRequests.json")) {
 
-		JButton btnNewButton = new JButton("Recommend Student");
-		btnNewButton.addActionListener(new ActionListener() {
+			// Create a JSONObject out of the parsed JSON file
+			JSONObject jsonObject3 = (JSONObject) parser3.parse(reader3);
+
+			// Obtain the array that contains the label given from the selected scholarship
+			JSONArrayNames = (JSONArray) jsonObject3.get(scholarshipName);
+
+			// Loop through the JSONArray, and each bit of information as a selected item in its respective place in the menu
+			Iterator<String> iterator3 = JSONArrayNames.iterator();
+			
+			names.add(null);
+			
+			// Iterates through the array putting each element in a place on the menu
+			while (iterator3.hasNext()) {
+				names.add(iterator3.next());
+			}
+			
+			// Close the reader
+			reader3.close();
+
+		// Exceptions to be thrown if necessary
+		} catch (IOException h) {
+			h.printStackTrace();
+		} catch (ParseException h) {
+			h.printStackTrace();
+		}
+		JComboBox comboStudent = new JComboBox(names.toArray()); // ComboBox lets users choose a student who applied.
+		comboStudent.setBackground(Color.WHITE);
+		comboStudent.setBounds(screenWidth/8, screenHeight/10, screenWidth/8 + screenWidth/16, screenHeight/35);
+		comboStudent.setFont(labelFontSize);
+		add(comboStudent);
+		
+		// Label for error message
+		JLabel noStudentSelected = new JLabel("No student selected");
+		noStudentSelected.setFont(labelFontSize);
+		noStudentSelected.setForeground(Color.RED);
+		noStudentSelected.setBounds(screenWidth/4+screenWidth/14, screenHeight/10, screenWidth/8 + screenWidth/16, screenHeight/35);
+		add(noStudentSelected);
+		noStudentSelected.setVisible(false);
+		
+		// Label for text
+		JLabel lblNewLabel_1 = new JLabel("Reference Letter:");
+		lblNewLabel_1.setBounds(screenWidth/8, screenHeight/7, screenWidth/2, screenHeight/35);
+		lblNewLabel_1.setFont(labelFontSize);
+		add(lblNewLabel_1);
+		
+		// TextArea where user writes reference letters
+		JTextArea referenceletter = new JTextArea(16, 58);
+		referenceletter.setLineWrap(true);
+		referenceletter.setFont(labelFontSize);
+		JScrollPane bar = new JScrollPane(referenceletter);
+		bar.setBounds(screenWidth/8, screenHeight/7 + screenHeight/26, screenWidth/4, screenHeight/4 - screenHeight/22);
+		add(bar);
+		
+		// Label for error message
+		JLabel noReferenceletter = new JLabel("No Reference Letter");
+		noReferenceletter.setFont(labelFontSize);
+		noReferenceletter.setForeground(Color.RED);
+		noReferenceletter.setBounds(screenWidth/5, screenHeight/7, screenWidth/8 + screenWidth/16, screenHeight/35);
+		add(noReferenceletter);
+		noReferenceletter.setVisible(false);
+		
+		// Button which saves reference letter
+		JButton btnRecommendStudent = new JButton("Recommend Student");
+		btnRecommendStudent.setFont(labelFontSize);
+		btnRecommendStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if (studentid.getText().length() != 8)
-					invalidID.setVisible(true);
-				else {
-					invalidID.setVisible(false);
-				
-					String filename = "./ReferenceLetters/"+scholarshipName + studentid.getText() + ".txt";
+				if (comboStudent.getSelectedItem() == null) // If no student selected
+					noStudentSelected.setVisible(true);
+				else 
+					noStudentSelected.setVisible(false);
+
+				if (referenceletter.getText().length() == 0) // If no reference letter
+					noReferenceletter.setVisible(true);
+				else
+					noReferenceletter.setVisible(false);
+
+				if (noStudentSelected.isVisible() == false && noReferenceletter.isVisible() == false) { // If no errors
+					String filename = "./ReferenceLetters/"+scholarshipName+"-"+comboStudent.getSelectedItem() + ".txt";
 					
 					System.out.println("Want to save at: "+filename);
 					
 					try {
 						BufferedWriter bw = new BufferedWriter(new FileWriter(filename, true));
-						String output = "Scholarship: "+scholarshipName+"\nStudent being recommended: "+studentid.getText()+"\nProfessor: +user.getLastName()+, +user.getFirstName()+ +user.getEmail()\n"+referenceletter.getText();
-						System.out.println(output);
+						// Message printed to text
+						String output = "--------------\nScholarship: "+scholarshipName+"\nStudent being recommended: "+comboStudent.getSelectedItem()+"\nProfessor: "+email+"\n\nReference Letter:\n\n"+referenceletter.getText()+"\n\n";
 						bw.write(output);
 						bw.newLine();
 						bw.close();
-						
-						System.out.println("Saved to "+filename);
 					} 
 					catch (Exception ex) 
 					{
 						ex.printStackTrace();
 					}
 					
+					// Returns user to ProfessorMenu
 					frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					ProfessorMenu panel = new ProfessorMenu(frame, user);
+					ProfessorMenu panel = new ProfessorMenu(frame, email);
 					frame.setContentPane(panel);
 					frame.revalidate();
 				}
 			}
 		});
-		btnNewButton.setBounds(335, 452, 187, 25);
-		add(btnNewButton);
+		btnRecommendStudent.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/256 + screenWidth/32, screenHeight/30);
+		add(btnRecommendStudent);
+
+		// Cancel button
+		JButton btnNewButton_1 = new JButton("Cancel");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {				
+				
+				// Returns user to ProfessorMenu
+				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				ProfessorMenu panel = new ProfessorMenu(frame, email);
+				frame.setContentPane(panel);
+				frame.revalidate();
+			}
+		});
+		btnNewButton_1.setFont(labelFontSize);
+		btnNewButton_1.setBounds(screenWidth/4 + screenWidth/256 + screenWidth/32, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/32, screenHeight/30);
+		add(btnNewButton_1);
 	}
 }
