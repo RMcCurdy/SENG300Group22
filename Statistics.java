@@ -15,10 +15,17 @@ import java.util.List;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
-import java.util.Iterator;  
+import java.util.Iterator;
 import java.io.*;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.FontFormatException;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  * Class to read JSON files in order to display the statistical data for scholarships
@@ -36,6 +43,10 @@ public class Statistics extends JPanel {
 	private JComboBox schoolYearBox;
 	private String selectedFaculty;
 	private String selectedYear;
+	private Font headerFont;
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
 
 	/** Method to display all the label and boxes with information
 	 * @param user
@@ -50,8 +61,28 @@ public class Statistics extends JPanel {
 		// Used to initialized the layout
 		setLayout(null);
 		
-		// Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 		// Create an empty array list for faculties
 		faculties = new ArrayList <String>();
@@ -62,91 +93,91 @@ public class Statistics extends JPanel {
 		// Label of the menu name
 		JLabel header = new JLabel("Statistics");
 		header.setBounds(screenWidth/4 - screenWidth/22, screenHeight/25, screenWidth/10, screenHeight/25);
-		header.setForeground(Color.RED);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setForeground(myRed);
+		header.setFont(headerFont);
 		add(header);
 
 		// This label is to display the domestic/international breakdown for the fall scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel locationFall = new JLabel("Temporary label for locationFall");
-		locationFall.setForeground(Color.BLACK);
+		locationFall.setForeground(gold);
 		locationFall.setBounds(screenWidth/10, screenHeight/10, screenWidth/2, screenHeight/35);
-		locationFall.setFont(labelFontSize);
+		locationFall.setFont(labelFont);
 		add(locationFall);
 
 		// This label is to display the domestic/international breakdown for the winter scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel locationWinter = new JLabel("Temporary label for locationWinter");
-		locationWinter.setForeground(Color.BLACK);
+		locationWinter.setForeground(gold);
 		locationWinter.setBounds(screenWidth/10, screenHeight/10 + 2*screenHeight/30, screenWidth/2, screenHeight/35);
-		locationWinter.setFont(labelFontSize);
+		locationWinter.setFont(labelFont);
 		add(locationWinter);
 
 		// This label is to display the domestic/international breakdown for the full year scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel locationFullYear = new JLabel("Temporary label for locationFullYear");
-		locationFullYear.setForeground(Color.BLACK);
+		locationFullYear.setForeground(gold);
 		locationFullYear.setBounds(screenWidth/10, screenHeight/10 + 4*screenHeight/30, screenWidth/2, screenHeight/35);
-		locationFullYear.setFont(labelFontSize);
+		locationFullYear.setFont(labelFont);
 		add(locationFullYear);
 
 		// This label is to display the male/female breakdown for the fall scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel genderFall = new JLabel("Temporary label for genderFall");
-		genderFall.setForeground(Color.BLACK);
+		genderFall.setForeground(gold);
 		genderFall.setBounds(screenWidth/10, screenHeight/10 + screenHeight/30, screenWidth/2, screenHeight/35);
-		genderFall.setFont(labelFontSize);
+		genderFall.setFont(labelFont);
 		add(genderFall);
 
 		// This label is to display the male/female breakdown for the winter scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel genderWinter = new JLabel("Temporary label for genderWinter");
-		genderWinter.setForeground(Color.BLACK);
+		genderWinter.setForeground(gold);
 		genderWinter.setBounds(screenWidth/10, screenHeight/10 + 3*screenHeight/30, screenWidth/2, screenHeight/35);
-		genderWinter.setFont(labelFontSize);
+		genderWinter.setFont(labelFont);
 		add(genderWinter);
 
 		// This label is to display the male/female breakdown for the full year scholarship
 		// This label will later get updated with the information called from the JSON file
 		JLabel genderFullYear = new JLabel("Temporary label for genderFullYear");
-		genderFullYear.setForeground(Color.BLACK);
+		genderFullYear.setForeground(gold);
 		genderFullYear.setBounds(screenWidth/10, screenHeight/10 + 5*screenHeight/30, screenWidth/2, screenHeight/35);
-		genderFullYear.setFont(labelFontSize);
+		genderFullYear.setFont(labelFont);
 		add(genderFullYear);
 
 		// This label is to display that the school year selected to display information does not contain any data yet
 		JLabel futureSchoolYear = new JLabel("There is no data for this school year yet");
-		futureSchoolYear.setForeground(Color.BLACK);
+		futureSchoolYear.setForeground(gold);
 		futureSchoolYear.setBounds(screenWidth/10 + screenWidth/20, screenHeight/10 + 2*screenHeight/30, screenWidth/2, screenHeight/35);
-		futureSchoolYear.setFont(labelFontSize);
+		futureSchoolYear.setFont(labelFont);
 		add(futureSchoolYear);
 
 		// Label to indicate to select a faculty
 		JLabel selectFaculty = new JLabel("Select a faculty from below");
-		selectFaculty.setForeground(Color.BLACK);
+		selectFaculty.setForeground(gold);
 		selectFaculty.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/45, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		selectFaculty.setFont(labelFontSize);
+		selectFaculty.setFont(labelFont);
 		add(selectFaculty);
 
 		// Label to indicate to select a school year
 		JLabel selectYear = new JLabel("Select a year from below");
-		selectYear.setForeground(Color.BLACK);
+		selectYear.setForeground(gold);
 		selectYear.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2 - screenWidth/45, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		selectYear.setFont(labelFontSize);
+		selectYear.setFont(labelFont);
 		add(selectYear);
 
 		// Label for error message on faculty selection
 		JLabel invalidFaculty = new JLabel("Please select a faculty");
-		invalidFaculty.setForeground(Color.RED);
+		invalidFaculty.setForeground(myRed);
 		invalidFaculty.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/75, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidFaculty.setFont(labelFontSize);
+		invalidFaculty.setFont(labelFont);
 		add(invalidFaculty);
 
 		// Label for error message on school year selection
 		JLabel invalidYear = new JLabel("Please select a year");
-		invalidYear.setForeground(Color.RED);
+		invalidYear.setForeground(myRed);
 		invalidYear.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2 - screenWidth/105, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidYear.setFont(labelFontSize);
+		invalidYear.setFont(labelFont);
 		add(invalidYear);
 
 		// Set certain labels to be invisible that will later get called to display, such as error messages
@@ -191,7 +222,7 @@ public class Statistics extends JPanel {
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
         facultyBox = new JComboBox(modelTemp);
 		facultyBox.setBounds(screenWidth/4 - screenWidth/9, screenHeight/7 + 7*screenHeight/30, screenWidth/7/2, screenHeight/35);
-		facultyBox.setFont(labelFontSize);
+		facultyBox.setFont(labelFont);
 		add(facultyBox);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -225,12 +256,13 @@ public class Statistics extends JPanel {
 		DefaultComboBoxModel schoolYearBoxModel = new DefaultComboBoxModel(schoolYears.toArray());
         schoolYearBox = new JComboBox(schoolYearBoxModel);
 		schoolYearBox.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/10 + screenWidth/7/2, screenHeight/7 + 7*screenHeight/30, screenWidth/7/2, screenHeight/35);
-		schoolYearBox.setFont(labelFontSize);
+		schoolYearBox.setFont(labelFont);
 		add(schoolYearBox);
 
 		//Add a button to go back to the Department Head Menu
 		JButton btnCancel = new JButton("Back");
-		btnCancel.setFont(labelFontSize);
+		btnCancel.setFont(labelFont);
+		btnCancel.setBackground(gold);
 		btnCancel.setBounds(screenWidth/4 - screenWidth/14 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 8*screenHeight/30 + screenHeight/90, screenWidth/20, screenHeight/33);
 		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -246,8 +278,9 @@ public class Statistics extends JPanel {
 
 		//Add a button to display the statistical information the user has requested
 		JButton btnConfirm = new JButton("Display");
-		btnConfirm.setFont(labelFontSize);
-		btnConfirm.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60 - screenWidth/200, screenHeight/7 + 8*screenHeight/30 + screenHeight/90, screenWidth/20, screenHeight/33);
+		btnConfirm.setFont(labelFont);
+		btnConfirm.setBackground(gold);
+		btnConfirm.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/60 - screenWidth/200, screenHeight/7 + 8*screenHeight/30 + screenHeight/90, screenWidth/18, screenHeight/33);
 		btnConfirm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -396,6 +429,28 @@ public class Statistics extends JPanel {
 
 			}
 		});
-		add(btnConfirm);      
+		add(btnConfirm);    
+		
+		/**
+		 * PHOTOS
+		 */
+
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/11, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
+
 	}
 }

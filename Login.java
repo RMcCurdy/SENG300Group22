@@ -4,13 +4,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 
 public class Login extends JPanel {
 
@@ -18,57 +27,83 @@ public class Login extends JPanel {
 	private JTextField textFieldPass;
 	private static String eAddress;
 	private boolean valid = false;
+	private JLabel background_1;
+	private JLabel background_2;
+	private Font headerFont;
+	private Font labelFont;
 
-	//Creates the login page for the system
-	public Login(JFrame frame) {
+	// Creates the login page for the system
+	public Login(JFrame frame){
 		//Save the screen resolution of the user to a height and width integer
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+
 		setLayout(null);
-		
+
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		/**
 		 * LABELS
 		 */
 
 		//Header of the system name
 		JLabel lblNewLabel = new JLabel("UofC Scholarship Portal");
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
-		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		lblNewLabel.setForeground(myRed);
+		lblNewLabel.setBounds(screenWidth/4 - screenWidth/12, screenHeight/25, screenWidth/4, screenHeight/25);
+		lblNewLabel.setFont(headerFont);
 		add(lblNewLabel);
 		
 		//Label for the email text field
 		JLabel Username = new JLabel("Email:");
+		Username.setForeground(gold);
 		Username.setBounds(screenWidth/4 - screenWidth/9 + screenWidth/200, screenHeight/7, screenWidth/10, screenHeight/40);
-		Username.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		Username.setFont(labelFont);
 		add(Username);
 		
 		//Label for the password text field
 		JLabel Password = new JLabel("Password:");
+		Password.setForeground(gold);
 		Password.setBounds(screenWidth/4 - screenWidth/8, screenHeight/7 + screenHeight/20, screenWidth/10, screenHeight/40);
-		Password.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		Password.setFont(labelFont);
 		add(Password);
 		
 		/**
 		 * TEXT FIELDS
 		 */
 
-		//Font size and style used for the text fields
-		Font textFieldFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-
 		//Text field for the Email
 		textFieldEmail = new JTextField();
 		textFieldEmail.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
 		add(textFieldEmail);
-		textFieldEmail.setFont(textFieldFontSize);
+		textFieldEmail.setFont(labelFont);
 		
 		//Text field for the Password
 		textFieldPass = new JPasswordField();
 		textFieldPass.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/20, screenWidth/7, screenHeight/35);
 		add(textFieldPass);
-		textFieldPass.setFont(textFieldFontSize);
+		textFieldPass.setFont(labelFont);
 		
 		/**
 		 * MESSAGES
@@ -203,9 +238,9 @@ public class Login extends JPanel {
 				}
 			}
 		});
-
+		loginButton.setBackground(gold);
 		loginButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
-		loginButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		loginButton.setFont(labelFont);
 		add(loginButton);
 
 		//Button for the create account option
@@ -221,11 +256,33 @@ public class Login extends JPanel {
 				frame.revalidate();
 			}
 		});
+		createButton.setBackground(gold);
 		createButton.setBounds(screenWidth/4 + screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
-		createButton.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		createButton.setFont(labelFont);
 		add(createButton);
 
-	}
+		/**
+		 * PHOTOS
+		 */
+
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/8, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
+
+	}	
 
 	public static String eAddress() {
 		eAddress = textFieldEmail.getText(); 

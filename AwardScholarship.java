@@ -2,6 +2,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import org.json.simple.parser.JSONParser;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,8 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;  
 import java.io.*;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.FontFormatException;
 
 public class AwardScholarship extends JPanel {
 
@@ -32,6 +39,10 @@ public class AwardScholarship extends JPanel {
 	private JComboBox nameBox;
 	private String selectedScholarship;
 	private String enteredRecipientName;
+	private Font headerFont;
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -52,26 +63,50 @@ public class AwardScholarship extends JPanel {
 		// Initialized the layout to have no perameters
 		setLayout(null);
 
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		Color myGreen = new Color(61, 222, 29);
+
+		setLayout(null);
+
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Create an empty array list for faculties
 		scholarships = new ArrayList <String>();
 
 		// Create an empty array list for names
 		names = new ArrayList <String>();
 
-		// Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-
 		// Header of the system name
 		JLabel header = new JLabel("Award Scholarships");
-		header.setBounds(screenWidth/4 - screenWidth/11, screenHeight/25, screenWidth/3, screenHeight/25);
-		header.setForeground(Color.RED);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setBounds(screenWidth/4 - screenWidth/18, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setForeground(myRed);
+		header.setFont(headerFont);
 		add(header);
 
 		// Label for the scholarship name drop down menu
 		JLabel scholarshipLabel = new JLabel("Scholarship Name:");
-		scholarshipLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
-		scholarshipLabel.setFont(labelFontSize);
+		scholarshipLabel.setForeground(gold);
+		scholarshipLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/45, screenHeight/7, screenWidth/7, screenHeight/35);
+		scholarshipLabel.setFont(labelFont);
 		add(scholarshipLabel);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -105,34 +140,35 @@ public class AwardScholarship extends JPanel {
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(scholarships.toArray());
         scholarshipBox = new JComboBox(modelTemp);
 		scholarshipBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
-		scholarshipBox.setFont(labelFontSize);
+		scholarshipBox.setFont(labelFont);
 		add(scholarshipBox);
 
 		// Label for the recipient name text field
 		JLabel recipientLabel = new JLabel("Recipient Name:");
+		recipientLabel.setForeground(gold);
 		recipientLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
-		recipientLabel.setFont(labelFontSize);
+		recipientLabel.setFont(labelFont);
 		add(recipientLabel);
 
 		// Drop down menu that will be later filled with the names of students associated with scholarships
         nameBox = new JComboBox();
 		nameBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2 * screenHeight/30, screenWidth/7, screenHeight/35);
-		nameBox.setFont(labelFontSize);
+		nameBox.setFont(labelFont);
 		add(nameBox);
 
 		// Message to be displayed if successfully awarding a scholarship
 		JLabel successfulAdd = new JLabel("Successfully awarded the scholarship");
-		successfulAdd.setForeground(Color.green);
-		successfulAdd.setBounds(screenWidth/4 - screenWidth/13, screenHeight/7 + 4*screenHeight/33, screenWidth/6, screenHeight/35);
-		successfulAdd.setFont(labelFontSize);
+		successfulAdd.setForeground(myGreen);
+		successfulAdd.setBounds(screenWidth/4 - screenWidth/12, screenHeight/7 + 4*screenHeight/33, screenWidth/5, screenHeight/35);
+		successfulAdd.setFont(labelFont);
 		add(successfulAdd);
 		successfulAdd.setVisible(false);
 
 		// Error message for not choosing a scholarship
 		JLabel invalidTextField = new JLabel("Please Choose A Scholarship");
-		invalidTextField.setForeground(Color.RED);
+		invalidTextField.setForeground(myRed);
 		invalidTextField.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7, screenWidth/7, screenHeight/35);
-		invalidTextField.setFont(labelFontSize);
+		invalidTextField.setFont(labelFont);
 		add(invalidTextField);
 		invalidTextField.setVisible(false);
 
@@ -195,7 +231,8 @@ public class AwardScholarship extends JPanel {
 				
 			}
 		});
-		btnLoad.setFont(labelFontSize);
+		btnLoad.setFont(labelFont);
+		btnLoad.setBackground(gold);
 		btnLoad.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
 		add(btnLoad);
 
@@ -265,7 +302,8 @@ public class AwardScholarship extends JPanel {
 
 			}
 		});
-		btnCreate.setFont(labelFontSize);
+		btnCreate.setFont(labelFont);
+		btnCreate.setBackground(gold);;
 		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 5*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCreate);
 		
@@ -282,9 +320,31 @@ public class AwardScholarship extends JPanel {
 				frame.revalidate();
 			}
 		});
-		btnCancel.setFont(labelFontSize);
+		btnCancel.setFont(labelFont);
+		btnCancel.setBackground(gold);
 		btnCancel.setBounds(screenWidth/4 - screenWidth/15 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 5*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCancel);
+
+		/**
+		 * PHOTOS
+		 */
+
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/10, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
 
 	}
 }

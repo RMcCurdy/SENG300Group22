@@ -5,6 +5,7 @@ import javax.swing.JTextField;
 import org.json.simple.parser.JSONParser;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -25,6 +26,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException; 
 import java.io.*;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.FontFormatException;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class RemoveScholarship extends JPanel {
 
@@ -32,6 +38,10 @@ public class RemoveScholarship extends JPanel {
 	private List <String> scholarships;
 	private JComboBox scholarshipBox;
 	private String selectedScholarship;
+	private Font headerFont;
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -52,23 +62,45 @@ public class RemoveScholarship extends JPanel {
 		// Initialized the layout to have no perameters
 		setLayout(null);
 
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		Color myGreen = new Color(61, 222, 29);
+
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Create an empty array list for faculties
 		scholarships = new ArrayList <String>();
 
-		// Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-
 		// Header of the system name
 		JLabel header = new JLabel("Remove Scholarships");
-		header.setBounds(screenWidth/4 - screenWidth/11, screenHeight/25, screenWidth/3, screenHeight/25);
-		header.setForeground(Color.RED);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setBounds(screenWidth/4 - screenWidth/11 + screenWidth/45, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setForeground(myRed);
+		header.setFont(headerFont);
 		add(header);
 
 		// Label for the scholarship drop down
 		JLabel termLabel = new JLabel("Scholarship Name:");
-		termLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
-		termLabel.setFont(labelFontSize);
+		termLabel.setForeground(gold);
+		termLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/50, screenHeight/7, screenWidth/7, screenHeight/35);
+		termLabel.setFont(labelFont);
 		add(termLabel);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -102,22 +134,22 @@ public class RemoveScholarship extends JPanel {
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(scholarships.toArray());
         scholarshipBox = new JComboBox(modelTemp);
 		scholarshipBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
-		scholarshipBox.setFont(labelFontSize);
+		scholarshipBox.setFont(labelFont);
 		add(scholarshipBox);
 
 		// Message to be displayed when successfully removing a scholarship
 		JLabel successfulAdd = new JLabel("Successfully removed the scholarship");
-		successfulAdd.setForeground(Color.green);
-		successfulAdd.setBounds(screenWidth/4 - screenWidth/13, screenHeight/7 + 2*screenHeight/37, screenWidth/6, screenHeight/35);
-		successfulAdd.setFont(labelFontSize);
+		successfulAdd.setForeground(myGreen);
+		successfulAdd.setBounds(screenWidth/4 - screenWidth/12, screenHeight/7 + 2*screenHeight/37, screenWidth/5, screenHeight/35);
+		successfulAdd.setFont(labelFont);
 		add(successfulAdd);
 		successfulAdd.setVisible(false);
 
 		// Error message for not choosing a scholarship from the drop down
 		JLabel invalidTextField = new JLabel("Please Choose A Scholarship");
-		invalidTextField.setForeground(Color.RED);
+		invalidTextField.setForeground(myRed);
 		invalidTextField.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7, screenWidth/7, screenHeight/35);
-		invalidTextField.setFont(labelFontSize);
+		invalidTextField.setFont(labelFont);
 		add(invalidTextField);
 		invalidTextField.setVisible(false);
 		
@@ -218,7 +250,8 @@ public class RemoveScholarship extends JPanel {
 
 			}
 		});
-		btnCreate.setFont(labelFontSize);
+		btnCreate.setFont(labelFont);
+		btnCreate.setBackground(gold);
 		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 3*screenHeight/30, screenWidth/18, screenHeight/33);
 		add(btnCreate);
 		
@@ -235,9 +268,31 @@ public class RemoveScholarship extends JPanel {
 				frame.revalidate();
 			}
 		});
-		btnCancel.setFont(labelFontSize);
+		btnCancel.setFont(labelFont);
+		btnCancel.setBackground(gold);
 		btnCancel.setBounds(screenWidth/4 - screenWidth/15 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 3*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCancel);
+
+		/**
+		 * PHOTOS
+		 */
+
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/9, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
 
 	}
 }

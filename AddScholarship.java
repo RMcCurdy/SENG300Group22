@@ -2,6 +2,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import org.json.simple.parser.JSONParser;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,8 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;  
 import java.io.*;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.FontFormatException;
 
 public class AddScholarship extends JPanel {
 
@@ -51,6 +58,11 @@ public class AddScholarship extends JPanel {
 	private String selectedMonth;
 	private String selectedDay;
 
+	private Font headerFont;
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -70,6 +82,32 @@ public class AddScholarship extends JPanel {
 		// Initialized the layout to have no perameters
 		setLayout(null);
 
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		Color myGreen = new Color(61, 222, 29);
+
+		setLayout(null);
+
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Create an empty array list for faculties
 		faculties = new ArrayList <String>();
 
@@ -85,80 +123,80 @@ public class AddScholarship extends JPanel {
 		// Create an empty array list for years
 		years = new ArrayList <String>();
 
-		// Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-
 		// Error message for an invalid integer
 		JLabel invalidINT = new JLabel("Please enter an integer");
-		invalidINT.setForeground(Color.RED);
+		invalidINT.setForeground(myRed);
 		invalidINT.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 3*screenHeight/30, screenWidth/6, screenHeight/35);
-		invalidINT.setFont(labelFontSize);
+		invalidINT.setFont(labelFont);
 		add(invalidINT);
 		invalidINT.setVisible(false);
 
 		// Error message for an invalid scholarship name
 		JLabel invalidScholarshipName = new JLabel("Invalid Scholarship Name");
-		invalidScholarshipName.setForeground(Color.RED);
+		invalidScholarshipName.setForeground(myRed);
 		invalidScholarshipName.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7, screenWidth/7, screenHeight/35);
-		invalidScholarshipName.setFont(labelFontSize);
+		invalidScholarshipName.setFont(labelFont);
 		add(invalidScholarshipName);
 		invalidScholarshipName.setVisible(false);
 
 		// Error message for an invalid faculty
 		JLabel invalidFaculty = new JLabel("Please select a faculty");
-		invalidFaculty.setForeground(Color.RED);
+		invalidFaculty.setForeground(myRed);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidFaculty.setFont(labelFontSize);
+		invalidFaculty.setFont(labelFont);
 		add(invalidFaculty);
 		invalidFaculty.setVisible(false);
 
 		// Error message for an invalid term
 		JLabel invalidTerm = new JLabel("Please select a term");
-		invalidTerm.setForeground(Color.RED);
+		invalidTerm.setForeground(myRed);
 		invalidTerm.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidTerm.setFont(labelFontSize);
+		invalidTerm.setFont(labelFont);
 		add(invalidTerm);
 		invalidTerm.setVisible(false);
 
 		// Error message for an invalid date
 		JLabel invalidDate = new JLabel("Invalid Date");
-		invalidDate.setForeground(Color.RED);
+		invalidDate.setForeground(myRed);
 		invalidDate.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidDate.setFont(labelFontSize);
+		invalidDate.setFont(labelFont);
 		add(invalidDate);
 		invalidDate.setVisible(false);
 
 		// Message to display when successfully adding a scholarship
 		JLabel successfulAdd = new JLabel("Successfully added the scholarship");
-		successfulAdd.setForeground(Color.green);
-		successfulAdd.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 6*screenHeight/33, screenWidth/6, screenHeight/35);
-		successfulAdd.setFont(labelFontSize);
+		successfulAdd.setForeground(myGreen);
+		successfulAdd.setBounds(screenWidth/4 - screenWidth/13, screenHeight/7 + 6*screenHeight/33, screenWidth/6, screenHeight/35);
+		successfulAdd.setFont(labelFont);
 		add(successfulAdd);
 		successfulAdd.setVisible(false);
 
 		// Label for the menu name
 		JLabel header = new JLabel("Add Scholarships");
-		header.setBounds(screenWidth/4 - screenWidth/14, screenHeight/25, screenWidth/3, screenHeight/25);
-		header.setForeground(Color.RED);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setBounds(screenWidth/4 - screenWidth/18, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setForeground(myRed);
+		header.setFont(headerFont);
 		add(header);
 
 		// Label for the scholarship name text field
 		JLabel scholarshipNameLabel = new JLabel("Scholarship Name:");
-		scholarshipNameLabel.setBounds(screenWidth/4 - screenWidth/7 - screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
-		scholarshipNameLabel.setFont(labelFontSize);
+		scholarshipNameLabel.setBounds(screenWidth/4 - screenWidth/6, screenHeight/7, screenWidth/7, screenHeight/35);
+		scholarshipNameLabel.setForeground(gold);
+		scholarshipNameLabel.setFont(labelFont);
 		add(scholarshipNameLabel);
 
 		// Text field for the scholarship name
 		scholarshipName = new JTextField();
+		scholarshipName.setFont(labelFont);
 		scholarshipName.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
-		scholarshipName.setFont(labelFontSize);
+		scholarshipName.setFont(labelFont);
 		add(scholarshipName);
 
 		// Label for the faculty drop down
 		JLabel facultyName = new JLabel("Faculty:");
-		facultyName.setBounds(screenWidth/4 - screenWidth/10 - screenWidth/130, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		facultyName.setFont(labelFontSize);
+		facultyName.setForeground(gold);
+		facultyName.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/200, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
+		facultyName.setFont(labelFont);
 		add(facultyName);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -192,13 +230,14 @@ public class AddScholarship extends JPanel {
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
         facultyBox = new JComboBox(modelTemp);
 		facultyBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		facultyBox.setFont(labelFontSize);
+		facultyBox.setFont(labelFont);
 		add(facultyBox);
 
 		//Label for the term drop down
 		JLabel termLabel = new JLabel("Term:");
-		termLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/23, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
-		termLabel.setFont(labelFontSize);
+		termLabel.setBounds(screenWidth/4 - screenWidth/9 + screenWidth/300, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
+		termLabel.setFont(labelFont);
+		termLabel.setForeground(gold);
 		add(termLabel);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -232,25 +271,27 @@ public class AddScholarship extends JPanel {
 		DefaultComboBoxModel semesterBoxModel = new DefaultComboBoxModel(semesters.toArray());
         semesterBox = new JComboBox(semesterBoxModel);
 		semesterBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
-		semesterBox.setFont(labelFontSize);
+		semesterBox.setFont(labelFont);
 		add(semesterBox);
 
 		// Label for the scholarship dollar amount
 		JLabel dollarAmountLabel = new JLabel("$ Amount:");
-		dollarAmountLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/39, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
-		dollarAmountLabel.setFont(labelFontSize);
+		dollarAmountLabel.setBounds(screenWidth/4 - screenWidth/8 - screenWidth/400, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
+		dollarAmountLabel.setFont(labelFont);
+		dollarAmountLabel.setForeground(gold);
 		add(dollarAmountLabel);
 
 		// Text field for the scholarship dollar amount
 		dollarAmount = new JTextField();
 		dollarAmount.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
-		dollarAmount.setFont(labelFontSize);
+		dollarAmount.setFont(labelFont);
 		add(dollarAmount);
 
 		// Label for the deadline drop down
 		JLabel deadlineLabel = new JLabel("Deadline:");
-		deadlineLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/36, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
-		deadlineLabel.setFont(labelFontSize);
+		deadlineLabel.setBounds(screenWidth/4 - screenWidth/9 - screenWidth/90, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
+		deadlineLabel.setFont(labelFont);
+		deadlineLabel.setForeground(gold);
 		add(deadlineLabel);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -283,8 +324,8 @@ public class AddScholarship extends JPanel {
 		// Create a JComboBox to display the month information in a drop down menu
 		DefaultComboBoxModel monthBoxModel = new DefaultComboBoxModel(months.toArray());
         monthBox = new JComboBox(monthBoxModel);
-		monthBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/85 - screenWidth/200, screenHeight/7 + 4*screenHeight/30, screenWidth/17, screenHeight/35);
-		monthBox.setFont(labelFontSize);
+		monthBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 4*screenHeight/30, screenWidth/15, screenHeight/35);
+		monthBox.setFont(labelFont);
 		add(monthBox);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -317,8 +358,8 @@ public class AddScholarship extends JPanel {
 		// Create a JComboBox to display the day information in a drop down menu
 		DefaultComboBoxModel dayBoxModel = new DefaultComboBoxModel(days.toArray());
         dayBox = new JComboBox(dayBoxModel);
-		dayBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/17 + screenWidth/85, screenHeight/7 + 4*screenHeight/30, screenWidth/40, screenHeight/35);
-		dayBox.setFont(labelFontSize);
+		dayBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/17 + screenWidth/85 + screenWidth/260, screenHeight/7 + 4*screenHeight/30, screenWidth/40, screenHeight/35);
+		dayBox.setFont(labelFont);
 		add(dayBox);
 
 		// Initialize a JSONParser to get the data from the JSON file
@@ -351,8 +392,8 @@ public class AddScholarship extends JPanel {
 		// Create a JComboBox to display the school year information in a drop down menu
 		DefaultComboBoxModel yearBoxModel = new DefaultComboBoxModel(years.toArray());
         yearBox = new JComboBox(yearBoxModel);
-		yearBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/17 + screenWidth/40 + screenWidth/85 + screenWidth/200, screenHeight/7 + 4*screenHeight/30, screenWidth/27, screenHeight/35);
-		yearBox.setFont(labelFontSize);
+		yearBox.setBounds(screenWidth/4 - screenWidth/14 + screenWidth/17 + screenWidth/21, screenHeight/7 + 4*screenHeight/30, screenWidth/27, screenHeight/35);
+		yearBox.setFont(labelFont);
 		add(yearBox);
 		
 		// Button that initiates the adding of the new scholarship information to the JSON file with the information
@@ -549,7 +590,8 @@ public class AddScholarship extends JPanel {
 					
 			}
 		});
-		btnCreate.setFont(labelFontSize);
+		btnCreate.setFont(labelFont);
+		btnCreate.setBackground(gold);
 		btnCreate.setBounds(screenWidth/4 - screenWidth/15 + screenWidth/60 - screenWidth/200, screenHeight/7 + 7*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCreate);
 		
@@ -566,9 +608,31 @@ public class AddScholarship extends JPanel {
 				frame.revalidate();
 			}
 		});
-		btnCancel.setFont(labelFontSize);
+		btnCancel.setFont(labelFont);
+		btnCancel.setBackground(gold);
 		btnCancel.setBounds(screenWidth/4 - screenWidth/15 + 2*screenWidth/30 + screenWidth/200, screenHeight/7 + 7*screenHeight/30, screenWidth/20, screenHeight/33);
 		add(btnCancel);
+
+		/**
+		 * PHOTOS
+		 */
+
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/10, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
 
 	}
 }
