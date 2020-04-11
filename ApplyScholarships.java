@@ -19,8 +19,25 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.SwingConstants;
+
+//import jdk.nashorn.internal.parser.JSONParser;
+
+//import com.sun.java_cup.internal.runtime.Scanner;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class ApplyScholarships extends JPanel {
 	
@@ -38,6 +55,7 @@ public class ApplyScholarships extends JPanel {
 	 */
 	
 	public ApplyScholarships(JFrame frame, Account user) {
+		
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
@@ -62,9 +80,9 @@ public class ApplyScholarships extends JPanel {
 		//creating list containing scholarships
 		
 		DefaultListModel scholarships = new DefaultListModel();
-		scholarships.addElement(facs + " Fall");
-		scholarships.addElement(facs + " Winter");
-		scholarships.addElement(facs + " Full Year");
+		scholarships.addElement(facs + "F");
+		scholarships.addElement(facs + "W");
+		scholarships.addElement(facs + "FY");
 		list = new JList(scholarships);
 		list.setFont(labelFontSize);
 		list.setSize(218, 80);
@@ -97,7 +115,7 @@ public class ApplyScholarships extends JPanel {
 		JScrollBar bar = sp.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(30, 0));
 		JButton button = new JButton("Select");
-		button.setBounds(screenWidth1/4 - screenWidth1/20, screenHeight1/6 + 10 * screenHeight1/37 - screenHeight1/74, screenWidth1/10, screenHeight1/60);
+		button.setBounds(207, 387, screenWidth1/10, screenHeight1/60);
 		button.setFont(labelFontSize);
 		add(button);
 	    button.addActionListener(new ActionListener() {
@@ -162,7 +180,65 @@ public class ApplyScholarships extends JPanel {
 		facultyLabel.setBounds(6, 25, 294, 16);
 		add(facultyLabel);
 		
+		
+		JButton applyNewButton = new JButton("APPLY");
+		
+		applyNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Authenticator.loadNames();
+				String studName = (String)authen.getNamesMap().get(Login.eAddress());
+				
+				try {
+					File myObj = new File("gpa.txt");
+					Scanner scanner = new Scanner(myObj);
+					
+					int lineNum = 0;
+					while (scanner.hasNextLine()) {
+						String line = scanner.nextLine();
+						lineNum++;
+						if (line == studName) {
+							System.out.println("P");
+							JSONParser parser9 = new JSONParser();
+							
+							try(Reader reader9 = new FileReader("scholarshipNames.json")) {
+								JSONObject jsonObject = (JSONObject) parser9.parse(reader9);
+								String jsonObjectString = jsonObject.toString();
+								
+								String substring = (","+" enteredScholarshipName "+"");
+								String newString = jsonObjectString.substring(0,jsonObjectString.length() - 2) + substring + "]}";
+								
+								FileWriter fileWriter = new FileWriter("scholarshipNames.json");
+								fileWriter.write(newString);
+								fileWriter.flush();
+								
+								//successfulAdd.setVisible(true);
+								
+							} catch(IOException r) {
+								r.printStackTrace();
+							} catch (ParseException p) {
+								p.printStackTrace();
+							}
+							
+						}
+						else {
+							System.out.println("no");
+						}
+					}
+								
+			} catch(FileNotFoundException e3) {
+				System.out.println("i");
+			}
+			}
+				
+				
+		});
+		
+		applyNewButton.setBounds(376, 380, 153, 29);
+		add(applyNewButton);
+		
 	}
+}
 	
 
-}
+
