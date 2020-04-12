@@ -1,11 +1,7 @@
-import javax.swing.JPanel;
 import java.io.Serializable;
-import javax.swing.JPasswordField;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+
 import javax.swing.text.html.HTMLDocument.Iterator;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileWriter;
@@ -15,11 +11,16 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+
 import javax.swing.*;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,10 @@ public class Create extends JPanel {
 	private String userFaculty;
 	private List <String> faculties;
 	private JComboBox facultyBox;
+	private JLabel background_1;
+	private JLabel background_2;
+	private Font headerFont;
+	private Font labelFont;
 
 	public boolean student = true;
 	public boolean dept = false;
@@ -61,15 +66,41 @@ public class Create extends JPanel {
 
 		setLayout(null);
 
+		// Create specific colors to be used in text and buttons
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		
+		// Try catch to load in custom header font
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// Try catch to load in custom font
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		/**
 		 * LABELS
 		 */
 
 		//Header of the system name
 		JLabel header = new JLabel("UofC Scholarship Portal");
-		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/8, screenHeight/25, screenWidth/4, screenHeight/25);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setForeground(myRed);
+		header.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/32, screenHeight/25, screenWidth/4, screenHeight/25);
+		header.setFont(headerFont);
 		add(header);
 
 		//Font size for remaining labels
@@ -78,72 +109,82 @@ public class Create extends JPanel {
 		//Labels "areYouALabel", "orLabel", and "qMarkLabel" to make it clear to the user with regards to student or professor buttons
 		JLabel areYouALabel = new JLabel("Are you a");
 		areYouALabel.setBounds(screenWidth/4 - screenWidth/8 - screenWidth/140, screenHeight/10, screenWidth/15, screenHeight/40);
-		areYouALabel.setFont(labelFontSize);
+		areYouALabel.setFont(labelFont);
+		areYouALabel.setForeground(gold);
 		add(areYouALabel);
 
 		JLabel orLabel = new JLabel("or");
 		orLabel.setBounds(screenWidth/4 - screenWidth/200, screenHeight/10, screenWidth/15, screenHeight/40);
-		orLabel.setFont(labelFontSize);
+		orLabel.setFont(labelFont);
+		orLabel.setForeground(gold);
 		add(orLabel);
 
 		JLabel qMarkLabel = new JLabel("?");
 		qMarkLabel.setBounds(screenWidth/4 + screenWidth/12, screenHeight/10, screenWidth/15, screenHeight/40);
-		qMarkLabel.setFont(labelFontSize);
+		qMarkLabel.setFont(labelFont);
+		qMarkLabel.setForeground(gold);
 		add(qMarkLabel);
 
 		//Label for the first name text field
 		JLabel firstName = new JLabel("First Name:");
 		firstName.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/100, screenHeight/7, screenWidth/7, screenHeight/35);
-		firstName.setFont(labelFontSize);
+		firstName.setFont(labelFont);
+		firstName.setForeground(gold);
 		add(firstName);
 		
 		//Label for the last name text field
 		JLabel lastName = new JLabel("Last Name:");
 		lastName.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/100, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		lastName.setFont(labelFontSize);
+		lastName.setFont(labelFont);
+		lastName.setForeground(gold);
 		add(lastName);
 
 		//Label for the email text field
 		JLabel emailLabel = new JLabel("Email:");
 		emailLabel.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/29, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
-		emailLabel.setFont(labelFontSize);
+		emailLabel.setFont(labelFont);
+		emailLabel.setForeground(gold);
 		add(emailLabel);
 
 		//Label for the student ID text field
 		JLabel studID = new JLabel("Student ID:");
 		studID.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/100, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
-		studID.setFont(labelFontSize);
+		studID.setFont(labelFont);
+		studID.setForeground(gold);
 		add(studID);
 
 		//Label to indicate it is a professor's ID for the ID text field
 		JLabel profID = new JLabel("Professor ID:");
 		profID.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/400, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
-		profID.setFont(labelFontSize);
+		profID.setFont(labelFont);
+		profID.setForeground(gold);
 		add(profID);
 		profID.setVisible(false);
 
 		//Label for the password text field
 		JLabel pwd = new JLabel("Password:");
 		pwd.setBounds(screenWidth/4 - screenWidth/7 + screenWidth/70, screenHeight/7 + 4*screenHeight/30, screenWidth/7, screenHeight/35);
-		pwd.setFont(labelFontSize);
+		pwd.setFont(labelFont);
+		pwd.setForeground(gold);
 		add(pwd);
 
 		//Label for the confirm password text field
 		JLabel confirmPwd = new JLabel("Confirm Password:");
 		confirmPwd.setBounds(screenWidth/4 - screenWidth/6 - screenWidth/250, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
-		confirmPwd.setFont(labelFontSize);
+		confirmPwd.setFont(labelFont);
+		confirmPwd.setForeground(gold);
 		add(confirmPwd);
     
     //Label for faculty in drop down menu
 		JLabel faculty = new JLabel("Faculty:");
 		faculty.setBounds(screenWidth/4 - screenWidth/8 + screenWidth/115, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		faculty.setFont(labelFontSize);
+		faculty.setFont(labelFont);
+		faculty.setForeground(gold);
 		add(faculty);
 		
 		/**
 		 * TEXT FIELDS
 		 */
-
 		//Text field for the first name
 		first = new JTextField();
 		first.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7, screenWidth/7, screenHeight/35);
@@ -183,72 +224,72 @@ public class Create extends JPanel {
 		/**
 		 * MESSAGES
 		 */
-
 		//Error message for when passwords entered do not match
 		JLabel passMatch = new JLabel("Passwords don't match");
 		passMatch.setForeground(Color.RED);
 		passMatch.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 5*screenHeight/30, screenWidth/7, screenHeight/35);
-		passMatch.setFont(labelFontSize);
+		passMatch.setFont(labelFont);
 		add(passMatch);
 
 		//Error message for the password not meeting the required length
 		JLabel passLength = new JLabel("Invalid Password length, needs 10 characters");
 		passLength.setForeground(Color.RED);
 		passLength.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 4*screenHeight/30, screenWidth/6, screenHeight/35);
-		passLength.setFont(new Font("Arial", Font.PLAIN, screenHeight/90));
+		passLength.setFont(labelFont);
 		add(passLength);
 		
 		//Error message for an invalid email
 		JLabel invalidEmail = new JLabel("Invalid Email");
 		invalidEmail.setForeground(Color.RED);
 		invalidEmail.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 2*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidEmail.setFont(labelFontSize);
+		invalidEmail.setFont(labelFont);
 		add(invalidEmail);
 
 		//Error message for an invalid ID
 		JLabel invalidID = new JLabel("Invalid ID");
 		invalidID.setForeground(Color.RED);
 		invalidID.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 3*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidID.setFont(labelFontSize);
+		invalidID.setFont(labelFont);
 		add(invalidID);
 
 		//Error message for an invalid integer
 		JLabel invalidINT = new JLabel("Please enter an 8-digit integer");
 		invalidINT.setForeground(Color.RED);
 		invalidINT.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 3*screenHeight/30, screenWidth/6, screenHeight/35);
-		invalidINT.setFont(labelFontSize);
+		invalidINT.setFont(labelFont);
 		add(invalidINT);
 
 		//Error message for an invalid first name
 		JLabel invalidFirst = new JLabel("Invalid First Name");
 		invalidFirst.setForeground(Color.RED);
 		invalidFirst.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7, screenWidth/7, screenHeight/35);
-		invalidFirst.setFont(labelFontSize);
+		invalidFirst.setFont(labelFont);
 		add(invalidFirst);
 
 		//Error message for an invalid last name
 		JLabel invalidLast = new JLabel("Invalid Last Name");
 		invalidLast.setForeground(Color.RED);
 		invalidLast.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidLast.setFont(labelFontSize);
+		invalidLast.setFont(labelFont);
 		add(invalidLast);
 
 		//Error message for not filling in all the fields
 		JLabel invalidField = new JLabel("Not all required fields have been filled in");
 		invalidField.setForeground(Color.RED);
-		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 10 * screenHeight/40, screenWidth/5, screenHeight/25);
-		invalidField.setFont(labelFontSize);
+		invalidField.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 10 * screenHeight/39, screenWidth/5, screenHeight/25);
+		invalidField.setFont(labelFont);
 		add(invalidField);
     
 		JLabel invalidFaculty = new JLabel("Please select a faculty");
 		invalidFaculty.setForeground(Color.RED);
 		invalidFaculty.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
-		invalidFaculty.setFont(labelFontSize);
+		invalidFaculty.setFont(labelFont);
 		add(invalidFaculty);
 		
 		JLabel inUse = new JLabel("Email already in use");
 		inUse.setForeground(Color.RED);
 		inUse.setBounds(470, 192, 137, 16);
+		inUse.setFont(labelFont);
 		add(inUse);
 		inUse.setVisible(false);
 
@@ -263,7 +304,7 @@ public class Create extends JPanel {
 		invalidField.setVisible(false);
 		invalidFaculty.setVisible(false);
     
-    /**
+		/**
 		* DROP DOWN SELECT
 		*/
 
@@ -329,7 +370,8 @@ public class Create extends JPanel {
 			}
 		});
 		prof.setBounds(screenWidth/4 - screenWidth/30 + screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
-		prof.setFont(labelFontSize);
+		prof.setBackground(gold);
+		prof.setFont(labelFont);
 		add(prof);
 
 		//Button used to change the label from Professor ID to Student ID
@@ -345,7 +387,8 @@ public class Create extends JPanel {
 			}
 		});
 		stud.setBounds(screenWidth/4 - screenWidth/30 - screenWidth/22, screenHeight/10, screenWidth/15, screenHeight/40);
-		stud.setFont(labelFontSize);
+		stud.setBackground(gold);
+		stud.setFont(labelFont);
 		add(stud);
 
 		//Button for creating an account
@@ -502,8 +545,6 @@ public class Create extends JPanel {
 					}
 				}
 				
-				
-				
 				//If no errors have occured, then we will save this information to a txt file
 				if (errorCount == 0){
 					/*
@@ -522,8 +563,10 @@ public class Create extends JPanel {
 				}	    
 			}
 		});
-		createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
-		createAccount.setFont(labelFontSize);
+		//createAccount.setBounds(screenWidth/4 - screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
+		createAccount.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/256 + screenWidth/32, screenHeight/30);
+		createAccount.setBackground(gold);
+		createAccount.setFont(labelFont);
 		add(createAccount);
 		
 		JButton backButton = new JButton("Back");
@@ -537,7 +580,32 @@ public class Create extends JPanel {
 				frame.revalidate();
 			}
 		});
-		backButton.setBounds(288, 412, 137, 29);
+		//backButton.setBounds(screenWidth/4 + screenWidth/20, screenHeight/6 + 8 * screenHeight/37, screenWidth/10, screenHeight/30);
+		backButton.setBounds(screenWidth/4 + screenWidth/256 + screenWidth/32, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/32, screenHeight/30);
+		backButton.setBackground(gold);
+		backButton.setFont(labelFont);
 		add(backButton);
+		
+		/**
+		 * PHOTOS
+		 */
+		// Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/6 + screenWidth/32, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		// Loads in the background image
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
 	}
 }

@@ -11,17 +11,23 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+
 import javax.swing.JList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -36,6 +42,10 @@ public class ProfessorMenu extends JPanel {
 	private JList list;	// JList of all displayed scholarships
 	private JTextField search; 
 	private static final long serialVersionUID = 1L;
+	private JLabel background_1;
+	private JLabel background_2;
+	private Font headerFont;
+	private Font labelFont;
 
 	/**
 	 * The screen a professor gets when they sign in
@@ -51,16 +61,39 @@ public class ProfessorMenu extends JPanel {
 
 		setLayout(null);
 
+		// Create specific colors to be used in text and buttons
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		
+		// Try catch to load in custom header font
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// Try catch to load in custom font
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Header of the system name
 		JLabel header = new JLabel("UofC Professor Scholarship Portal");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
-		header.setForeground(Color.RED);
-		header.setBounds(screenWidth/4 - screenWidth/6, screenHeight/25, screenWidth/3, screenHeight/25);
-		header.setFont(new Font("Arial", Font.PLAIN, screenHeight/30));
+		header.setForeground(myRed);
+		header.setBounds(screenWidth/4 - screenWidth/6 + screenWidth/100, screenHeight/25, screenWidth/3, screenHeight/25);
+		header.setFont(headerFont);
 		add(header);
-		
-		// Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
 
 		String[] scholarshiplist = null; // List of all scholarships
 		JSONParser parser = new JSONParser(); // Parser to read the JSON file
@@ -89,13 +122,15 @@ public class ProfessorMenu extends JPanel {
 		
         // Label with instructions
 		JLabel lblInstructions = new JLabel("Please select the scholarship you wish to nominate a student in.");
-		lblInstructions.setBounds(screenWidth/10, screenHeight/10, screenWidth/2, screenHeight/35);
-		lblInstructions.setFont(new Font("Arial", Font.PLAIN, screenHeight/50));
+		lblInstructions.setBounds(screenWidth/10 + screenWidth/150, screenHeight/10, screenWidth/2, screenHeight/35);
+		lblInstructions.setFont(labelFont);
+		lblInstructions.setForeground(gold);
 		add(lblInstructions);
         
 		// Creating list containing scholarships
 		list = new JList(scholarshiplist);
-		list.setFont(labelFontSize);
+		list.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		list.setForeground(Color.BLACK);
 		list.setSize(218, 80);
 		list.setLocation(145, 159);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -104,10 +139,9 @@ public class ProfessorMenu extends JPanel {
 
 		// Label for testing
 		JLabel selectedError = new JLabel("Please select a scholarship");
-		selectedError.setFont(labelFontSize);
+		selectedError.setFont(labelFont);
 		selectedError.setForeground(Color.RED);
 		selectedError.setBounds(screenWidth/6 - screenWidth/7, screenHeight/4, screenWidth/7 , screenHeight/35);
-		selectedError.setFont(labelFontSize);
 		add(selectedError);
 		selectedError.setVisible(false);
 
@@ -120,12 +154,13 @@ public class ProfessorMenu extends JPanel {
 
 		// Scroll bar added to ScrollPane
 		JScrollBar bar = sp.getVerticalScrollBar();
-		bar.setPreferredSize(new Dimension(30, 0));
+		bar.setPreferredSize(new Dimension(15, 0));
 		
 		// Label for the search bar
 		JLabel lblNewLabel = new JLabel("Search:");
 		lblNewLabel.setBounds(screenWidth/4 - screenWidth/10, screenHeight/10 + screenHeight/24, screenWidth/7, screenHeight/35);
-		lblNewLabel.setFont(labelFontSize);
+		lblNewLabel.setFont(labelFont);
+		lblNewLabel.setForeground(gold);
 		add(lblNewLabel);
 		
 		// Search bar for list of scholarships
@@ -164,7 +199,8 @@ public class ProfessorMenu extends JPanel {
 
 		        // New JList containing only filtered scholarships
 				JList newJList = new JList(newList);
-				newJList.setFont(labelFontSize);
+				newJList.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+				newJList.setForeground(Color.BLACK);
 				newJList.setSize(218, 80);
 				newJList.setLocation(0, 0);
 				newJList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -176,12 +212,15 @@ public class ProfessorMenu extends JPanel {
 			}
 		});
 		search.setBounds(screenWidth/4 - screenWidth/16, screenHeight/10 + screenHeight/24, screenWidth/8 + screenWidth/48, screenHeight/35);
+		search.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		search.setForeground(Color.BLACK);
 		add(search);
 		
 		// Select Button
 		JButton button = new JButton("Select");
 		button.setBounds(screenWidth/4 - screenWidth/10, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/256 + screenWidth/32, screenHeight/30);
-		button.setFont(labelFontSize);
+		button.setBackground(gold);
+		button.setFont(labelFont);
 		add(button);
 	    button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -208,7 +247,8 @@ public class ProfessorMenu extends JPanel {
 		
 	    // Log out button
 		JButton logoutButton = new JButton("Logout");
-		logoutButton.setFont(labelFontSize);
+		logoutButton.setBackground(gold);
+		logoutButton.setFont(labelFont);
 		logoutButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -221,5 +261,28 @@ public class ProfessorMenu extends JPanel {
 		});
 		logoutButton.setBounds(screenWidth/4 + screenWidth/256 + screenWidth/32, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/32, screenHeight/30);
 		add(logoutButton);
+		
+		/**
+		 * PHOTOS
+		 */
+		// Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/6, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		// Loads in the background image
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
+
 	}
 }

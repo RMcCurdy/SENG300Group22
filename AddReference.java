@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,6 +10,7 @@ import org.json.simple.parser.ParseException;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -19,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -33,12 +36,18 @@ import java.util.List;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class AddReference extends JPanel {
 
 	private List <String> names;	// Names of students who applied for said scholarship
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
 
 	/**
 	 * Creates the panel.
@@ -52,21 +61,33 @@ public class AddReference extends JPanel {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
+		Color gold = new Color(255, 207, 8);
+
 		setLayout(null);
 		
-		//Font size for remaining labels
-		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight/60);
-		
+		// Try catch to load in custom font
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		// Label Displaying the scholarship which was selected
 		JLabel lblScholarship = new JLabel("Scholarship: "+scholarshipName);
 		lblScholarship.setBounds(screenWidth/8, screenHeight/32, screenWidth/4, screenHeight/35);
-		lblScholarship.setFont(new Font("Arial", Font.PLAIN, screenHeight/45));
+		lblScholarship.setFont(labelFont);
+		lblScholarship.setForeground(gold);
 		add(lblScholarship);
 		
 		// Label for instructions
 		JLabel lblID = new JLabel("Select a student that you wish to recommend:");
 		lblID.setBounds(screenWidth/8, screenHeight/14, screenWidth/4, screenHeight/35);
-		lblID.setFont(labelFontSize);
+		lblID.setFont(labelFont);
+		lblID.setForeground(gold);
 		add(lblID);
 		
 		names = new ArrayList <String>(); 	// ArrayList of student names
@@ -105,12 +126,12 @@ public class AddReference extends JPanel {
 		JComboBox comboStudent = new JComboBox(names.toArray()); // ComboBox lets users choose a student who applied.
 		comboStudent.setBackground(Color.WHITE);
 		comboStudent.setBounds(screenWidth/8, screenHeight/10, screenWidth/8 + screenWidth/16, screenHeight/35);
-		comboStudent.setFont(labelFontSize);
+		comboStudent.setFont(labelFont);
 		add(comboStudent);
 		
 		// Label for error message
 		JLabel noStudentSelected = new JLabel("No student selected");
-		noStudentSelected.setFont(labelFontSize);
+		noStudentSelected.setFont(labelFont);
 		noStudentSelected.setForeground(Color.RED);
 		noStudentSelected.setBounds(screenWidth/4+screenWidth/14, screenHeight/10, screenWidth/8 + screenWidth/16, screenHeight/35);
 		add(noStudentSelected);
@@ -119,28 +140,30 @@ public class AddReference extends JPanel {
 		// Label for text
 		JLabel lblNewLabel_1 = new JLabel("Reference Letter:");
 		lblNewLabel_1.setBounds(screenWidth/8, screenHeight/7, screenWidth/2, screenHeight/35);
-		lblNewLabel_1.setFont(labelFontSize);
+		lblNewLabel_1.setFont(labelFont);
+		lblNewLabel_1.setForeground(gold);
 		add(lblNewLabel_1);
 		
 		// TextArea where user writes reference letters
 		JTextArea referenceletter = new JTextArea(16, 58);
 		referenceletter.setLineWrap(true);
-		referenceletter.setFont(labelFontSize);
+		referenceletter.setFont(labelFont);
 		JScrollPane bar = new JScrollPane(referenceletter);
 		bar.setBounds(screenWidth/8, screenHeight/7 + screenHeight/26, screenWidth/4, screenHeight/4 - screenHeight/22);
 		add(bar);
 		
 		// Label for error message
 		JLabel noReferenceletter = new JLabel("No Reference Letter");
-		noReferenceletter.setFont(labelFontSize);
+		noReferenceletter.setFont(labelFont);
 		noReferenceletter.setForeground(Color.RED);
-		noReferenceletter.setBounds(screenWidth/5, screenHeight/7, screenWidth/8 + screenWidth/16, screenHeight/35);
+		noReferenceletter.setBounds(screenWidth/5 + screenWidth/128, screenHeight/7, screenWidth/8 + screenWidth/16, screenHeight/35);
 		add(noReferenceletter);
 		noReferenceletter.setVisible(false);
 		
 		// Button which saves reference letter
 		JButton btnRecommendStudent = new JButton("Recommend Student");
-		btnRecommendStudent.setFont(labelFontSize);
+		btnRecommendStudent.setBackground(gold);
+		btnRecommendStudent.setFont(labelFont);
 		btnRecommendStudent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -198,8 +221,17 @@ public class AddReference extends JPanel {
 				frame.revalidate();
 			}
 		});
-		btnNewButton_1.setFont(labelFontSize);
+		btnNewButton_1.setBackground(gold);
+		btnNewButton_1.setFont(labelFont);
 		btnNewButton_1.setBounds(screenWidth/4 + screenWidth/256 + screenWidth/32, screenHeight/6 + 8*screenHeight/34 - screenHeight/128, screenWidth/10 - screenWidth/32, screenHeight/30);
 		add(btnNewButton_1);
+		
+		// Loads in the background image
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
 	}
 }
