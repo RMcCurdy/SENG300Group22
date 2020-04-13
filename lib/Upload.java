@@ -1,12 +1,11 @@
-package uploadGPA;
 
 // Import statements
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 
 import java.io.File;
@@ -30,6 +29,7 @@ public class Upload {
 	protected Shell shlUofcScholarshipPortal;
 	protected Shell display;
 
+	
 	/**
 	 * Launch the application.
 	 * @param args
@@ -112,8 +112,8 @@ public class Upload {
 				    System.out.println("Saved file in " + currDir);
 				    lblSucc.setText("Uploaded\n Successfully");
 				} else {
-					System.out.println("Something went wrong while grabbing the file");
-					lblSucc.setText("An error occurred");
+					System.out.println("No file to save");
+					lblSucc.setText("No file selected");
 				}
 			}
 		});
@@ -141,11 +141,15 @@ public class Upload {
 		// Read the contents of gpa.txt if it is found
 		try {
 			Scanner outp = new Scanner(new File("gpa.txt"));
-			String text = outp.useDelimiter("\\A").next();
-			if (text.length() == 1) { // empty file
-				lblDisplay.setText("--"); // primary generic text, to be replaced with the user's current GPA
+			if (outp.hasNext()) {
+				String text = outp.useDelimiter("\\A").next();
+				if (text.length() == 1) { // empty file
+					lblDisplay.setText("--"); // primary generic text, to be replaced with the user's current GPA
+				} else {
+					lblDisplay.setText(text); // found an existing GPA, so display that
+				}
 			} else {
-				lblDisplay.setText(text); // found an existing GPA, so display that
+				lblDisplay.setText("--");
 			}
 			outp.close();
 		} catch (IOException e) {
@@ -170,7 +174,7 @@ public class Upload {
 							try {
 								FileWriter inp = new FileWriter("gpa.txt"); // create new writer for gpa.txt
 								//String name = (String)authen.getNamesMap().get(Login.eAddress()); // Grab first name
-								//inp.write(name + "\n" + enteredGpa); // write name and the user-entered gpa to the file
+								inp.write("Joe Tester" + "\n" + enteredGpa); // write name and the user-entered gpa to the file
 								inp.close(); // close the writer
 							} catch (IOException i) {
 								System.out.println("An error has occured"); // something went wrong
