@@ -158,6 +158,8 @@ public class Login extends JPanel {
 				//gets value stored in email text-field and searches for corresponding key in hash-map 
 				//if match is found gets the associated value and compares to password text-field 
 				//successful login if both match 
+				//display corresponding error message otherwise
+				//for student login
 				if (authen.getPeopleMap().containsKey(email)) {
 					String pass1 = (String)authen.getPeopleMap().get(email);
 					if (pass1.equals(pass)) {
@@ -187,7 +189,12 @@ public class Login extends JPanel {
 					validLogin.setVisible(false);
 					wrngPassword.setVisible(false);
 				}
-				
+
+				//gets value stored in email text-field and searches for corresponding key in hash-map 
+				//if match is found gets the associated value and compares to password text-field 
+				//successful login if both match 
+				//display corresponding error message otherwise
+				//for professor login
 				if (authen.getDeptMap().containsKey(email)) {
 					String pass1 = (String)authen.getDeptMap().get(email);
 					if (pass1.equals(pass)) {
@@ -213,7 +220,12 @@ public class Login extends JPanel {
 					validLogin.setVisible(false);
 					wrngPassword.setVisible(true);
 				}
-				
+
+				//gets value stored in email text-field and searches for corresponding key in hash-map 
+				//if match is found gets the associated value and compares to password text-field 
+				//successful login if both match 
+				//display corresponding error message otherwise
+				//for administrator login
 				if (authen.getAdminMap().containsKey(email)) {
 					String pass1 = (String)authen.getAdminMap().get(email);
 					if (pass1.equals(pass)) {
@@ -289,6 +301,7 @@ public class Login extends JPanel {
 
 	}	
 
+        //method to return the text stored in email address text-box
 	public static String eAddress() {
 		eAddress = textFieldEmail.getText(); 
 		return eAddress;
