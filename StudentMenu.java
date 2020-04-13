@@ -36,6 +36,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
+import java.awt.Desktop;
 
 public class StudentMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -148,8 +149,8 @@ public class StudentMenu extends JPanel {
 			@Override
 			// On click of this button, create a new instance of the frame with Upload
 			public void mouseClicked(MouseEvent e) {
+				String currDir = System.getProperty("user.dir");
 				try {
-					String currDir = System.getProperty("user.dir");
 					Desktop.getDesktop().open(new File(currDir + "\\Upload.jar"));
 				} catch (IOException ioe) {
 					System.out.println("Could not run JAR from " + currDir);
