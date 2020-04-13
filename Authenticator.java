@@ -6,26 +6,18 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class Authenticator {
-	
-	public String pwd;
-	public String emailAddress;
-	public String fac;
-	
 
+	//declaring the hash-maps to be used thorughoutthe system  
 	static HashMap<String, String> accounts =  new HashMap<String, String>();
-	
 	static HashMap<String, String> depts = new HashMap<String, String>();
-	
 	static HashMap<String, String> roles = new HashMap<String, String>();
-	
 	static HashMap<String, String> admins = new HashMap<String, String>();
-	
 	static HashMap<String, String> names = new HashMap<String, String>();
 
+	//methods which return the contents of the hash-maps
 	public HashMap<String, String> getPeopleMap() {
 		return accounts;
 	}
-	
 	
 	public HashMap<String, String> getDeptMap() {
 		return depts;
@@ -44,6 +36,10 @@ public class Authenticator {
 		return names;
 	}
 	
+	
+	//methods declare each hash-map as a serialized object
+	//writing their contents to a .ser file every time the hash-map
+	//is updated and loads it every time the software starts 
 	public static void saveStud() {
 		
 		try { 
@@ -197,8 +193,4 @@ public class Authenticator {
 			
 		}	
 	}
-
-	
-	
-	
 }

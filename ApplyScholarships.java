@@ -4,7 +4,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,14 +15,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Component;
-
 import javax.swing.SwingConstants;
-
-//import jdk.nashorn.internal.parser.JSONParser;
-
-//import com.sun.java_cup.internal.runtime.Scanner;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -34,7 +26,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Scanner;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -71,7 +62,9 @@ public class ApplyScholarships extends JPanel {
 		Font labelFontSize = new Font("Arial", Font.PLAIN, screenHeight1/60);
 
 		Authenticator authen = new Authenticator();
-		
+
+		//get the users faculty based on the email address
+		//searches in the hash-map that stores <email, faculty>
 		String facs = (String)authen.getRolesMap().get(Login.eAddress());
 		
 		/**
@@ -79,6 +72,7 @@ public class ApplyScholarships extends JPanel {
 		 */
 		//creating list containing scholarships
 		
+		//
 		DefaultListModel scholarships = new DefaultListModel();
 		scholarships.addElement(facs + "F");
 		scholarships.addElement(facs + "W");
@@ -222,7 +216,7 @@ public class ApplyScholarships extends JPanel {
 							
 						}
 						else {
-							System.out.println("no");
+							System.out.println("upload transcript first please");
 						}
 					}
 								
