@@ -70,8 +70,6 @@ public class Upload {
 		shlUofcScholarshipPortal.setText("UofC Scholarship Portal"); // name of the program
 		String currDir = System.getProperty("user.dir"); // get the current working directory
 		
-		Authenticator authen = new Authenticator(); // used to grab identity of current user
-		
 		// Create a txt file which stores the user's GPA
 		String newFileDir = currDir + "\\gpa.txt"; // include gpa.txt
 		File check = new File(newFileDir); // check if the file exists
@@ -175,9 +173,7 @@ public class Upload {
 							lblDisplay.setText(enteredGpa + "\n(Saved \nSuccessfully)"); // display on screen for user to see
 							try {
 								FileWriter inp = new FileWriter("gpa.txt"); // create new writer for gpa.txt
-								String facs = (String)authen.getRolesMap().get(Login.eAddress());
-								String studName = (String)authen.getNamesMap().get(Login.eAddress());
-								inp.write(studName + "\n" + enteredGpa); // write name and the user-entered gpa to the file
+								inp.write("Joe Tester" + "\n" + enteredGpa); // write name and the user-entered gpa to the file
 								inp.close(); // close the writer
 							} catch (IOException i) {
 								System.out.println("An error has occured"); // something went wrong
