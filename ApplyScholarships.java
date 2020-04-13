@@ -120,15 +120,10 @@ public class ApplyScholarships extends JPanel {
 		list.setSize(218, 80);
 		list.setLocation(145, 159);
 
-		//only 1 item can be selected and list will only display 3 items
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.setVisibleRowCount(3);
-		list.setBackground(Color.WHITE);
-
 		//label for testing
 		JLabel selectedLabel = new JLabel("");
 		selectedLabel.setFont(labelFontSize);
-		selectedLabel.setForeground(Color.BLACK);
+		selectedLabel.setForeground(myRed);
 		selectedLabel.setBounds(screenWidth1/4 - screenWidth1/14, screenHeight1/7 - screenHeight1/200, screenWidth1/7, screenHeight1/35);
 		selectedLabel.setFont(labelFontSize);
 		add(selectedLabel);
@@ -148,7 +143,7 @@ public class ApplyScholarships extends JPanel {
 		bar.setPreferredSize(new Dimension(30, 0));
 		JButton button = new JButton("Select");
 		button.setBackground(gold);
-		button.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
+		button.setBounds(216, 408, screenWidth/15, screenHeight/30);
 		button.setFont(labelFont);
 		add(button);
 	    button.addActionListener(new ActionListener() {
@@ -168,7 +163,7 @@ public class ApplyScholarships extends JPanel {
 			}
 	    });
 	    //for scroll pane
-		sp.setLocation(screenWidth1/4 - screenWidth1/10, screenHeight1/6);
+		sp.setLocation(201, 161);
 		sp.setSize(screenWidth1/5, screenHeight1/4);
 		add(sp);
 		setVisible(true);
@@ -183,10 +178,10 @@ public class ApplyScholarships extends JPanel {
 		
 		//search bar for list of scholarships
 		textField = new JTextField();
-		textField.setBounds(screenWidth1/4 - screenWidth1/14, screenHeight1/9, screenWidth1/7, screenHeight1/35);
+		textField.setBounds(241, 84, screenWidth1/7, screenHeight1/35);
 		add(textField);
 		JLabel lblNewLabel = new JLabel("Search:");
-		lblNewLabel.setBounds(screenWidth1/4 - screenWidth1/8 + screenWidth1/100, screenHeight1/9, screenWidth1/7, screenHeight1/35);
+		lblNewLabel.setBounds(175, 87, screenWidth1/7, screenHeight1/35);
 		lblNewLabel.setFont(labelFontSize);
 		lblNewLabel.setForeground(gold);
 		add(lblNewLabel);
@@ -203,17 +198,20 @@ public class ApplyScholarships extends JPanel {
 			}
 		});
 		logoutButton.setBackground(gold);
-		logoutButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
+		logoutButton.setBounds(612, 19, screenWidth/15, screenHeight/30);
 		add(logoutButton);
 		
 		JLabel userLabel = new JLabel("User: " + Login.eAddress());
-		userLabel.setBounds(screenWidth/4 - screenWidth/20, screenHeight/10, screenWidth/7, screenHeight/30);
-		userLabel.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
+		userLabel.setForeground(gold);
+		userLabel.setBounds(screenWidth/80, screenHeight/6+screenHeight/6+screenHeight/20+screenHeight/30, screenWidth/8, screenHeight/30);
+		userLabel.setFont(labelFont);
 		add(userLabel);
 		
 		
 		JLabel facultyLabel = new JLabel("Faculty: " + facs);
-		facultyLabel.setBounds(6, 25, 294, 16);
+		facultyLabel.setForeground(gold);
+		facultyLabel.setBounds(screenWidth/80, screenHeight/6+screenHeight/6+screenHeight/20+screenHeight/20, screenWidth/8, screenHeight/30);
+		facultyLabel.setFont(labelFont);
 		add(facultyLabel);
 		
 		
@@ -270,14 +268,18 @@ public class ApplyScholarships extends JPanel {
 				
 		});
 		
-		// Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
+		applyNewButton.setBackground(gold);
+		applyNewButton.setBounds(367, 408, screenWidth/15, screenHeight/30);
+		add(applyNewButton);
+		
+		 //Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
 		ImageIcon img1 = new ImageIcon("logo.png");
 		Image image = img1.getImage();
 		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
 		img1 = new ImageIcon(newimg1);
 		background_2 = new JLabel("",img1,SwingConstants.LEFT);
 		background_2.setVerticalAlignment(SwingConstants.TOP);
-		background_2.setBounds(screenWidth/4 - screenWidth/8, screenHeight/35, 300, 300);
+		background_2.setBounds(72, 25, 866, 510);
 		background_2.setVisible(true);
 		add(background_2);
 
@@ -289,9 +291,7 @@ public class ApplyScholarships extends JPanel {
 		background_1.setVisible(true);
 		add(background_1);
 		
-		applyNewButton.setBackground(gold);
-		applyNewButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
-		add(applyNewButton);
+				
 		
 	}
 }
