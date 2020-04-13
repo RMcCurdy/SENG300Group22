@@ -291,7 +291,7 @@ public class Create extends JPanel {
 		// Error message if email is already in use
 		JLabel inUse = new JLabel("Email already in use");
 		inUse.setForeground(Color.RED);
-		inUse.setBounds(470, 192, 137, 16);
+		inUse.setBounds(screenWidth/4 + screenWidth/13, screenHeight/7 + screenHeight/30 + screenHeight/30, screenWidth/7, screenHeight/35);
 		inUse.setFont(labelFont);
 		add(inUse);
 		inUse.setVisible(false);
@@ -507,8 +507,8 @@ public class Create extends JPanel {
 				
 				// Call hash-map stored in authenticator class and write email and password to it 
 				Authenticator authen = new Authenticator();
-				authen.emailAddress = email.getText();
-				authen.pwd = password.getText();
+				//authen.emailAddress = email.getText();
+				//authen.pwd = password.getText();
 				// authen.fac = (String)facultyBox.getSelectedItem();
 
 				//execute loop if boolean student is true 
