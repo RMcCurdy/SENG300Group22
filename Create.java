@@ -332,7 +332,7 @@ public class Create extends JPanel {
 		
 		// Set up the drop down menu and its properties
 		DefaultComboBoxModel modelTemp = new DefaultComboBoxModel(faculties.toArray());
-        facultyBox = new JComboBox(modelTemp);
+		facultyBox = new JComboBox(modelTemp);
 		facultyBox.setBounds(screenWidth/4 - screenWidth/14, screenHeight/7 + 6*screenHeight/30, screenWidth/7, screenHeight/35);
 		facultyBox.setFont(labelFontSize);
 		add(facultyBox);
@@ -359,7 +359,6 @@ public class Create extends JPanel {
 		 */
 
 		// Initialize the schoolRole to equal 0, as student ID is the default
-		schoolRole = 0;
 
 		// Button used to change the label from Student ID to Professor ID
 		JButton prof = new JButton("Professor");
@@ -511,10 +510,14 @@ public class Create extends JPanel {
 				authen.emailAddress = email.getText();
 				authen.pwd = password.getText();
 				// authen.fac = (String)facultyBox.getSelectedItem();
-				
+
+				//execute loop if boolean student is true 
 				if (student) {
 				
-					// check to see if entered email already exists in system
+					//check to see if entered email already exists in system
+					//if it does don't do anything
+					//else populate the hash-amps with the desired information and 
+					//save and reload them 
 					if (authen.getPeopleMap().containsKey(email.getText())) {
 						inUse.setVisible(true);
 						errorCount++;
@@ -536,7 +539,10 @@ public class Create extends JPanel {
 				
 				else if (dept) {
 					
-					// check to see if entered email already exists in system
+					//check to see if entered email already exists in system
+					//if it does don't do anything
+					//else populate the hash-amps with the desired information and 
+					//save and reload them 
 					if (authen.getDeptMap().containsKey(email.getText())) {
 						inUse.setVisible(true);
 						errorCount++;
@@ -572,7 +578,8 @@ public class Create extends JPanel {
 		createAccount.setFont(labelFont);
 		add(createAccount);
 		
-		// The button to go back
+		//add a button called back that takes user back to main page
+		//if they did not want to go to create account page
 		JButton backButton = new JButton("Back");
 		backButton.addMouseListener(new MouseAdapter() {
 			@Override
