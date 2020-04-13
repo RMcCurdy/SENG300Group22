@@ -1,5 +1,6 @@
 package uploadGPA;
 
+// Import statements
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
@@ -9,7 +10,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 
 import java.io.File;
-//import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -23,6 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
  * Allows for a student to upload and update their GPA, as well as their official transcript
  * Will be treated as a pop-up, not its own full page. This allows for a better user experience
  * Must be exported as a runnable JAR file, due to the use of SWT
+ * @Author Richard Gingrich
  */
 public class Upload {
 
@@ -59,16 +60,17 @@ public class Upload {
 	}
 
 	/**
-	 * Create contents of the window.
+	 * Create contents of the window
+	 * Handles all button presses, user inputs, etc
 	 */
 	protected void createContents() {
-		shlUofcScholarshipPortal = new Shell();
-		//shlUofcScholarshipPortal = new Shell(display, SWT.CLOSE | SWT.TITLE | SWT.MIN); // adds the close and min buttons, but no fullscreen option
-		shlUofcScholarshipPortal.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		//shlUofcScholarshipPortal = new Shell();
+		shlUofcScholarshipPortal = new Shell(display, SWT.CLOSE | SWT.TITLE | SWT.MIN); // adds the close and min buttons, but no fullscreen option
 		shlUofcScholarshipPortal.setSize(450, 300);
 		shlUofcScholarshipPortal.setText("UofC Scholarship Portal"); // name of the program
 		String currDir = System.getProperty("user.dir"); // get the current working directory
 		
+		// Create a txt file which stores the user's GPA
 		String newFileDir = currDir + "\\gpa.txt"; // include gpa.txt
 		File check = new File(newFileDir); // check if the file exists
 		if (check.exists()) { // if the file already exists...
@@ -82,49 +84,61 @@ public class Upload {
 			}
 		}
 		
+		// A pop-up message that confirms if the user's file was successfully uploaded
 		Label lblSucc = new Label(shlUofcScholarshipPortal, SWT.NONE);
-		lblSucc.setBounds(38, 122, 75, 34);
-		lblSucc.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblSucc.setAlignment(SWT.CENTER);
+		lblSucc.setBounds(38, 109, 75, 34);
+		lblSucc.setForeground(SWTResourceManager.getColor(SWT.COLOR_YELLOW));
 		lblSucc.setBackground(SWTResourceManager.getColor(245, 194, 66));
 		
+		// Title label
 		Label lblUpload = new Label(shlUofcScholarshipPortal, SWT.CENTER);
-		lblUpload.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblUpload.setBackground(SWTResourceManager.getColor(2, 79, 136));
+		lblUpload.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		lblUpload.setBackgroundImage(SWTResourceManager.getImage(currDir + "\\background_res.jpg"));
 		lblUpload.setFont(SWTResourceManager.getFont("Arial", 16, SWT.BOLD));
-		lblUpload.setBounds(146, 10, 142, 46);
+		lblUpload.setBounds(146, 10, 142, 25);
 		lblUpload.setText("UPLOAD GPA");
 		
+		// Allows for uploading of the user's transcript
 		Button btnChooseFile = new Button(shlUofcScholarshipPortal, SWT.NONE);
-		btnChooseFile.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnChooseFile.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		btnChooseFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) { // when this button is selected...
 				JFileChooser select = new JFileChooser(); // create file chooser
 				int picked = select.showOpenDialog(null);
 				if (picked == JFileChooser.APPROVE_OPTION) {
-					File fileToSave = select.getSelectedFile();
+					File fileToSave = select.getSelectedFile(); // grab the submitted file
 				    System.out.println("Saved file in " + currDir);
 				    lblSucc.setText("Uploaded\n Successfully");
+				} else {
+					System.out.println("Something went wrong while grabbing the file");
+					lblSucc.setText("An error occurred");
 				}
-				//File saveFile = select.getSelectedFile(); // file will be stored eventually
 			}
 		});
-		btnChooseFile.setBounds(38, 162, 75, 25);
-		btnChooseFile.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		
+		// Format for the button
+		btnChooseFile.setBounds(38, 147, 75, 25);
+		btnChooseFile.setBackground(SWTResourceManager.getColor(SWT.COLOR_YELLOW));
 		btnChooseFile.setText("Choose File");
 		
+		// Text field where the user is able to manually submit their GPA number in the form of X.XX
 		Text txtEnter = new Text(shlUofcScholarshipPortal, SWT.BORDER);
-		
+		txtEnter.setForeground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		txtEnter.setText("GPA"); // set text within input field to let user know what should be entered there
-		txtEnter.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		txtEnter.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		txtEnter.setFont(SWTResourceManager.getFont("Arial", 20, SWT.NORMAL));
-		txtEnter.setBounds(317, 137, 76, 38);
+		txtEnter.setBounds(317, 122, 76, 38);
 		
+		// A label that displays the user's current GPA
 		Label lblDisplay = new Label(shlUofcScholarshipPortal, SWT.NONE);
-		lblDisplay.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLUE));
+		lblDisplay.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		lblDisplay.setBackground(SWTResourceManager.getColor(245, 194, 66));
 		lblDisplay.setAlignment(SWT.CENTER);
-		lblDisplay.setBounds(173, 133, 87, 80);
+		lblDisplay.setBounds(173, 122, 87, 80);
 		
+		// Read the contents of gpa.txt if it is found
 		try {
 			Scanner outp = new Scanner(new File("gpa.txt"));
 			String text = outp.useDelimiter("\\A").next();
@@ -138,9 +152,10 @@ public class Upload {
 			System.out.println("An error has occured. The file was not found"); // something went wrong
 		}
 		
+		// Handles grabbing the user's manually inputed GPA
 		Button btnSubmit = new Button(shlUofcScholarshipPortal, SWT.NONE);
-		btnSubmit.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnSubmit.setBackground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		btnSubmit.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		btnSubmit.setBackground(SWTResourceManager.getColor(SWT.COLOR_YELLOW));
 		btnSubmit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) { // when the submit button is pressed...
@@ -169,42 +184,40 @@ public class Upload {
 				}
 			}
 		});
-		btnSubmit.setBounds(318, 209, 75, 25);
+		btnSubmit.setBounds(317, 181, 75, 25);
 		btnSubmit.setText("Submit"); // button label
 		
+		// Section for manual input, visual only
 		Label manual = new Label(shlUofcScholarshipPortal, SWT.NONE);
 		manual.setFont(SWTResourceManager.getFont("Arial", 13, SWT.NORMAL));
 		manual.setAlignment(SWT.CENTER);
-		manual.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		manual.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		manual.setBackground(SWTResourceManager.getColor(245, 194, 66));
 		manual.setText("Enter Manually (Form of X.XX)"); // section label
-		manual.setBounds(282, 62, 142, 187);
+		manual.setBounds(282, 62, 142, 160);
 		
+		// Displays the current user's GPA if valid
 		Label lblCurr = new Label(shlUofcScholarshipPortal, SWT.NONE);
 		lblCurr.setAlignment(SWT.CENTER);
-		lblCurr.setBounds(173, 112, 87, 15);
+		lblCurr.setBounds(173, 91, 87, 15);
+		lblCurr.setBackground(SWTResourceManager.getColor(245, 194, 66));
+		lblCurr.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblCurr.setText("Current GPA");
 		
+		// Section for document upload, visual only
 		Label lblUploadOfficialTranscript = new Label(shlUofcScholarshipPortal, SWT.NONE);
 		lblUploadOfficialTranscript.setText("Upload Official Transcript");
-		lblUploadOfficialTranscript.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblUploadOfficialTranscript.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblUploadOfficialTranscript.setFont(SWTResourceManager.getFont("Arial", 13, SWT.NORMAL));
 		lblUploadOfficialTranscript.setBackground(SWTResourceManager.getColor(245, 194, 66));
 		lblUploadOfficialTranscript.setAlignment(SWT.CENTER);
-		lblUploadOfficialTranscript.setBounds(10, 62, 142, 187);
+		lblUploadOfficialTranscript.setBounds(10, 62, 142, 160);
 		
+		// Background image, resized to fit window
 		Label bck = new Label(shlUofcScholarshipPortal, SWT.NONE);
 		bck.setImage(SWTResourceManager.getImage(currDir + "\\background_res.jpg")); // image will be saved inside the lib package
 		bck.setBackground(SWTResourceManager.getColor(240, 240, 240));
-		bck.setBounds(0, 0, 434, 261);
-		
-		
-		/** 
-		 * To-do: 
-		 * CHANGE SchScholUofC...= new Shell back
-		 * Make it look nice (fix background image, or find a smaller one, etc)
-		 * Save the pdf of their official transcript
-		 */
+		bck.setBounds(0, 0, 452, 277);
 
 	}
 }
