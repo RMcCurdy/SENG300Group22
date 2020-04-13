@@ -6,6 +6,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -14,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -30,12 +33,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.Image;
+
+
 public class ApplyScholarships extends JPanel {
 	
 	private JList list;
 	
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
+	private Font headerFont;
+	private Font labelFont;
+	private JLabel background_1;
+	private JLabel background_2;
 	
 	//NEED VARIABLES FOR NEW MENU
 
@@ -55,6 +65,34 @@ public class ApplyScholarships extends JPanel {
 		Dimension screenSize1 = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight1 = screenSize1.height;
 		int screenWidth1 = screenSize1.width;
+		
+		// Create specific colors to be used in text and buttons
+		Color gold = new Color(255, 207, 8);
+		Color myRed = new Color(227, 37, 37);
+		
+		setLayout(null);
+
+		// Try catch to load in custom font
+		try {
+			headerFont = Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")).deriveFont(40f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Bebas.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// Try catch to load in custom font
+		try {
+			labelFont = Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")).deriveFont(20f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Roboto.ttf")));
+		} catch (FontFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 
 		setLayout(null);
 
@@ -109,8 +147,9 @@ public class ApplyScholarships extends JPanel {
 		JScrollBar bar = sp.getVerticalScrollBar();
 		bar.setPreferredSize(new Dimension(30, 0));
 		JButton button = new JButton("Select");
-		button.setBounds(207, 387, screenWidth1/10, screenHeight1/60);
-		button.setFont(labelFontSize);
+		button.setBackground(gold);
+		button.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
+		button.setFont(labelFont);
 		add(button);
 	    button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,6 +188,7 @@ public class ApplyScholarships extends JPanel {
 		JLabel lblNewLabel = new JLabel("Search:");
 		lblNewLabel.setBounds(screenWidth1/4 - screenWidth1/8 + screenWidth1/100, screenHeight1/9, screenWidth1/7, screenHeight1/35);
 		lblNewLabel.setFont(labelFontSize);
+		lblNewLabel.setForeground(gold);
 		add(lblNewLabel);
 		
 		JButton logoutButton = new JButton("Logout");
@@ -162,11 +202,13 @@ public class ApplyScholarships extends JPanel {
 				frame.revalidate();
 			}
 		});
-		logoutButton.setBounds(615, 8, 117, 29);
+		logoutButton.setBackground(gold);
+		logoutButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		add(logoutButton);
 		
 		JLabel userLabel = new JLabel("User: " + Login.eAddress());
-		userLabel.setBounds(6, 8, 457, 16);
+		userLabel.setBounds(screenWidth/4 - screenWidth/20, screenHeight/10, screenWidth/7, screenHeight/30);
+		userLabel.setFont(new Font("Arial", Font.PLAIN, screenHeight/60));
 		add(userLabel);
 		
 		
@@ -228,7 +270,27 @@ public class ApplyScholarships extends JPanel {
 				
 		});
 		
-		applyNewButton.setBounds(376, 380, 153, 29);
+		// Loads in the image of the UofC logo and sets it to fit the specific location on the GUI
+		ImageIcon img1 = new ImageIcon("logo.png");
+		Image image = img1.getImage();
+		Image newimg1 = image.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+		img1 = new ImageIcon(newimg1);
+		background_2 = new JLabel("",img1,SwingConstants.LEFT);
+		background_2.setVerticalAlignment(SwingConstants.TOP);
+		background_2.setBounds(screenWidth/4 - screenWidth/8, screenHeight/35, 300, 300);
+		background_2.setVisible(true);
+		add(background_2);
+
+		// Loads in the background image
+		ImageIcon img = new ImageIcon("red.jpg");
+		background_1 = new JLabel("",img,SwingConstants.LEFT);
+		background_1.setVerticalAlignment(SwingConstants.TOP);
+		background_1.setBounds(0, 0, screenWidth, screenHeight);
+		background_1.setVisible(true);
+		add(background_1);
+		
+		applyNewButton.setBackground(gold);
+		applyNewButton.setBounds(screenWidth/4 - 2*screenWidth/30 - screenWidth/60, screenHeight/6 + 3 * screenHeight/25, screenWidth/15, screenHeight/30);
 		add(applyNewButton);
 		
 	}
