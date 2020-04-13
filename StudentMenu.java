@@ -148,11 +148,12 @@ public class StudentMenu extends JPanel {
 			@Override
 			// On click of this button, create a new instance of the frame with Upload
 			public void mouseClicked(MouseEvent e) {
-				frame.setBounds((screenWidth/2 - screenWidth/4), (screenHeight/2 - screenHeight/4), screenWidth/2, screenHeight/2);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				ApplyScholarships panel = new ApplyScholarships(frame, user);
-				frame.setContentPane(panel);
-				frame.revalidate();
+				try {
+					String currDir = System.getProperty("user.dir");
+					Desktop.getDesktop().open(new File(currDir + "\\Upload.jar"));
+				} catch (IOException ioe) {
+					System.out.println("Could not run JAR from " + currDir);
+				}
 			}
 		});
 		UploadTranscriptButt.setBackground(gold);
