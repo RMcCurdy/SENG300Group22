@@ -1,3 +1,4 @@
+package departmentHeadRelated;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -29,6 +30,8 @@ import java.io.*;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.FontFormatException;
+
+import objects.*;
 
 public class AwardScholarship extends JPanel {
 

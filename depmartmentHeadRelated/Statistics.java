@@ -1,3 +1,4 @@
+package departmentHeadRelated;
 import java.io.FileReader;
 import java.io.IOException;
 import org.json.simple.JSONArray;
@@ -26,6 +27,7 @@ import java.awt.Image;
 import java.awt.FontFormatException;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import objects.*;
 
 /**
  * Class to read JSON files in order to display the statistical data for scholarships

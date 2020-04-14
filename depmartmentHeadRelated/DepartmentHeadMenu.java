@@ -1,3 +1,4 @@
+package departmentHeadRelated;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
@@ -15,6 +16,9 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.FontFormatException;
+
+import objects.*;
+import login.Login;
 
 public class DepartmentHeadMenu extends JPanel {
 

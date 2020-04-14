@@ -1,3 +1,4 @@
+package departmentHeadRelated;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -29,7 +30,8 @@ import java.awt.Image;
 import java.awt.FontFormatException;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+import objects.*
+;
 public class EditScholarship extends JPanel {
 
 	// List of instance variables used within the class
