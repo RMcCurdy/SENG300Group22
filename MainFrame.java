@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import objects.Authenticator;
+import login.Login;
 
 public class MainFrame {
 
