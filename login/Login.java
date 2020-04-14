@@ -1,3 +1,4 @@
+package login;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -20,6 +21,13 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+
+import objects.*;
+
+import professorRelated.ProfessorMenu;
+import studentRelated.StudentMenu;
+
+import departmentHeadRelated.DepartmentHeadMenu;
 
 public class Login extends JPanel {
 
