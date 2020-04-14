@@ -1,3 +1,4 @@
+package objects;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,9 +9,9 @@ import java.util.HashMap;
 public class Authenticator {
 
 	//declaring the hash-maps to be used thorughoutthe system  
-	static HashMap<String, String> accounts =  new HashMap<String, String>();
-	static HashMap<String, String> depts = new HashMap<String, String>();
-	static HashMap<String, String> roles = new HashMap<String, String>();
+	public static HashMap<String, String> accounts =  new HashMap<String, String>();
+	public static HashMap<String, String> depts = new HashMap<String, String>();
+	public static HashMap<String, String> roles = new HashMap<String, String>();
 	static HashMap<String, String> admins = new HashMap<String, String>();
 	static HashMap<String, String> names = new HashMap<String, String>();
 

@@ -1,3 +1,4 @@
+package objects;
 import java.util.Arrays;
 
 public class Scholarship {
