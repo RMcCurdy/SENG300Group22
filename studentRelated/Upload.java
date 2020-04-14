@@ -1,3 +1,4 @@
+package studentRelated;
 
 // Import statements
 import org.eclipse.swt.widgets.Display;

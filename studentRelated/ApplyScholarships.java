@@ -1,3 +1,4 @@
+package studentRelated;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -33,6 +34,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.awt.Image;
 
+import objects.*;
+import login.Login;
 
 public class ApplyScholarships extends JPanel {
 	

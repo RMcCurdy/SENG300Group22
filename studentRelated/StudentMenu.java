@@ -1,3 +1,4 @@
+package studentRelated;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -37,6 +38,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
 import java.awt.Desktop;
+
+import objects.*;
+import login.Login;
 
 public class StudentMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
