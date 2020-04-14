@@ -1,3 +1,4 @@
+package professorRelated;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -36,6 +37,7 @@ import java.util.Set;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import login.*;
 
 public class ProfessorMenu extends JPanel {
 	private String[] scholarshiplist; // List of all displayed scholarships
